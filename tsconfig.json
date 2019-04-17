@@ -17,9 +17,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "configFile": "./tslint.json"
+      }
+    ],
   },
   "include": [
-    "src"
+    "src",
+    "src/custom_typings/static.d.ts"
   ]
 }
