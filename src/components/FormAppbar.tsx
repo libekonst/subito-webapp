@@ -12,23 +12,20 @@ interface IProps extends WithStyles<typeof styles> {
   onCancel: (e: any) => void;
   pageTitle: string;
 }
+
 const FormAppbar: FC<IProps> = props => {
+  const { onSubmit, onCancel, pageTitle, classes } = props;
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton
-          onClick={props.onCancel}
-          color="inherit"
-          aria-label="Άκυρο"
-          title="Άκυρο"
-        >
+        <IconButton onClick={onCancel} color="inherit" aria-label="Άκυρο" title="Άκυρο">
           <CloseIcon />
         </IconButton>
-        <Typography variant="h6" color="inherit" className={props.classes.pageTitle}>
-          {props.pageTitle}
+        <Typography variant="h6" color="inherit" className={classes.pageTitle}>
+          {pageTitle}
         </Typography>
         <IconButton
-          onClick={props.onSubmit}
+          onClick={onSubmit}
           color="inherit"
           aria-label="Αποθήκευση"
           title="Αποθήκευση"
