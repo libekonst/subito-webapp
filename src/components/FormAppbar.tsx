@@ -1,0 +1,52 @@
+import React, { FC, Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckIcon from '@material-ui/icons/Check';
+import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+
+interface IProps extends WithStyles<typeof styles> {
+  onSubmit: (e: any) => void;
+  onCancel: (e: any) => void;
+  pageTitle: string;
+}
+const FormAppbar: FC<IProps> = props => {
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton
+          onClick={props.onCancel}
+          color="inherit"
+          aria-label="Άκυρο"
+          title="Άκυρο"
+        >
+          <CloseIcon />
+        </IconButton>
+        <Typography variant="h6" color="inherit" className={props.classes.pageTitle}>
+          {props.pageTitle}
+        </Typography>
+        <IconButton
+          onClick={props.onSubmit}
+          color="inherit"
+          aria-label="Αποθήκευση"
+          title="Αποθήκευση"
+        >
+          <CheckIcon />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
+  );
+};
+
+const styles = createStyles({
+  pageTitle: {
+    flex: 1,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+  },
+});
+
+export default withStyles(styles)(FormAppbar);
