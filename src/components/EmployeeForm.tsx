@@ -7,35 +7,14 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ButtonsAppBar from './ButtonsAppBar';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+
 
 export const EmployeeForm: FC = props => {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton  color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit" >
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
+      <ButtonsAppBar title='Αποθήκευση υπαλλήλου' />
     </div>
   );
 };
-

@@ -6,7 +6,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import DoneIcon from '@material-ui/icons/Done';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const styles = {
   root: {
@@ -21,19 +22,25 @@ const styles = {
   },
 };
 
-const ButtonAppBar: FC = props => {
+interface IProps {
+  classes: any;
+  title: string;
+}
+const ButtonAppBar: FC<IProps> = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Cancel">
+            <ClearIcon />
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.grow}>
-            News
+            {props.title}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <IconButton color="inherit" aria-label="Save">
+            <DoneIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
