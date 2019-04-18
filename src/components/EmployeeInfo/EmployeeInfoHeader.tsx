@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,22 +9,25 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import EditIcon from '@material-ui/icons/Edit';
 
-const styles = {
+const styles = (theme: any) => createStyles({
   edit: {
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  card: {
-    minWidth: 275,
-    borderRadius: 0,
-    boxShadow: 'none',
+  empInfo: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit,
+    paddingRight: theme.spacing.unit * 2,
+    display: 'flex',
+    justifyContent:'space-between'
   },
-  pos: {
-    marginTop: 12,
+  grow: {
+    flexGrow: 1,
   },
-};
-interface IProps {
+});
+interface IProps extends WithStyles<typeof styles> {
   classes: any;
 }
 
@@ -34,26 +37,24 @@ const EmployeeInfo: FC<IProps> = props => {
   return (
     <AppBar position="sticky">
       <Toolbar>
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Cancel">
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Back">
           <ArrowBackIcon />
         </IconButton>
-        <Typography variant="title" color="inherit" className={classes.grow}>
+        <Typography align="left" variant="title" color="inherit" className={classes.grow}>
           Γιάννης Χιονίδης
         </Typography>
+        <IconButton className={classes.menuButton} color="inherit" aria-label="Edit">
+          <EditIcon />
+        </IconButton>
       </Toolbar>
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography align="left">ΑΦΜ: 105645916</Typography>
-          <Typography align="left" className={classes.pos} color="textSecondary">
-            Ωράριο: 8:00 - 16:00
-          </Typography>
-        </CardContent>
-        <CardActions className={classes.edit}>
-          <Button size="small" color="primary">
-            Επεξεργασια
-          </Button>
-        </CardActions>
-      </Card>
+      <div className={classes.empInfo}>
+        <Typography  color="inherit">
+          ΑΦΜ: 105645916
+        </Typography>
+        <Typography  color="inherit" className={classes.pos}>
+          8:00 - 16:00
+        </Typography>
+      </div>
     </AppBar>
   );
 };
