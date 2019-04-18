@@ -6,7 +6,8 @@ import ButtonsAppBar from './ButtonsAppBar';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TimePicker } from 'material-ui-pickers';
-import { format } from 'date-fns';
+import { format, addHours, setHours } from 'date-fns';
+import WorkHourPicker from './WorkHourPicker';
 
 const styles = {
   root: {
@@ -25,7 +26,8 @@ interface IProps {
 }
 const EmployeeForm: FC<IProps> = props => {
   const { classes } = props;
-  const [selectedDate, handleDateChange] = useState(new Date());
+  const [workStart, handleWorkStartChange] = useState(setHours(new Date(), 8));
+  const [workFinish, handleWorkFinishChange] = useState(addHours(workStart, 8));
   return (
     <div>
       <ButtonsAppBar title="Αποθήκευση υπαλλήλου" />
@@ -55,23 +57,11 @@ const EmployeeForm: FC<IProps> = props => {
           ),
         }}
       />
-      <TimePicker
-        showTodayButton
-        todayLabel="now"
-        label="Έναρξη"
-        ampm={false}
-        value={selectedDate}
-        minutesStep={5}
-        onChange={handleDateChange}
-      />
-      <TimePicker
-        showTodayButton
-        todayLabel="now"
-        label="Έναρξη"
-        ampm={false}
-        value={selectedDate}
-        minutesStep={5}
-        onChange={handleDateChange}
+      <WorkHourPicker
+        selectedDateStart={workStart}
+        selectedDateFinish={workFinish}
+        handleDateStartChange={handleWorkStartChange}
+        handleDateFinishChange={handleWorkFinishChange}
       />
       {/* {format(selectedDate, 'HHmm')} */}
     </div>
