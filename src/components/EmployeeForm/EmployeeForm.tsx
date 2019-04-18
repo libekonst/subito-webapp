@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TimePicker } from 'material-ui-pickers';
 import { format, addHours, setHours, setMinutes } from 'date-fns';
-import WorkHourPicker from './WorkHourPicker';
+import WorkHourPicker from '../WorkHourPicker';
 
 const styles = {
   root: {
