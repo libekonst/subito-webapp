@@ -6,7 +6,7 @@ import ButtonsAppBar from './ButtonsAppBar';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { TimePicker } from 'material-ui-pickers';
-import { format, addHours, setHours } from 'date-fns';
+import { format, addHours, setHours, setMinutes } from 'date-fns';
 import WorkHourPicker from './WorkHourPicker';
 
 const styles = {
@@ -15,6 +15,9 @@ const styles = {
   },
   grow: {
     width: '100%',
+  },
+  content: {
+    padding: 16,
   },
   // margin: {
   //   marginTop: 20,
@@ -26,44 +29,44 @@ interface IProps {
 }
 const EmployeeForm: FC<IProps> = props => {
   const { classes } = props;
-  const [workStart, handleWorkStartChange] = useState(setHours(new Date(), 8));
+  const date: Date = setMinutes(setHours(new Date(), 8), 0);
+  const [workStart, handleWorkStartChange] = useState(date);
   const [workFinish, handleWorkFinishChange] = useState(addHours(workStart, 8));
   return (
     <div>
       <ButtonsAppBar title="Αποθήκευση υπαλλήλου" />
-      <TextField
-        className={classes.margin}
-        label="Ονοματεπώνυμο"
-        fullWidth
-        margin="normal"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <PersonIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        className={classes.margin}
-        label="ΑΦΜ"
-        fullWidth
-        margin="normal"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <WorkIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <WorkHourPicker
-        selectedDateStart={workStart}
-        selectedDateFinish={workFinish}
-        handleDateStartChange={handleWorkStartChange}
-        handleDateFinishChange={handleWorkFinishChange}
-      />
-      {/* {format(selectedDate, 'HHmm')} */}
+      <div className={classes.content}>
+        <TextField
+          label="Ονοματεπώνυμο"
+          fullWidth
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <PersonIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          label="ΑΦΜ"
+          fullWidth
+          margin="normal"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <WorkIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <WorkHourPicker
+          selectedDateStart={workStart}
+          selectedDateFinish={workFinish}
+          handleDateStartChange={handleWorkStartChange}
+          handleDateFinishChange={handleWorkFinishChange}
+        />
+      </div>
     </div>
   );
 };

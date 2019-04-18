@@ -1,17 +1,16 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import PersonIcon from '@material-ui/icons/Person';
 import ArrowFwDIcon from '@material-ui/icons/ArrowForward';
 import { TimePicker } from 'material-ui-pickers';
-import { format } from 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 
 const styles = {
   root: {
     flexGrow: 1,
-    margin:10,
-    padding: 15,
+    marginTop: 30,
+    marginBotton: 30,
+    padding: 10,
   },
   grow: {
     width: '100%',
@@ -38,8 +37,8 @@ const WorkHourPicker: FC<IProps> = props => {
   } = props;
   return (
     <div className={classes.root}>
-    <Typography>Ωράριο εργασίας</Typography>
-      <Grid container wrap="nowrap" spacing={32} justify='space-between'>
+      <Typography>Ωράριο εργασίας</Typography>
+      <Grid container wrap="nowrap" spacing={32} justify="space-between">
         <Grid item wrap="nowrap">
           <TimePicker
             showTodayButton
@@ -52,8 +51,8 @@ const WorkHourPicker: FC<IProps> = props => {
             margin="normal"
           />
         </Grid>
-        <Grid item justify="center"  >
-          <ArrowFwDIcon style={{marginTop:35}}/>
+        <Grid item justify="center">
+          <ArrowFwDIcon style={{ marginTop: 35 }} />
         </Grid>
         <Grid item>
           <TimePicker
