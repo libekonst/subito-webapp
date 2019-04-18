@@ -4,6 +4,7 @@ import './App.css';
 import EmployeeForm from './components/EmployeeForm/EmployeeForm';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import EmployeeInfo from './components/EmployeeInfo/EmployerInfo';
 
 class App extends Component {
   render() {
@@ -12,7 +13,7 @@ class App extends Component {
         <CssBaseline />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <div className="App">
-            <EmployeeForm />
+            <EmployeeInfo />
           </div>
         </MuiPickersUtilsProvider>
       </>
