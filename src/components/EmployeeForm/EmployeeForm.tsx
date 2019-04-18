@@ -47,11 +47,13 @@ const EmployeeForm: FC<IProps> = props => {
               </InputAdornment>
             ),
           }}
+          
         />
         <TextField
           label="ΑΦΜ"
           fullWidth
           margin="normal"
+          type="tel"
           InputProps={{
             endAdornment: (
               <InputAdornment position="start">
