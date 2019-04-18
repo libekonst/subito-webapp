@@ -16,7 +16,7 @@ interface IProps extends WithStyles<typeof styles> {
 const FormAppbar: FC<IProps> = props => {
   const { onSubmit, onCancel, pageTitle, classes } = props;
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
         <IconButton onClick={onCancel} color="inherit" aria-label="Άκυρο" title="Άκυρο">
           <CloseIcon />
@@ -37,13 +37,14 @@ const FormAppbar: FC<IProps> = props => {
   );
 };
 
-const styles = createStyles({
-  pageTitle: {
-    flex: 1,
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-  },
-});
+const styles = (theme: any) =>
+  createStyles({
+    pageTitle: {
+      flex: 1,
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+    },
+  });
 
 export default withStyles(styles)(FormAppbar);
