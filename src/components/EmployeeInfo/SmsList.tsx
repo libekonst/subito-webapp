@@ -45,7 +45,7 @@ const EmployeeInfo: FC<IProps> = props => {
               <SmsIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={format(new Date(), "dd/MM/yyyy  HH:mm")} secondary="16:00 - 17:30" />
+          <ListItemText primary={format(new Date(), "dd/MM/yyyy") + " [16:00 - 17:30]"} secondary="Χιονίδης Ιωάννης" />
         </ListItem>,
       )}
     </List>
