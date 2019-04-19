@@ -13,6 +13,8 @@ import WorkTwoToneIcon from '@material-ui/icons/WorkOutline';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import Divider from '@material-ui/core/Divider';
 
 interface IProps extends WithStyles<typeof styles> {}
 const EmployerForm: FC<IProps> = props => {
@@ -36,20 +38,24 @@ const EmployerForm: FC<IProps> = props => {
         }
       >
         <ListItem key="employer-name">
+          <ListItemIcon>
+            <AccountIcon />
+          </ListItemIcon>
           <TextField
             variant={variant}
             label="Όνομα"
             className={classes.textField}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
-                  <AccountIcon />
-                </InputAdornment>
+                <InputAdornment position="end">{/* <AccountIcon /> */}</InputAdornment>
               ),
             }}
           />
         </ListItem>
         <ListItem key="employer-vat">
+          <ListItemIcon>
+            <WorkIcon />
+          </ListItemIcon>
           <TextField
             variant={variant}
             type="tel"
@@ -57,14 +63,15 @@ const EmployerForm: FC<IProps> = props => {
             className={classes.textField}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
-                  <WorkIcon />
-                </InputAdornment>
+                <InputAdornment position="end">{/* <WorkIcon /> */}</InputAdornment>
               ),
             }}
           />
         </ListItem>
         <ListItem key="employer-ame">
+          <ListItemIcon>
+            <WorkTwoToneIcon />
+          </ListItemIcon>
           <TextField
             variant={variant}
             type="tel"
@@ -73,7 +80,7 @@ const EmployerForm: FC<IProps> = props => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <WorkTwoToneIcon />
+                  {/* <WorkTwoToneIcon /> */}
                 </InputAdornment>
               ),
             }}
@@ -89,6 +96,9 @@ const EmployerForm: FC<IProps> = props => {
         }
       >
         <ListItem key="sms-number">
+          <ListItemIcon>
+            <PhoneIcon />
+          </ListItemIcon>
           <TextField
             variant={variant}
             type="tel"
@@ -96,9 +106,7 @@ const EmployerForm: FC<IProps> = props => {
             className={classes.textField}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
-                  <PhoneIcon />
-                </InputAdornment>
+                <InputAdornment position="end">{/* <PhoneIcon /> */}</InputAdornment>
               ),
             }}
           />
@@ -114,7 +122,7 @@ const EmployerForm: FC<IProps> = props => {
   );
 };
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     list: {
       width: '100%',
