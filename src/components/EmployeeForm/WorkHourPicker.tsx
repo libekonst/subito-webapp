@@ -52,7 +52,7 @@ const WorkHourPicker: FC<IProps> = props => {
           />
         </Grid>
         <Grid item justify="center">
-          <ArrowFwDIcon style={{ marginTop: 35 }} />
+          <ArrowFwDIcon style={{ marginTop: 35, }} />
         </Grid>
         <Grid item>
           <TimePicker
