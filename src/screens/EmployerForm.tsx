@@ -112,12 +112,14 @@ const EmployerForm: FC<IProps> = props => {
             // }}
           />
         </ListItem>
-        <ListItem key="info" dense>
-          <ListItemIcon>
-            <InfoIcon />
-          </ListItemIcon>
-          <ListItemText primary="Για την υποβολή αίτησης Ε8 με SMS, τα μηνύματα αποστέλλονται στον αριθμό 54001." />
-        </ListItem>
+        <div className={classes.infoTileWrapper}>
+          <ListItem key="info" dense className={classes.infoTile}>
+            <ListItemIcon>
+              <InfoIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Για την υποβολή αίτησης Ε8 με SMS, τα μηνύματα αποστέλλονται στον αριθμό 54001." />
+          </ListItem>
+        </div>
       </List>
     </>
   );
@@ -138,6 +140,14 @@ const styles = (theme: Theme) =>
     },
     textField: {
       width: '100%',
+    },
+    infoTileWrapper: {
+      paddingLeft: theme.spacing.unit / 2,
+      paddingRight: theme.spacing.unit / 2,
+    },
+    infoTile: {
+      border: `1px solid ${theme.palette.primary.light}`,
+      borderRadius: theme.spacing.unit,
     },
   });
 export default withStyles(styles)(EmployerForm);

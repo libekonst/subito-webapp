@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 interface IProps extends WithStyles<typeof styles> {
   onSubmit: (e: any) => void;
@@ -24,14 +25,15 @@ const FormAppbar: FC<IProps> = props => {
         <Typography variant="h6" color="inherit" className={classes.pageTitle}>
           {pageTitle}
         </Typography>
-        <IconButton
+        <Button color="inherit">ΑΠΟΘΗΚΕΥΣΗ</Button>
+        {/* <IconButton
           onClick={onSubmit}
           color="inherit"
           aria-label="Αποθήκευση"
           title="Αποθήκευση"
         >
           <CheckIcon />
-        </IconButton>
+        </IconButton> */}
       </Toolbar>
     </AppBar>
   );
