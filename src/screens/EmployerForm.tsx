@@ -142,11 +142,11 @@ const styles = (theme: Theme) =>
       width: '100%',
     },
     infoTileWrapper: {
-      paddingLeft: theme.spacing.unit / 2,
-      paddingRight: theme.spacing.unit / 2,
+      paddingLeft: theme.spacing.unit,
+      paddingRight: theme.spacing.unit,
     },
     infoTile: {
-      border: `1px solid ${theme.palette.primary.light}`,
+      border: `1px solid ${theme.palette.divider}`,
       borderRadius: theme.spacing.unit,
     },
   });
