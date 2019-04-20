@@ -6,6 +6,7 @@ import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import EmployeeInfo from './components/EmployeeInfo/EmployerInfo';
 import SmsLog from './components/SmsLog/SmsLog';
+import EmployeeList from './components/EmployeeList/EmployeeList';
 
 class App extends Component {
   render() {
@@ -15,7 +16,8 @@ class App extends Component {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <div className="App">
             {/* <EmployeeInfo /> */}
-            <SmsLog />
+            {/* <SmsLog /> */}
+            <EmployeeList />
           </div>
         </MuiPickersUtilsProvider>
       </>
