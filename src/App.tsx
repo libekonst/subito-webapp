@@ -7,6 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import EmployeeInfo from './components/EmployeeInfo/EmployerInfo';
 import SmsLog from './components/SmsLog/SmsLog';
 import EmployeeList from './components/EmployeeList/EmployeeList';
+import DrawerApp from './components/Drawer/DrawerApp';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
             {/* <EmployeeInfo /> */}
             {/* <SmsLog /> */}
             <EmployeeList />
+            
           </div>
         </MuiPickersUtilsProvider>
       </>

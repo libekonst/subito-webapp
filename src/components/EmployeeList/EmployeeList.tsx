@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/ChevronRight';
 import BackupIcon from '@material-ui/icons/Backup';
 import EmployeeListItem from './EmployeeListItem';
+import DrawerApp from '../Drawer/DrawerApp';
 
 const styles = (theme: any) =>
   createStyles({
@@ -53,6 +54,7 @@ const EmployeeList: FC<IProps> = props => {
           </IconButton>
         </Toolbar>
       </AppBar>
+      <DrawerApp />
       <List dense className={classes.list}>
         {testArray.map(value => (
           <EmployeeListItem />
