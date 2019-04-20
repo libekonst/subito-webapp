@@ -7,7 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import EmployeeInfo from './components/EmployeeInfo/EmployerInfo';
 import SmsLog from './components/SmsLog/SmsLog';
 import EmployeeList from './components/EmployeeList/EmployeeList';
-import DrawerApp from './components/Drawer/DrawerApp';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class App extends Component {
   render() {
@@ -15,12 +15,14 @@ class App extends Component {
       <>
         <CssBaseline />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <div className="App">
-            {/* <EmployeeInfo /> */}
-            {/* <SmsLog /> */}
-            <EmployeeList />
-            
-          </div>
+          <Router>
+            <div className="App">
+              <Route path="/" exact component={EmployeeList} />
+              <Route path="/smsLog/" component={SmsLog} />
+              <Route path="/employeeInfo/" component={EmployeeInfo} />
+              <Route path="/employeeForm/" component={EmployeeForm} />
+            </div>
+          </Router>
         </MuiPickersUtilsProvider>
       </>
     );

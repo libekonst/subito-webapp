@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/ChevronRight';
 import BackupIcon from '@material-ui/icons/Backup';
 import EmployeeListItem from './EmployeeListItem';
-import DrawerApp from '../Drawer/DrawerApp';
+import DrawerApp from './DrawerApp';
 
 const styles = (theme: any) =>
   createStyles({
@@ -38,12 +38,22 @@ interface IProps {
 }
 const EmployeeList: FC<IProps> = props => {
   const { classes } = props;
+  const [drawerState, setDrawerState] = React.useState(false);
+
+  const toggleDrawerState = () => {
+    setDrawerState(!drawerState);
+  };
 
   return (
     <div>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            onClick={toggleDrawerState}
+            aria-label="Menu"
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.grow} align="left">
@@ -54,7 +64,7 @@ const EmployeeList: FC<IProps> = props => {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <DrawerApp />
+      <DrawerApp toggleDrawerState={toggleDrawerState} drawerState={drawerState} />
       <List dense className={classes.list}>
         {testArray.map(value => (
           <EmployeeListItem />

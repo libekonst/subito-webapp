@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { withStyles, createStyles } from '@material-ui/core/styles';
+import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core/styles';
 import SmsList from '../EmployeeInfo/SmsList';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,8 +10,9 @@ import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/SaveAlt';
 import SmsIcon from '@material-ui/icons/Sms';
+import { Link } from 'react-router-dom';
 
-const styles = (theme: any) =>
+const styles = (theme: Theme) =>
   createStyles({
     fabCSV: {
       position: 'fixed',
@@ -29,18 +30,17 @@ const styles = (theme: any) =>
     },
   });
 
-interface IProps {
-  classes: any;
+interface IProps extends WithStyles<typeof styles> {
+  history: any;
 }
 
 const SmsLog: FC<IProps> = props => {
-  const { classes } = props;
-
+  const { classes, history } = props;
   return (
     <>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Back">
+          <IconButton color="inherit" aria-label="Back" onClick={history.goBack}>
             <ArrowBackIcon />
           </IconButton>
           <Typography
