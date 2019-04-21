@@ -1,13 +1,33 @@
 import React, { FC } from 'react';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import EmployeeInfoHeader from './EmployeeInfoHeader';
+import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import SmsList from './SmsList';
 import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/SaveAlt';
 import SmsIcon from '@material-ui/icons/Sms';
 
-const styles = (theme: any) =>
+interface IProps extends WithStyles<typeof styles> {
+  history?: any;
+  classes: any;
+}
+
+const EmployeeInfo: FC<IProps> = props => {
+  const { classes } = props;
+
+  return (
+    <>
+      <SmsList />
+      <Fab className={classes.fabCSV}>
+        <SaveIcon />
+      </Fab>
+      <Fab className={classes.fabSMS} color="primary">
+        <SmsIcon />
+      </Fab>
+    </>
+  );
+};
+
+const styles = (theme: Theme) =>
   createStyles({
     fabCSV: {
       position: 'fixed',
@@ -24,30 +44,6 @@ const styles = (theme: any) =>
       bottom: theme.spacing.unit * 4,
       right: theme.spacing.unit * 3,
     },
-    grow: {
-      flexGrow: 1,
-    },
   });
-interface IProps {
-  history?: any;
-  classes: any;
-}
-
-const EmployeeInfo: FC<IProps> = props => {
-  const { classes } = props;
-
-  return (
-    <>
-      <EmployeeInfoHeader history={props.history} employeeName="Γιάννης Χιονίδης" initials="ΓΧ" vatNumber="293845928" workHours="08:00 - 16:00" />
-      <SmsList />
-      <Fab className={classes.fabCSV}>
-        <SaveIcon />
-      </Fab>
-      <Fab className={classes.fabSMS} color="primary">
-        <SmsIcon />
-      </Fab>
-    </>
-  );
-};
 
 export default withStyles(styles)(EmployeeInfo);
