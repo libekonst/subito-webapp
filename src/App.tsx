@@ -9,6 +9,11 @@ import SmsLog from './components/SmsLog/SmsLog';
 import EmployeeList from './components/EmployeeList/EmployeeList';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+});
 class App extends Component {
   render() {
     return (

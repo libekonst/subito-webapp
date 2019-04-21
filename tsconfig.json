@@ -27,6 +27,6 @@
   },
   "include": [
     "src",
-    "src/custom_typings/static.d.ts"
+    "src/static.d.ts"
   ]
 }
