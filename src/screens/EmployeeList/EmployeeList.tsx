@@ -15,6 +15,7 @@ import MoreIcon from '@material-ui/icons/ChevronRight';
 import BackupIcon from '@material-ui/icons/Backup';
 import EmployeeListItem from './EmployeeListItem';
 import DrawerApp from './DrawerApp';
+import { IEmployee } from '../../interfaces/IEmployee';
 
 const styles = (theme: any) =>
   createStyles({
@@ -35,9 +36,10 @@ const styles = (theme: any) =>
 
 interface IProps {
   classes: any;
+  employees: IEmployee[];
 }
 const EmployeeList: FC<IProps> = props => {
-  const { classes } = props;
+  const { classes, employees } = props;
   const [drawerState, setDrawerState] = React.useState(false);
 
   const toggleDrawerState = () => {
@@ -65,14 +67,13 @@ const EmployeeList: FC<IProps> = props => {
         </Toolbar>
       </AppBar>
       <DrawerApp toggleDrawerState={toggleDrawerState} drawerState={drawerState} />
-      <List dense className={classes.list}>
-        {testArray.map(value => (
-          <EmployeeListItem />
+      <List className={classes.list}>
+        {employees.map(e => (
+          <EmployeeListItem employee={e} />
         ))}
       </List>
     </div>
   );
 };
-const testArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
 export default withStyles(styles)(EmployeeList);

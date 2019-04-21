@@ -7,19 +7,24 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/ChevronRight';
 import { createStyles, withStyles } from '@material-ui/core';
+import { IEmployee } from '../../interfaces/IEmployee';
 
 const styles = (theme: any) => createStyles({});
 
 interface IProps {
   classes: any;
+  employee: IEmployee;
 }
 const EmployeeListItem: FC<IProps> = props => {
+  const {
+    employee: { name, vat },
+  } = props;
   return (
     <ListItem button>
       <ListItemAvatar>
         <Avatar>ΤΔ</Avatar>
       </ListItemAvatar>
-      <ListItemText primary="Ταργκαρίδη Δανάη" secondary="105382465" />
+      <ListItemText primary={name} secondary={vat} />
       <ListItemSecondaryAction>
         <IconButton>
           <MoreIcon />

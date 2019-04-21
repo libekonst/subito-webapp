@@ -12,6 +12,7 @@ import EmployeeInfo from './screens/EmployeeInfo';
 import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
+import { IEmployee } from './interfaces/IEmployee';
 
 const theme = createMuiTheme({
   typography: {
@@ -19,6 +20,10 @@ const theme = createMuiTheme({
   },
 });
 class App extends Component {
+  employees: IEmployee[] = [
+    { name: 'Χιοννίδης Ιωάννης', vat: '105356894' },
+    { name: 'Ταργαρίδη Δανάη', vat: '105356894' },
+  ];
   render() {
     return (
       <>
@@ -27,7 +32,11 @@ class App extends Component {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Router>
               <div className="App">
-                <Route path="/" exact component={EmployeeList} />
+                <Route
+                  path="/"
+                  exact
+                  render={props => <EmployeeList employees={this.employees} {...props} />}
+                />
                 <Route path="/smsLog/" component={SmsLog} />
                 <Route path="/employeeInfo/" component={EmployeeInfo} />
                 <Route path="/employeeForm/" component={EmployeeForm} />
