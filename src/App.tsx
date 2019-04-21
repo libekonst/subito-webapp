@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
@@ -13,42 +13,57 @@ import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee } from './interfaces/IEmployee';
+import DrawerApp from './components/DrawerApp';
 
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
   },
 });
-class App extends Component {
-  employees: IEmployee[] = [
+function App() {
+  const employees: IEmployee[] = [
     { name: 'Χιοννίδης Ιωάννης', vat: '105356894' },
     { name: 'Ταργαρίδη Δανάη', vat: '105356894' },
   ];
-  render() {
-    return (
-      <>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Router>
-              <div className="App">
-                <Route
-                  path="/"
-                  exact
-                  render={props => <EmployeeList employees={this.employees} {...props} />}
-                />
-                <Route path="/smsLog/" component={SmsLog} />
-                <Route path="/employeeInfo/" component={EmployeeInfo} />
-                <Route path="/employeeForm/" component={EmployeeForm} />
-                <Route path="/employerForm/" component={EmployerForm} />
-                <Route path="/e8Form/" component={E8Form} />
-              </div>
-            </Router>
-          </MuiPickersUtilsProvider>
-        </MuiThemeProvider>
-      </>
-    );
-  }
+
+  const [drawerState, setDrawerState] = useState(false);
+
+  const toggleDrawerState = () => setDrawerState(!drawerState);
+
+  return (
+    <>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Router>
+            <div className="App">
+              <DrawerApp
+                toggleDrawerState={toggleDrawerState}
+                drawerState={drawerState}
+              />
+
+              <Route
+                path="/"
+                exact
+                render={props => (
+                  <EmployeeList
+                    employees={employees}
+                    openDrawer={toggleDrawerState}
+                    {...props}
+                  />
+                )}
+              />
+              <Route path="/smsLog/" component={SmsLog} />
+              <Route path="/employeeInfo/" component={EmployeeInfo} />
+              <Route path="/employeeForm/" component={EmployeeForm} />
+              <Route path="/employerForm/" component={EmployerForm} />
+              <Route path="/e8Form/" component={E8Form} />
+            </div>
+          </Router>
+        </MuiPickersUtilsProvider>
+      </MuiThemeProvider>
+    </>
+  );
 }
 
 export default App;
