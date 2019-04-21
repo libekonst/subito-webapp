@@ -12,6 +12,8 @@ import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
 import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 import { IEmployee } from '../../interfaces/IEmployee';
+import WorkHourPicker from '../../components/WorkHourPicker';
+import { addMinutes } from 'date-fns';
 
 interface IProps extends WithStyles<typeof styles> {
   history?: any;
@@ -30,6 +32,10 @@ const E8Form: FC<IProps> = props => {
   const selectSubmitionType = (e: any) => setState({ ...state, value: e.target.value });
   const selectDuration = (value: string) => () =>
     setState({ ...state, duration: value });
+
+  const [overtimeStart, handleOvertimeStart] = useState(addMinutes(new Date(), 5));
+  const [overtimeFinish, handleOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
+
   const durationOptions = [
     { key: 0, value: '30 λεπτά' },
     { key: 1, value: '1 ώρα' },
@@ -58,7 +64,14 @@ const E8Form: FC<IProps> = props => {
         </div>
       </FormControl>
       {state.duration === 'Άλλο...' && (
-        <div style={{ width: '100%', height: '3rem', background: 'white' }} />
+        <div style={{ width: '100%', height: '3rem', background: 'white' }}>
+          <WorkHourPicker
+            selectedDateStart={overtimeStart}
+            selectedDateFinish={overtimeFinish}
+            handleDateStartChange={handleOvertimeStart}
+            handleDateFinishChange={handleOvertimeFinish}
+          />
+        </div>
       )}
     </>
   );
