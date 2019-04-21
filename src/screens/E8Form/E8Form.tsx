@@ -42,10 +42,12 @@ const E8Form: FC<IProps> = props => {
       <DeadEndAppBar pageTitle="Έντυπο Ε8" history={props.history}/>
       <section className={props.classes.section}>
         <ExpandableListTile
-          employerName="Γιάννης Χιονίδης"
+          employeeName="Γιάννης Χιονίδης"
           initials="ΓΧ"
           vatNumber="129384569"
           workHours="08:00 - 16:00"
+          divider
+          button
         />
         <FormControl className={props.classes.formControl}>
           <FormLabel>Τύπος υποβολής</FormLabel>

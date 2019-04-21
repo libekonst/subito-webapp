@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ComponentProps } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,28 +11,29 @@ import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 
 interface IProps {
-  employerName: string;
+  employeeName: string;
   vatNumber: string;
   workHours: string;
   initials: string;
 }
 
-function ExpandableListTile(props: IProps) {
+function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => setExpanded(!expanded);
+  const { initials, employeeName, vatNumber, workHours, ...rest } = props;
 
   return (
     <List>
-      <ListItem button divider onClick={toggleExpand}>
-        <Avatar>{props.initials}</Avatar>
+      <ListItem {...rest} onClick={toggleExpand}>
+        <Avatar>{initials}</Avatar>
         <ListItemText
-          primary={props.employerName}
+          primary={employeeName}
           secondary={
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <Typography component="span" color="textSecondary">
-                {`ΑΦΜ: ${props.vatNumber}`}
+                {`ΑΦΜ: ${vatNumber}`}
               </Typography>
-              {props.workHours}
+              {workHours}
             </Collapse>
           }
         />
