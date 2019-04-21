@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import TextField from '@material-ui/core/TextField';
-import FormAppbar from '../components/FormAppbar';
+import FormAppbar from '../components/AppBars/FormAppbar';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import WorkIcon from '@material-ui/icons/Work';
