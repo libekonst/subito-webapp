@@ -5,5 +5,5 @@ export interface IE8Sms {
   overtimeStart: string;
   overtimeFinish: string;
   dateSent: Date;
-  aproved: boolean;
+  approved: boolean;
 }

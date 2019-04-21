@@ -74,7 +74,18 @@ const E8Form: FC<IProps> = props => {
   );
   return (
     <section className={props.classes.section}>
-      <ExpandableListTile employee={props.employee} divider button />
+      <ExpandableListTile
+        employee={
+          {
+            name: 'Γιάννης Χιονίδης',
+            vat: '104957382',
+            workStart: '08:00',
+            workFinish: '14:00',
+          } as IEmployee
+        }
+        divider
+        button
+      />
       <FormControl className={props.classes.formControl}>
         <FormLabel>Τύπος υποβολής</FormLabel>
         <RadioGroup

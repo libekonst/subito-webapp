@@ -33,42 +33,39 @@ const EmployeeForm: FC<IProps> = props => {
   const [workStart, handleWorkStartChange] = useState(date);
   const [workFinish, handleWorkFinishChange] = useState(addHours(workStart, 8));
   return (
-    <div>
-      <ButtonsAppBar title="Αποθήκευση υπαλλήλου" />
-      <div className={classes.content}>
-        <TextField
-          label="Ονοματεπώνυμο"
-          fullWidth
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <PersonIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          label="ΑΦΜ"
-          fullWidth
-          margin="normal"
-          type="tel"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <WorkIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <WorkHourPicker
-          title="Ωράριο Εργασίας"
-          selectedDateStart={workStart}
-          selectedDateFinish={workFinish}
-          handleDateStartChange={handleWorkStartChange}
-          handleDateFinishChange={handleWorkFinishChange}
-        />
-      </div>
+    <div className={classes.content}>
+      <TextField
+        label="Ονοματεπώνυμο"
+        fullWidth
+        margin="normal"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">
+              <PersonIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TextField
+        label="ΑΦΜ"
+        fullWidth
+        margin="normal"
+        type="tel"
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">
+              <WorkIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+      <WorkHourPicker
+        title="Ωράριο Εργασίας"
+        selectedDateStart={workStart}
+        selectedDateFinish={workFinish}
+        handleDateStartChange={handleWorkStartChange}
+        handleDateFinishChange={handleWorkFinishChange}
+      />
     </div>
   );
 };
