@@ -12,3 +12,6 @@
 
 # sms
 - [link to sms](https://weblog.west-wind.com/posts/2013/Oct/09/Prefilling-an-SMS-on-Mobile-Devices-with-the-sms-Uri-Scheme)
+
+# detect connectivity
+- window.online(https://davidwalsh.name/detecting-online)
