@@ -31,7 +31,7 @@ const Toolbar: FC<IProps> = props => {
     case routes.EMPLOYEE_FORM:
       return (
         <FormToolbar
-          pageTitle="Αποθήκευση υπαλλήλου"
+          pageTitle="Δημιουργία υπαλλήλου"
           onCancel={history && history.goBack}
         />
       );
