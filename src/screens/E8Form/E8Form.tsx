@@ -64,14 +64,12 @@ const E8Form: FC<IProps> = props => {
         </div>
       </FormControl>
       {state.duration === 'Άλλο...' && (
-        <div style={{ width: '100%', height: '3rem', background: 'white' }}>
-          <WorkHourPicker
-            selectedDateStart={overtimeStart}
-            selectedDateFinish={overtimeFinish}
-            handleDateStartChange={handleOvertimeStart}
-            handleDateFinishChange={handleOvertimeFinish}
-          />
-        </div>
+        <WorkHourPicker
+          selectedDateStart={overtimeStart}
+          selectedDateFinish={overtimeFinish}
+          handleDateStartChange={handleOvertimeStart}
+          handleDateFinishChange={handleOvertimeFinish}
+        />
       )}
     </>
   );
@@ -94,7 +92,7 @@ const E8Form: FC<IProps> = props => {
           />
         </RadioGroup>
       </FormControl>
-      {state.value === 'submitNew' ? { newSubmition } : <CancelSubmitionInfoCard />}
+      {state.value === 'submitNew' ? newSubmition : <CancelSubmitionInfoCard />}
       <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
     </section>
   );

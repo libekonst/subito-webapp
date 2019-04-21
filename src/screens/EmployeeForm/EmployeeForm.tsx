@@ -47,7 +47,6 @@ const EmployeeForm: FC<IProps> = props => {
               </InputAdornment>
             ),
           }}
-          
         />
         <TextField
           label="ΑΦΜ"
@@ -63,6 +62,7 @@ const EmployeeForm: FC<IProps> = props => {
           }}
         />
         <WorkHourPicker
+          title="Ωράριο Εργασίας"
           selectedDateStart={workStart}
           selectedDateFinish={workFinish}
           handleDateStartChange={handleWorkStartChange}
