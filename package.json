@@ -1,5 +1,6 @@
 {
   "name": "subito-webapp",
+  "homepage": "https://kostaslib.github.io/subito-webapp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,6 +15,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.2",
     "date-fns": "^2.0.0-alpha.27",
+    "gh-pages": "^2.0.1",
     "material-ui-pickers": "^2.2.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -32,6 +34,8 @@
     "tslint-react": "^4.0.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
