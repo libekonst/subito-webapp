@@ -19,7 +19,7 @@ const DeadEndAppBar: FC<IProps> = props => {
           className={classes.appBarButton}
           color="inherit"
           aria-label="Go Back"
-          onClick={history && history.goBack}
+          onClick={history.goBack}
         >
           <ArrowBackIcon />
         </IconButton>

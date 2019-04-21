@@ -12,7 +12,9 @@ import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
 import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 
-interface IProps extends WithStyles<typeof styles> {}
+interface IProps extends WithStyles<typeof styles> {
+  history?:any;
+}
 interface IState {
   value: 'submitNew' | 'submitCancelPrevious';
   duration: string;
@@ -37,7 +39,7 @@ const E8Form: FC<IProps> = props => {
   ];
   return (
     <>
-      <DeadEndAppBar pageTitle="Έντυπο Ε8" />
+      <DeadEndAppBar pageTitle="Έντυπο Ε8" history={props.history}/>
       <section className={props.classes.section}>
         <ExpandableListTile
           employerName="Γιάννης Χιονίδης"

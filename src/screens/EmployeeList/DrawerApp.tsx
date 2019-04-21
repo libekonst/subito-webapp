@@ -20,6 +20,11 @@ const useStyles = makeStyles({
   },
 });
 const LinkToSmsLog = (props: any) => <Link to="/smsLog" {...props} />;
+const LinkToEmployeeInfo = (props: any) => <Link to="/employeeInfo" {...props} />;
+const LinkToEmployeeForm = (props: any) => <Link to="/employeeForm" {...props} />;
+const LinkToE8Form = (props: any) => <Link to="/e8Form" {...props} />;
+const LinkToEmployerForm = (props: any) => <Link to="/employerForm" {...props} />;
+
 
 interface IProps {
   toggleDrawerState: () => void;
@@ -32,7 +37,19 @@ const DrawerApp: FC<IProps> = ({ drawerState, toggleDrawerState }) => {
     <div className={classes.list}>
       <List>
         <ListItem button component={LinkToSmsLog}>
-          <ListItemText primary="Λίστα αιτήσεων" />
+          <ListItemText primary="SmsLog" />
+        </ListItem>
+        <ListItem button component={LinkToEmployeeInfo}>
+          <ListItemText primary="EmployeeInfo" />
+        </ListItem>
+        <ListItem button component={LinkToEmployeeForm}>
+          <ListItemText primary="EmployeeForm" />
+        </ListItem>
+        <ListItem button component={LinkToE8Form}>
+          <ListItemText primary="E8Form" />
+        </ListItem>
+        <ListItem button component={LinkToEmployerForm}>
+          <ListItemText primary="EmployerForm" />
         </ListItem>
       </List>
       <Divider />
