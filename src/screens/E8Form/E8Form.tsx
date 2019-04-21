@@ -11,9 +11,11 @@ import Chip from '@material-ui/core/Chip';
 import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
 import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
+import { IEmployee } from '../../interfaces/IEmployee';
 
 interface IProps extends WithStyles<typeof styles> {
-  history?:any;
+  history?: any;
+  employee?: IEmployee;
 }
 interface IState {
   value: 'submitNew' | 'submitCancelPrevious';
@@ -37,66 +39,51 @@ const E8Form: FC<IProps> = props => {
     { key: 5, value: '3 ώρες' },
     { key: 6, value: 'Άλλο...' },
   ];
-  return (
+  const newSubmition = (
     <>
-      <DeadEndAppBar pageTitle="Έντυπο Ε8" history={props.history}/>
-      <section className={props.classes.section}>
-        <ExpandableListTile
-          employeeName="Γιάννης Χιονίδης"
-          initials="ΓΧ"
-          vatNumber="129384569"
-          workHours="08:00 - 16:00"
-          divider
-          button
-        />
-        <FormControl className={props.classes.formControl}>
-          <FormLabel>Τύπος υποβολής</FormLabel>
-          <RadioGroup
-            aria-label="Submition type"
-            name="submitionType"
-            value={state.value}
-            onChange={selectSubmitionType}
-          >
-            <FormControlLabel
-              value="submitNew"
-              control={<Radio />}
-              label="Νέα υποβολή"
+      <FormControl className={`${props.classes.formControl} `}>
+        <FormLabel>Διάρκεια υπερωρίας</FormLabel>
+        <div className={props.classes.chipsForm}>
+          {durationOptions.map(option => (
+            <Chip
+              className={props.classes.chip}
+              key={option.key}
+              // color={option.value === state.duration ? 'secondary' : 'primary'}
+              color="primary"
+              label={option.value}
+              onClick={selectDuration(option.value)}
+              variant={state.duration === option.value ? 'default' : 'outlined'}
             />
-            <FormControlLabel
-              value="submitCancelPrevious"
-              control={<Radio />}
-              label="Ακύρωση τελευταίας υποβολής"
-            />
-          </RadioGroup>
-        </FormControl>
-        {state.value === 'submitNew' ? (
-          <>
-            <FormControl className={`${props.classes.formControl} `}>
-              <FormLabel>Διάρκεια υπερωρίας</FormLabel>
-              <div className={props.classes.chipsForm}>
-                {durationOptions.map(option => (
-                  <Chip
-                    className={props.classes.chip}
-                    key={option.key}
-                    // color={option.value === state.duration ? 'secondary' : 'primary'}
-                    color="primary"
-                    label={option.value}
-                    onClick={selectDuration(option.value)}
-                    variant={state.duration === option.value ? 'default' : 'outlined'}
-                  />
-                ))}
-              </div>
-            </FormControl>
-            {state.duration === 'Άλλο...' && (
-              <div style={{ width: '100%', height: '3rem', background: 'white' }} />
-            )}
-          </>
-        ) : (
-          <CancelSubmitionInfoCard />
-        )}
-        <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
-      </section>
+          ))}
+        </div>
+      </FormControl>
+      {state.duration === 'Άλλο...' && (
+        <div style={{ width: '100%', height: '3rem', background: 'white' }} />
+      )}
     </>
+  );
+  return (
+    <section className={props.classes.section}>
+      <ExpandableListTile employee={props.employee} divider button />
+      <FormControl className={props.classes.formControl}>
+        <FormLabel>Τύπος υποβολής</FormLabel>
+        <RadioGroup
+          aria-label="Submition type"
+          name="submitionType"
+          value={state.value}
+          onChange={selectSubmitionType}
+        >
+          <FormControlLabel value="submitNew" control={<Radio />} label="Νέα υποβολή" />
+          <FormControlLabel
+            value="submitCancelPrevious"
+            control={<Radio />}
+            label="Ακύρωση τελευταίας υποβολής"
+          />
+        </RadioGroup>
+      </FormControl>
+      {state.value === 'submitNew' ? { newSubmition } : <CancelSubmitionInfoCard />}
+      <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
+    </section>
   );
 };
 

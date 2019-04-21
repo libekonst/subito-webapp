@@ -9,31 +9,38 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
+import { IEmployee } from '../../interfaces/IEmployee';
 
 interface IProps {
-  employeeName: string;
-  vatNumber: string;
-  workHours: string;
-  initials: string;
+  employee?: IEmployee;
 }
 
 function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => setExpanded(!expanded);
-  const { initials, employeeName, vatNumber, workHours, ...rest } = props;
+  const { employee, ...rest } = props;
+
+  const employeeFiller = {
+    name: 'Επιλέξτε υπάλληλο',
+    vat: '000000000',
+    workStart: '00:00',
+    workFinish: '00:00',
+  };
+
+  const { name, vat, workStart, workFinish } = employee ? employee : employeeFiller;
 
   return (
     <List>
       <ListItem {...rest} onClick={toggleExpand}>
-        <Avatar>{initials}</Avatar>
+        <Avatar>{employee && name.length ? name[0] : ''}</Avatar>
         <ListItemText
-          primary={employeeName}
+          primary={name}
           secondary={
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <Typography component="span" color="textSecondary">
-                {`ΑΦΜ: ${vatNumber}`}
+                {`ΑΦΜ: ${vat}`}
               </Typography>
-              {workHours}
+              {`${workStart} - ${workFinish}`}
             </Collapse>
           }
         />
