@@ -13,7 +13,8 @@ import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee } from './interfaces/IEmployee';
-import DrawerApp from './components/DrawerApp';
+import AppDrawer from './components/AppDrawer';
+import AppShell from './components/AppShell';
 
 const theme = createMuiTheme({
   typography: {
@@ -27,7 +28,6 @@ function App() {
   ];
 
   const [drawerState, setDrawerState] = useState(false);
-
   const toggleDrawerState = () => setDrawerState(!drawerState);
 
   return (
@@ -37,11 +37,16 @@ function App() {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Router>
             <div className="App">
-              <DrawerApp
-                toggleDrawerState={toggleDrawerState}
-                drawerState={drawerState}
+              <Route
+                path="/"
+                render={props => (
+                  <AppShell
+                    toggleDrawerOpen={toggleDrawerState}
+                    isDrawerOpen={drawerState}
+                    {...props}
+                  />
+                )}
               />
-
               <Route
                 path="/"
                 exact

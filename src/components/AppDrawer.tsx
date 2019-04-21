@@ -27,10 +27,10 @@ const LinkToEmployerForm = (props: any) => <Link to="/employerForm" {...props} /
 
 
 interface IProps {
-  toggleDrawerState: () => void;
-  drawerState: boolean;
+  toggleOpen: (e: any) => void;
+  isOpen: boolean;
 }
-const DrawerApp: FC<IProps> = ({ drawerState, toggleDrawerState }) => {
+const AppDrawer: FC<IProps> = ({ isOpen, toggleOpen }) => {
   
   const classes = useStyles();
 
@@ -59,15 +59,15 @@ const DrawerApp: FC<IProps> = ({ drawerState, toggleDrawerState }) => {
 
   return (
     <SwipeableDrawer
-      open={drawerState}
-      onOpen={toggleDrawerState}
-      onClose={toggleDrawerState}
+      open={isOpen}
+      onOpen={toggleOpen}
+      onClose={toggleOpen}
     >
       <div
         tabIndex={0}
         role="button"
-        onClick={toggleDrawerState}
-        onKeyDown={toggleDrawerState}
+        onClick={toggleOpen}
+        onKeyDown={toggleOpen}
       >
         {sideList}
       </div>
@@ -75,4 +75,4 @@ const DrawerApp: FC<IProps> = ({ drawerState, toggleDrawerState }) => {
   );
 };
 
-export default DrawerApp;
+export default AppDrawer;

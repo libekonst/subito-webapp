@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
-import { DeadEndAppBar } from '../../components/AppBars';
 
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -13,7 +12,7 @@ import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 
 interface IProps extends WithStyles<typeof styles> {
-  history?:any;
+  history?: any;
 }
 interface IState {
   value: 'submitNew' | 'submitCancelPrevious';
@@ -39,7 +38,6 @@ const E8Form: FC<IProps> = props => {
   ];
   return (
     <>
-      <DeadEndAppBar pageTitle="Έντυπο Ε8" history={props.history}/>
       <section className={props.classes.section}>
         <ExpandableListTile
           employeeName="Γιάννης Χιονίδης"

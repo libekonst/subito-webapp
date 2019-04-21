@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import TextField from '@material-ui/core/TextField';
-import FormAppbar from '../components/AppBars/FormAppbar';
+import { FormToolbar } from '../components/Toolbars';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import WorkIcon from '@material-ui/icons/Work';
@@ -25,7 +25,7 @@ const EmployerForm: FC<IProps> = props => {
   const variant = 'standard';
   return (
     <>
-      <FormAppbar
+      <FormToolbar
         pageTitle="Ρυθμίσεις"
         onSubmit={handleSubmit}
         onCancel={handleCancel}
