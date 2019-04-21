@@ -29,6 +29,7 @@ const styles = (theme: any) =>
     },
   });
 interface IProps {
+  history?: any;
   classes: any;
 }
 
@@ -37,7 +38,7 @@ const EmployeeInfo: FC<IProps> = props => {
 
   return (
     <>
-      <EmployeeInfoHeader />
+      <EmployeeInfoHeader history={props.history} employeeName="Γιάννης Χιονίδης" initials="ΓΧ" vatNumber="293845928" workHours="08:00 - 16:00" />
       <SmsList />
       <Fab className={classes.fabCSV}>
         <SaveIcon />
