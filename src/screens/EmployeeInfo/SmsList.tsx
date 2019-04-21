@@ -15,15 +15,15 @@ const styles = {
 };
 interface IProps {
   classes: any;
-  smsList: IE8Sms[];
+  smsList?: IE8Sms[];
 }
 
 const EmployeeInfo: FC<IProps> = props => {
   const { classes, smsList } = props;
 
   return (
-    <List>
-      {smsList.map(sms => (
+    <List> 
+      {smsList && smsList.length && smsList.map(sms => (
         <ListItem button>
           <ListItemAvatar>
             <Avatar>
