@@ -22,6 +22,7 @@ const styles = {
 
 interface IProps {
   classes: any;
+  title?: string;
   selectedDateStart: Date;
   handleDateStartChange: React.Dispatch<React.SetStateAction<Date>>;
   selectedDateFinish: Date;
@@ -30,14 +31,16 @@ interface IProps {
 const WorkHourPicker: FC<IProps> = props => {
   const {
     classes,
+    title,
     selectedDateStart,
     handleDateStartChange,
     selectedDateFinish,
     handleDateFinishChange,
   } = props;
+
   return (
     <div className={classes.root}>
-      <Typography>Ωράριο εργασίας</Typography>
+      {title ? <Typography>title</Typography> : undefined}
       <Grid container wrap="nowrap" spacing={32} justify="space-between">
         <Grid item wrap="nowrap">
           <TimePicker
@@ -52,7 +55,7 @@ const WorkHourPicker: FC<IProps> = props => {
           />
         </Grid>
         <Grid item justify="center">
-          <ArrowFwDIcon style={{ marginTop: 35, }} />
+          <ArrowFwDIcon style={{ marginTop: 35 }} />
         </Grid>
         <Grid item>
           <TimePicker

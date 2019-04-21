@@ -7,47 +7,38 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import SmsIcon from '@material-ui/icons/Sms';
 import { format } from 'date-fns';
+import { IE8Sms } from '../../interfaces/IE8Sms';
 
 const styles = {
-  edit: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  card: {
-    minWidth: 275,
-    borderRadius: 0,
-    boxShadow: 'none',
-  },
-  pos: {
-    marginTop: 12,
-  },
+  aproved: {},
+  declined: {},
 };
 interface IProps {
   classes: any;
-}
-function generate(element: any) {
-  return [0, 1, 2,3,4,5,6,7,8,9,10,11,12,13].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
+  smsList: IE8Sms[];
 }
 
 const EmployeeInfo: FC<IProps> = props => {
-  const { classes } = props;
+  const { classes, smsList } = props;
 
   return (
     <List>
-      {generate(
+      {smsList.map(sms => (
         <ListItem button>
           <ListItemAvatar>
             <Avatar>
-              <SmsIcon />
+              <SmsIcon className={sms.aproved ? classes.aproved : classes.declined} />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={format(new Date(), "dd/MM/yyyy") + " [16:00 - 17:30]"} secondary="Χιονίδης Ιωάννης" />
-        </ListItem>,
-      )}
+          <ListItemText
+            primary={
+              format(sms.dateSent, 'dd/MM/yyyy') +
+              `  [${sms.overtimeStart} - ${sms.overtimeFinish}]`
+            }
+            secondary={sms.employee.name}
+          />
+        </ListItem>
+      ))}
     </List>
   );
 };
