@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { withStyles, createStyles, WithStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,6 +9,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
+import LeftIconButton from './LeftIconButton';
+
 import ListItemText from '@material-ui/core/ListItemText';
 
 const styles = (theme: any) =>
@@ -47,22 +48,22 @@ interface IProps extends WithStyles<typeof styles> {
   vatNumber: string;
   workHours: string;
   initials: string;
-  history?: any;
+  onGoBack?: (e: any) => void;
 }
 
 const EmployeeInfo: FC<IProps> = props => {
-  const { classes, initials, employeeName, vatNumber, workHours, history } = props;
+  const { classes, initials, employeeName, vatNumber, workHours, onGoBack } = props;
 
   return (
-    <AppBar position="sticky" color="default">
+    <>
       <Toolbar className={classes.grow}>
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Back">
-          <ArrowBackIcon onClick={history.goBack} />
-        </IconButton>
+        <LeftIconButton onClick={onGoBack} aria-label="Πίσω" title="Πίσω">
+          <ArrowBackIcon />
+        </LeftIconButton>
         <List className={classes.grow}>
           <ListItem>
             <Avatar>{initials}</Avatar>
-            <ListItemText primary={employeeName} />
+            <ListItemText color="inherit" primary={employeeName} />
           </ListItem>
         </List>
       </Toolbar>
@@ -74,15 +75,15 @@ const EmployeeInfo: FC<IProps> = props => {
           </Typography>
         </div>
         <div className={classes.secondaryActions}>
-          <IconButton className={classes.menuButton} color="primary" aria-label="Delete">
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Delete">
             <DeleteIcon />
           </IconButton>
-          <IconButton className={classes.menuButton} color="primary" aria-label="Edit">
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Edit">
             <EditIcon />
           </IconButton>
         </div>
       </Toolbar>
-    </AppBar>
+    </>
   );
 };
 

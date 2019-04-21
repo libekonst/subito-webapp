@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Link } from 'react-router-dom';
+import { routes } from '../../routes';
 
 const useStyles = makeStyles({
   list: {
@@ -19,19 +20,17 @@ const useStyles = makeStyles({
     width: 'auto',
   },
 });
-const LinkToSmsLog = (props: any) => <Link to="/smsLog" {...props} />;
-const LinkToEmployeeInfo = (props: any) => <Link to="/employeeInfo" {...props} />;
-const LinkToEmployeeForm = (props: any) => <Link to="/employeeForm" {...props} />;
-const LinkToE8Form = (props: any) => <Link to="/e8Form" {...props} />;
-const LinkToEmployerForm = (props: any) => <Link to="/employerForm" {...props} />;
-
+const LinkToSmsLog = (props: any) => <Link to={routes.SMS_LOG} {...props} />;
+const LinkToEmployeeInfo = (props: any) => <Link to={routes.EMPLOYEE_INFO} {...props} />;
+const LinkToEmployeeForm = (props: any) => <Link to={routes.EMPLOYER_FORM} {...props} />;
+const LinkToE8Form = (props: any) => <Link to={routes.E8FORM} {...props} />;
+const LinkToEmployerForm = (props: any) => <Link to={routes.EMPLOYER_FORM} {...props} />;
 
 interface IProps {
   toggleOpen: (e: any) => void;
   isOpen: boolean;
 }
 const AppDrawer: FC<IProps> = ({ isOpen, toggleOpen }) => {
-  
   const classes = useStyles();
 
   const sideList = (
@@ -58,17 +57,8 @@ const AppDrawer: FC<IProps> = ({ isOpen, toggleOpen }) => {
   );
 
   return (
-    <SwipeableDrawer
-      open={isOpen}
-      onOpen={toggleOpen}
-      onClose={toggleOpen}
-    >
-      <div
-        tabIndex={0}
-        role="button"
-        onClick={toggleOpen}
-        onKeyDown={toggleOpen}
-      >
+    <SwipeableDrawer open={isOpen} onOpen={toggleOpen} onClose={toggleOpen}>
+      <div tabIndex={0} role="button" onClick={toggleOpen} onKeyDown={toggleOpen}>
         {sideList}
       </div>
     </SwipeableDrawer>

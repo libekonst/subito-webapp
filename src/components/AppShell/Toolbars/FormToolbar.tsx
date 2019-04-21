@@ -6,20 +6,22 @@ import CheckIcon from '@material-ui/icons/Check';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import PageTitle from './PageTitle';
+import LeftIconButton from './LeftIconButton';
 
-interface IProps extends WithStyles<typeof styles> {
-  onSubmit: (e: any) => void;
-  onCancel: (e: any) => void;
+interface IProps {
+  onSubmit?: (e: any) => void;
+  onCancel?: (e: any) => void;
   pageTitle: string;
 }
 
 const FormToolbar: FC<IProps> = props => {
-  const { onSubmit, onCancel, pageTitle, classes } = props;
+  const { onSubmit, onCancel, pageTitle } = props;
   return (
     <Toolbar>
-      <IconButton className={classes.leftButton} onClick={onCancel} color="inherit" aria-label="Άκυρο" title="Άκυρο">
+      <LeftIconButton onClick={onCancel} aria-label="Άκυρο" title="Άκυρο">
         <CloseIcon />
-      </IconButton>
+      </LeftIconButton>
+
       <PageTitle pageTitle={pageTitle} />
 
       {/* <Button color="inherit">ΑΠΟΘΗΚΕΥΣΗ</Button> */}
@@ -35,12 +37,4 @@ const FormToolbar: FC<IProps> = props => {
   );
 };
 
-const styles = (theme: any) =>
-  createStyles({
-    leftButton: {
-      marginLeft: -12,
-      marginRight: 20,
-    },
-  });
-
-export default withStyles(styles)(FormToolbar);
+export default FormToolbar;

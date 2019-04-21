@@ -4,34 +4,22 @@ import IconButton from '@material-ui/core/IconButton';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PageTitle from './PageTitle';
+import LeftIconButton from './LeftIconButton';
 
-interface IProps extends WithStyles<typeof styles> {
-  history?: any;
+interface IProps {
+  onGoBack?: (e: any) => void;
   pageTitle: string;
 }
 const DeadEndToolbar: FC<IProps> = props => {
-  const { history, pageTitle, classes } = props;
+  const { onGoBack, pageTitle } = props;
   return (
     <Toolbar>
-      <IconButton
-        className={classes.leftButton}
-        color="inherit"
-        aria-label="Go Back"
-        onClick={history && history.goBack}
-      >
+      <LeftIconButton onClick={onGoBack} aria-label="Πίσω" title="Πίσω">
         <ArrowBackIcon />
-      </IconButton>
+      </LeftIconButton>
       <PageTitle pageTitle={pageTitle} />
     </Toolbar>
   );
 };
 
-const styles = () =>
-  createStyles({
-    leftButton: {
-      marginLeft: -12,
-      marginRight: 20,
-    },
-  });
-
-export default withStyles(styles)(DeadEndToolbar);
+export default DeadEndToolbar;

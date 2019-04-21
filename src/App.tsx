@@ -1,11 +1,11 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import DateFnsUtils from '@date-io/date-fns';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SmsLog from './screens/SmsLog';
 import EmployeeList from './screens/EmployeeList';
 import EmployeeInfo from './screens/EmployeeInfo';
@@ -13,8 +13,7 @@ import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee } from './interfaces/IEmployee';
-import AppDrawer from './components/AppDrawer';
-import AppShell from './components/AppShell';
+import AppShell from './components/AppShell/AppShell';
 
 const theme = createMuiTheme({
   typography: {
@@ -50,13 +49,7 @@ function App() {
               <Route
                 path="/"
                 exact
-                render={props => (
-                  <EmployeeList
-                    employees={employees}
-                    openDrawer={toggleDrawerState}
-                    {...props}
-                  />
-                )}
+                render={props => <EmployeeList employees={employees} {...props} />}
               />
               <Route path="/smsLog/" component={SmsLog} />
               <Route path="/employeeInfo/" component={EmployeeInfo} />
