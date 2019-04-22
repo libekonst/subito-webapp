@@ -1,38 +1,29 @@
 import React, { FC } from 'react';
-import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core/styles';
 import SmsList from '../../components/SmsList';
-import { green } from '@material-ui/core/colors';
-import Fab from '@material-ui/core/Fab';
-import SaveIcon from '@material-ui/icons/SaveAlt';
+import { IE8Sms } from '../../interfaces/IE8Sms';
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   history: any;
 }
 
-const SmsLog: FC<IProps> = props => {
-  const { classes } = props;
-  return (
-    <>
-      <SmsList />
-      <Fab className={classes.fabCSV}>
-        <SaveIcon />
-      </Fab>
-    </>
-  );
-};
-
-const styles = (theme: Theme) =>
-  createStyles({
-    fabCSV: {
-      position: 'fixed',
-      bottom: theme.spacing.unit * 4,
-      right: theme.spacing.unit * 3,
-      color: theme.palette.common.white,
-      backgroundColor: green[800],
-      '&:hover': {
-        backgroundColor: green[900],
-      },
+const SmsLog: FC<IProps> = () => {
+  const smsFactory = () => ({
+    employee: {
+      name: 'Γιάννης Χιονίδης',
+      vat: '104957382',
+      workStart: '08:00',
+      workFinish: '14:00',
     },
+    overtimeStart: '14:00',
+    overtimeFinish: '15:00',
+    dateSent: new Date(),
+    approved: Math.random() >= 0.3,
   });
 
-export default withStyles(styles)(SmsLog);
+  const list: IE8Sms[] = Array(30)
+    .fill(0)
+    .map(smsFactory);
+  return <SmsList smsList={list} />;
+};
+
+export default SmsLog;
