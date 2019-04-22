@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import MoreIcon from '@material-ui/icons/ChevronRight';
+import PersonIcon from '@material-ui/icons/Person';
 import { createStyles, withStyles } from '@material-ui/core';
 import { IEmployee } from '../../interfaces/IEmployee';
 
@@ -16,15 +17,14 @@ interface IProps {
   employee: IEmployee;
 }
 const EmployeeListItem: FC<IProps> = props => {
-  const {
-    employee: { name, vat },
-  } = props;
+  const { employee } = props;
+  const initial = employee.name.trimStart()[0];
   return (
     <ListItem button>
       <ListItemAvatar>
-        <Avatar>ΤΔ</Avatar>
+        <Avatar>{initial ? initial.toUpperCase() : <PersonIcon />}</Avatar>
       </ListItemAvatar>
-      <ListItemText primary={name} secondary={vat} />
+      <ListItemText primary={employee.name} secondary={employee.vat} />
       <ListItemSecondaryAction>
         <IconButton>
           <MoreIcon />
