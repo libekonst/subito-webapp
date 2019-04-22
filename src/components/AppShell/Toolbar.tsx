@@ -3,21 +3,50 @@ import { DeadEndToolbar, FormToolbar } from './Toolbars';
 import { routes } from '../../routes';
 import EmployeeInfoToolbar from './Toolbars/EmployeeInfoToolbar';
 import HomeToolbar from './Toolbars/HomeToolbar';
+import { withRouter, RouteComponentProps, Route, Switch } from 'react-router';
 
 interface IProps {
-  location: any;
-  history: any;
   onOpenDrawer?: (e: any) => void;
 }
-const Toolbar: FC<IProps> = props => {
-  const { location, history, onOpenDrawer } = props;
+const Toolbar: FC<RouteComponentProps & IProps> = props => {
+  const { location, history, match, onOpenDrawer } = props;
+  return (
+    <>
+      <div>You are now at {location.pathname}</div>
+      <Switch>
+        <Route
+          path={routes.SMS_LOG}
+          render={() => (
+            <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
+          )}
+        />
+        <Route
+          path={routes.EMPLOYER_FORM}
+          render={() => <FormToolbar onCancel={history.goBack} pageTitle="Ρυθμίσεις" />}
+        />
+        <Route
+          path={routes.EMPLOYEE_FORM}
+          render={() => (
+            <FormToolbar pageTitle="Δημιουργία υπαλλήλου" onCancel={history.goBack} />
+          )}
+        />
+        <Route
+          path={routes.EMPLOYEE_LIST}
+          render={() => (
+            <HomeToolbar onOpenDrawer={onOpenDrawer} pageTitle="Υπάλληλοι" />
+          )}
+        />
+        <Route
+          path={routes.E8FORM}
+          render={() => (
+            <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
+          )}
+        />
+      </Switch>
+    </>
+  );
+  // TODO
   switch (location.pathname) {
-    case routes.SMS_LOG:
-      return (
-        <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history && history.goBack} />
-      );
-    case routes.EMPLOYER_FORM:
-      return <FormToolbar onCancel={history && history.goBack} pageTitle="Ρυθμίσεις" />;
     case routes.EMPLOYEE_INFO:
       return (
         <EmployeeInfoToolbar
@@ -28,20 +57,7 @@ const Toolbar: FC<IProps> = props => {
           workHours="08:00 - 16:00"
         />
       );
-    case routes.EMPLOYEE_FORM:
-      return (
-        <FormToolbar
-          pageTitle="Δημιουργία υπαλλήλου"
-          onCancel={history && history.goBack}
-        />
-      );
-    case routes.E8FORM:
-      return (
-        <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history && history.goBack} />
-      );
-    default:
-      return <HomeToolbar onOpenDrawer={onOpenDrawer} pageTitle="Υπάλληλοι" />;
   }
 };
 
-export default Toolbar; 
+export default withRouter(Toolbar);
