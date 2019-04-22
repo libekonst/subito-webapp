@@ -5,7 +5,7 @@ import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import DateFnsUtils from '@date-io/date-fns';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import SmsLog from './screens/SmsLog';
 import EmployeeList from './screens/EmployeeList';
 import EmployeeInfo from './screens/EmployeeInfo';
@@ -42,7 +42,7 @@ function App() {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Router>
+          <Router basename="/subito-webapp">
             <div className="App">
               <Route
                 path="/"
@@ -54,16 +54,19 @@ function App() {
                   />
                 )}
               />
-              <Route
-                path="/"
-                exact
-                render={props => <EmployeeList employees={employees} {...props} />}
-              />
-              <Route path="/smsLog/" component={SmsLog} />
-              <Route path="/employeeInfo/" component={EmployeeInfo} />
-              <Route path="/employeeForm/" component={EmployeeForm} />
-              <Route path="/employerForm/" component={EmployerForm} />
-              <Route path="/e8Form/" component={E8Form} />
+              <Switch>
+                <Route
+                  path="/employeeList"
+                  render={props => <EmployeeList employees={employees} {...props} />}
+                />
+                {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
+                <Route path="/smsLog/" component={SmsLog} />
+                <Route path="/employeeInfo/" component={EmployeeInfo} />
+                <Route path="/employeeForm/" component={EmployeeForm} />
+                <Route path="/employerForm/" component={EmployerForm} />
+                <Route path="/e8Form/" component={E8Form} />
+                <Redirect to="/employeeList" />
+              </Switch>
             </div>
           </Router>
         </MuiPickersUtilsProvider>
