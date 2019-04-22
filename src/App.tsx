@@ -24,6 +24,9 @@ function App() {
   const employees: IEmployee[] = [
     { name: 'Χιοννίδης Ιωάννης', vat: '105356894' },
     { name: 'Ταργαρίδη Δανάη', vat: '105356894' },
+    { name: 'Φλοίσβου Μαρίνα', vat: '105356894' },
+    { name: 'Ντάβος Σερ', vat: '105356894' },
+    { name: 'Ιωαννίνων Λίμνη', vat: '105356894' },
   ];
 
   const [drawerState, setDrawerState] = useState(false);

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
-import { Redirect, withRouter, RouteComponentProps, Route, Switch } from 'react-router';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps {
   employee?: IEmployee;
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
-  const { location, history, match, employee } = props;
+  const { location } = props;
 
   if (!props.employee && !location.state) return <Redirect to="/" />;
   // if (!location.state.vat) return <Redirect to="/" />;

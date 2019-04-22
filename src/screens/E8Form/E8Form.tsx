@@ -13,6 +13,7 @@ import BottomMessageTile from './BottomMessageTile';
 import { IEmployee } from '../../interfaces/IEmployee';
 import WorkHourPicker from '../../components/WorkHourPicker';
 import { addMinutes } from 'date-fns';
+import { Redirect, withRouter, RouteComponentProps, Route, Switch } from 'react-router';
 
 interface IProps extends WithStyles<typeof styles> {
   history?: any;
@@ -23,7 +24,9 @@ interface IState {
   duration: string;
 }
 
-const E8Form: FC<IProps> = props => {
+const E8Form: FC<IProps & RouteComponentProps> = props => {
+  const { match, location, history } = props;
+
   const [state, setState] = useState<IState>({
     value: 'submitNew',
     duration: '30 λεπτά',
@@ -75,14 +78,8 @@ const E8Form: FC<IProps> = props => {
   return (
     <section className={props.classes.section}>
       <ExpandableListTile
-        employee={
-          {
-            name: 'Γιάννης Χιονίδης',
-            vat: '104957382',
-            workStart: '08:00',
-            workFinish: '14:00',
-          } as IEmployee
-        }
+        employee={location.state}
+        goBack={history.goBack}
         divider
         button
       />
@@ -128,4 +125,4 @@ const styles = (theme: Theme) =>
     },
   });
 
-export default withStyles(styles)(E8Form);
+export default withStyles(styles)(withRouter(E8Form));

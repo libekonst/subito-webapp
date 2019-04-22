@@ -32,9 +32,18 @@ const EmployeeListItem: FC<IProps> = props => {
       }}
     />
   );
-
+  const EmployeeE8Link = (props: any) => (
+    <Link
+      {...props}
+      to={{
+        pathname: routes.E8FORM,
+        search: `?vat=${employee.vat}`,
+        state: employee,
+      }}
+    />
+  );
   return (
-    <ListItem button>
+    <ListItem button component={EmployeeE8Link}>
       <ListItemAvatar>
         <Avatar>{initial || <PersonIcon />}</Avatar>
       </ListItemAvatar>
