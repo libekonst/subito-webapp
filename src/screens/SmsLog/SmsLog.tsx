@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
-import { IE8Sms } from '../../interfaces/IE8Sms';
+import { IE8Sms } from '../../interfaces';
 
 interface IProps {
   history: any;

@@ -12,7 +12,7 @@ import EmployeeInfo from './screens/EmployeeInfo';
 import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
-import { IEmployee } from './interfaces/IEmployee';
+import { IEmployee, IE8Sms, IEmployer, IE8Form } from './interfaces';
 import AppShell from './components/AppShell/AppShell';
 
 const theme = createMuiTheme({
@@ -28,6 +28,14 @@ function App() {
 
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
+
+  // Form states. Lift each screen's form state here.
+  const [employeeFormState, setEmployeeFormState] = useState<Partial<IEmployee>>({});
+  const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
+  const [e8FormState, setE8FormState] = useState<Partial<IE8Form>>({});
+  const handleSubmitEmployeeForm = () => null;
+  const handleSubmitEmployerForm = () => null;
+  const handleSubmitE8Form = () => null;
 
   return (
     <>
