@@ -9,6 +9,9 @@ import MoreIcon from '@material-ui/icons/ChevronRight';
 import PersonIcon from '@material-ui/icons/Person';
 import { createStyles, withStyles } from '@material-ui/core';
 import { IEmployee } from '../../interfaces/IEmployee';
+import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
+import { Link } from 'react-router-dom';
+import { routes } from '../../routes';
 
 const styles = (theme: any) => createStyles({});
 
@@ -18,15 +21,26 @@ interface IProps {
 }
 const EmployeeListItem: FC<IProps> = props => {
   const { employee } = props;
-  const initial = employee.name.trimStart()[0];
+  const initial = toUpperCaseInitial(employee.name);
+  const EmployeeInfoLink = (props: any) => (
+    <Link
+      {...props}
+      to={{
+        pathname: routes.EMPLOYEE_INFO,
+        search: `?vat=${employee.vat}`,
+        state: employee,
+      }}
+    />
+  );
+
   return (
     <ListItem button>
       <ListItemAvatar>
-        <Avatar>{initial ? initial.toUpperCase() : <PersonIcon />}</Avatar>
+        <Avatar>{initial || <PersonIcon />}</Avatar>
       </ListItemAvatar>
       <ListItemText primary={employee.name} secondary={employee.vat} />
       <ListItemSecondaryAction>
-        <IconButton>
+        <IconButton component={EmployeeInfoLink}>
           <MoreIcon />
         </IconButton>
       </ListItemSecondaryAction>
