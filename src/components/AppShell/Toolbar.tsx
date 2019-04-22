@@ -10,41 +10,35 @@ interface IProps {
 }
 const Toolbar: FC<RouteComponentProps & IProps> = props => {
   const { location, history, match, onOpenDrawer } = props;
+  const SmsLogToolbar = () => (
+    <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
+  );
+  const EmployerFormToolbar = () => (
+    <FormToolbar onCancel={history.goBack} pageTitle="Ρυθμίσεις" />
+  );
+  const EmployeeFormToolbar = () => (
+    <FormToolbar pageTitle="Δημιουργία υπαλλήλου" onCancel={history.goBack} />
+  );
+  const EmployeeListToolbar = () => (
+    <HomeToolbar onOpenDrawer={onOpenDrawer} pageTitle="Υπάλληλοι" />
+  );
+  const E8Toolbar = () => (
+    <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
+  );
+
   return (
     <>
       <div>You are now at {location.pathname}</div>
       <Switch>
-        <Route
-          path={routes.SMS_LOG}
-          render={() => (
-            <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
-          )}
-        />
-        <Route
-          path={routes.EMPLOYER_FORM}
-          render={() => <FormToolbar onCancel={history.goBack} pageTitle="Ρυθμίσεις" />}
-        />
-        <Route
-          path={routes.EMPLOYEE_FORM}
-          render={() => (
-            <FormToolbar pageTitle="Δημιουργία υπαλλήλου" onCancel={history.goBack} />
-          )}
-        />
-        <Route
-          path={routes.EMPLOYEE_LIST}
-          render={() => (
-            <HomeToolbar onOpenDrawer={onOpenDrawer} pageTitle="Υπάλληλοι" />
-          )}
-        />
-        <Route
-          path={routes.E8FORM}
-          render={() => (
-            <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
-          )}
-        />
+        <Route path={routes.SMS_LOG} render={SmsLogToolbar} />
+        <Route path={routes.EMPLOYER_FORM} render={EmployerFormToolbar} />
+        <Route path={routes.EMPLOYEE_FORM} render={EmployeeFormToolbar} />
+        <Route path={routes.EMPLOYEE_LIST} render={EmployeeListToolbar} />
+        <Route path={routes.E8FORM} render={E8Toolbar} />
       </Switch>
     </>
   );
+
   // TODO
   switch (location.pathname) {
     case routes.EMPLOYEE_INFO:

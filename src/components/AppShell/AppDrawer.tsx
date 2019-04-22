@@ -23,6 +23,7 @@ const useStyles = makeStyles({
 const LinkToSmsLog = (props: any) => <Link to={routes.SMS_LOG} {...props} />;
 const LinkToEmployeeInfo = (props: any) => <Link to={routes.EMPLOYEE_INFO} {...props} />;
 const LinkToEmployeeForm = (props: any) => <Link to={routes.EMPLOYEE_FORM} {...props} />;
+const LinkToEmployeeList = (props: any) => <Link to={routes.EMPLOYEE_LIST} {...props} />;
 const LinkToE8Form = (props: any) => <Link to={routes.E8FORM} {...props} />;
 const LinkToEmployerForm = (props: any) => <Link to={routes.EMPLOYER_FORM} {...props} />;
 
@@ -36,6 +37,9 @@ const AppDrawer: FC<IProps> = ({ isOpen, toggleOpen }) => {
   const sideList = (
     <div className={classes.list}>
       <List>
+        <ListItem button component={LinkToEmployeeList}>
+          <ListItemText primary="EmployeeList" />
+        </ListItem>
         <ListItem button component={LinkToSmsLog}>
           <ListItemText primary="SmsLog" />
         </ListItem>
