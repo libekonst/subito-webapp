@@ -3,7 +3,7 @@ import { default as MuiAppBar } from '@material-ui/core/AppBar';
 
 const AppBar: FC<{}> = props => {
   return (
-    <MuiAppBar position="sticky" color="primary">
+    <MuiAppBar position="sticky" color="default">
       {props.children}
     </MuiAppBar>
   );

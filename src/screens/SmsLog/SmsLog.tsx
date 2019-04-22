@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core/styles';
-import SmsList from '../EmployeeInfo/SmsList';
+import SmsList from '../../components/SmsList';
 import { green } from '@material-ui/core/colors';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/SaveAlt';
