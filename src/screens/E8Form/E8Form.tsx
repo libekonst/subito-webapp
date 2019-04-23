@@ -64,10 +64,10 @@ const E8Form: FC<IProps> = props => {
       </FormControl>
       {state.duration === 'Άλλο...' && (
         <WorkHourPicker
-          selectedDateStart={overtimeStart}
-          selectedDateFinish={overtimeFinish}
-          handleDateStartChange={handleOvertimeStart}
-          handleDateFinishChange={handleOvertimeFinish}
+          valueStart={overtimeStart}
+          valueFinish={overtimeFinish}
+          onChangeStart={handleOvertimeStart}
+          onChangeFinish={handleOvertimeFinish}
         />
       )}
     </>

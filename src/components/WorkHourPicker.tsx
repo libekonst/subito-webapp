@@ -6,60 +6,65 @@ import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 
 interface IProps extends WithStyles<typeof styles> {
-  title?: string;
-  selectedDateStart: Date;
-  handleDateStartChange: React.Dispatch<React.SetStateAction<Date>>;
-  selectedDateFinish: Date;
-  handleDateFinishChange: React.Dispatch<React.SetStateAction<Date>>;
+  valueStart: Date;
+  onChangeStart: React.Dispatch<React.SetStateAction<Date>>;
+  valueFinish: Date;
+  onChangeFinish: React.Dispatch<React.SetStateAction<Date>>;
+  labelStart?: React.ReactNode;
+  errorLabelStart?: React.ReactNode;
+  labelFinish?: React.ReactNode;
+  errorLabelFinish?: React.ReactNode;
+  errorStart?: boolean;
+  errorFinish?: boolean;
 }
 const WorkHourPicker: FC<IProps> = props => {
   const {
     classes,
-    title,
-    selectedDateStart,
-    handleDateStartChange,
-    selectedDateFinish,
-    handleDateFinishChange,
+    valueStart,
+    valueFinish,
+    onChangeStart,
+    onChangeFinish,
+    errorStart,
+    errorFinish,
+    labelStart,
+    errorLabelStart,
+    labelFinish,
+    errorLabelFinish,
   } = props;
 
   return (
-    <div className={classes.root}>
-      {title ? <Typography>{title}</Typography> : undefined}
-      <div className={classes.timeWrapper}>
-        <TimePicker
-          showTodayButton
-          todayLabel="now"
-          label="Έναρξη"
-          ampm={false}
-          value={selectedDateStart}
-          minutesStep={5}
-          onChange={handleDateStartChange}
-          margin="normal"
-          InputProps={{ className: classes.timeInput }}
-        />
-        <ArrowFwDIcon className={classes.timeArrow} />
-        <TimePicker
-          showTodayButton
-          todayLabel="now"
-          label="Λήξη"
-          ampm={false}
-          value={selectedDateFinish}
-          minutesStep={5}
-          onChange={handleDateFinishChange}
-          margin="normal"
-          InputProps={{ className: classes.timeInput }}
-        />
-      </div>
+    <div className={classes.timeWrapper}>
+      <TimePicker
+        label={errorLabelStart || labelStart}
+        error={errorStart}
+        value={valueStart}
+        showTodayButton
+        onChange={onChangeStart}
+        todayLabel="now"
+        ampm={false}
+        minutesStep={5}
+        margin="normal"
+        InputProps={{ className: classes.timeInput }}
+      />
+      <ArrowFwDIcon className={classes.timeArrow} />
+      <TimePicker
+        label={errorLabelFinish || labelFinish}
+        error={errorFinish}
+        value={valueFinish}
+        onChange={onChangeFinish}
+        showTodayButton
+        todayLabel="now"
+        ampm={false}
+        minutesStep={5}
+        margin="normal"
+        InputProps={{ className: classes.timeInput }}
+      />
     </div>
   );
 };
 
 const styles = (theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-      padding: 10,
-    },
     timeWrapper: {
       display: 'flex',
       flexDirection: 'row',

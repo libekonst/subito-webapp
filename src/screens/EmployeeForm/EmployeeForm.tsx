@@ -1,28 +1,31 @@
 import React, { FC, useState } from 'react';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
-import PersonIcon from '@material-ui/icons/Person';
 import WorkIcon from '@material-ui/icons/Work';
-import ButtonsAppBar from './ButtonsAppBar';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { TimePicker } from 'material-ui-pickers';
 import { format, addHours, setHours, setMinutes } from 'date-fns';
-import WorkHourPicker from '../../components/WorkHourPicker';
 import { stickyTopWithAppbar } from '../../styles/mixins';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import ArrowFwDIcon from '@material-ui/icons/ArrowForward';
+import WorkHourPicker from '../../components/WorkHourPicker';
 
 interface IProps extends WithStyles<typeof styles> {}
 const EmployeeForm: FC<IProps> = props => {
   const { classes } = props;
   const variant = 'standard';
+
   const date: Date = setMinutes(setHours(new Date(), 8), 0);
-  const [workStart, handleWorkStartChange] = useState(date);
-  const [workFinish, handleWorkFinishChange] = useState(addHours(workStart, 8));
+
+  const [workStart, setWorkStart] = useState(date);
+  const [workFinish, setWorkFinish] = useState(addHours(workStart, 8));
+
+  function handleWorkStart(e:any){
+    
+  }
   return (
     <>
       <List
@@ -65,10 +68,10 @@ const EmployeeForm: FC<IProps> = props => {
       >
         <ListItem key="WorkHour">
           <WorkHourPicker
-            selectedDateStart={workStart}
-            selectedDateFinish={workFinish}
-            handleDateStartChange={handleWorkStartChange}
-            handleDateFinishChange={handleWorkFinishChange}
+            valueStart={workStart}
+            valueFinish={workFinish}
+            onChangeStart={setWorkStart}
+            onChangeFinish={setWorkFinish}
           />
         </ListItem>
       </List>
@@ -92,13 +95,21 @@ const styles = (theme: Theme) =>
     textField: {
       width: '100%',
     },
-    infoTileWrapper: {
-      paddingLeft: theme.spacing.unit,
-      paddingRight: theme.spacing.unit,
+    timeWrapper: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyItems: 'space-between',
+      flexGrow: 1,
+      padding: 5,
     },
-    infoTile: {
-      border: `1px solid ${theme.palette.divider}`,
-      borderRadius: theme.spacing.unit,
+    timeInput: {
+      textAlign: 'center',
+      minWidth: 0,
+    },
+    timeArrow: {
+      marginTop: 35,
+      marginLeft: 20,
+      marginRight: 20,
     },
   });
 
