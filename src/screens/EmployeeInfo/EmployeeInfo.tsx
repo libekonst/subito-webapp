@@ -5,18 +5,17 @@ import { Redirect, withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps {
   employee?: IEmployee;
-  classes: any;
 }
 
-const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
-  const { location } = props;
+const EmployeeInfo: FC<IProps> = props => {
+  const { employee } = props;
 
-  if (!props.employee && !location.state) return <Redirect to="/" />;
+  // if (!props.employee && !location.state) return <Redirect to="/" />;
   // if (!location.state.vat) return <Redirect to="/" />;
 
   const smsFactory = () => ({
     employee: {
-      name: location.state.name,
+      name: employee ? employee.name : 'No employee found',
       vat: '104957382',
       workStart: '08:00',
       workFinish: '14:00',
@@ -33,4 +32,4 @@ const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
   return <SmsList smsList={list} />;
 };
 
-export default withRouter(EmployeeInfo);
+export default EmployeeInfo;

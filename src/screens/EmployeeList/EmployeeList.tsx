@@ -14,7 +14,7 @@ const EmployeeList: FC<IProps> = props => {
   return (
     <List className={classes.list}>
       {employees.map(e => (
-        <EmployeeListItem employee={e} />
+        <EmployeeListItem employee={e} key={e.vat} />
       ))}
     </List>
   );

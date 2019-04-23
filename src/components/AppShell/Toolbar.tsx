@@ -28,7 +28,7 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
 
   return (
     <>
-      <div>You are now at {location.pathname}</div>
+      <div>You are now at {location.pathname}{location.search}</div>
       <Switch>
         <Route path={routes.SMS_LOG} render={SmsLogToolbar} />
         <Route path={routes.EMPLOYER_FORM} render={EmployerFormToolbar} />

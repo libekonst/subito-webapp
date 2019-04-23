@@ -16,7 +16,6 @@ import { addMinutes } from 'date-fns';
 import { Redirect, withRouter, RouteComponentProps, Route, Switch } from 'react-router';
 
 interface IProps extends WithStyles<typeof styles> {
-  history?: any;
   employee?: IEmployee;
 }
 interface IState {
@@ -24,8 +23,8 @@ interface IState {
   duration: string;
 }
 
-const E8Form: FC<IProps & RouteComponentProps> = props => {
-  const { match, location, history } = props;
+const E8Form: FC<IProps> = props => {
+  const { employee } = props;
 
   const [state, setState] = useState<IState>({
     value: 'submitNew',
@@ -78,8 +77,8 @@ const E8Form: FC<IProps & RouteComponentProps> = props => {
   return (
     <section className={props.classes.section}>
       <ExpandableListTile
-        employee={location.state}
-        goBack={history.goBack}
+        employee={employee}
+        
         divider
         button
       />
@@ -112,7 +111,7 @@ const styles = (theme: Theme) =>
     },
     formControl: {
       margin: theme.spacing.unit * 2,
-      display: 'block',
+      display: 'block', 
     },
     chipsForm: {
       display: 'flex',
@@ -125,4 +124,4 @@ const styles = (theme: Theme) =>
     },
   });
 
-export default withStyles(styles)(withRouter(E8Form));
+export default withStyles(styles)(E8Form);

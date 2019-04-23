@@ -23,10 +23,11 @@ const theme = createMuiTheme({
 function App() {
   const employees: IEmployee[] = [
     { name: 'Χιοννίδης Ιωάννης', vat: '105356894' },
-    { name: 'Ταργαρίδη Δανάη', vat: '105356894' },
-    { name: 'Φλοίσβου Μαρίνα', vat: '105356894' },
-    { name: 'Ντάβος Σερ', vat: '105356894' },
-    { name: 'Ιωαννίνων Λίμνη', vat: '105356894' },
+    { name: 'Ταργαρίδη Δανάη', vat: '105326894' },
+    { name: 'Φλοίσβου Μαρίνα', vat: '105336894' },
+    { name: 'Ντάβος Σερ', vat: '105356897' },
+    { name: 'Ιωαννίνων Λίμνη', vat: '105056894' },
+    { name: '', vat: '205056894' },
   ];
 
   const [drawerState, setDrawerState] = useState(false);
@@ -60,14 +61,35 @@ function App() {
               <Switch>
                 <Route
                   path="/employeeList"
-                  render={props => <EmployeeList employees={employees} {...props} />}
+                  render={props => <EmployeeList employees={employees} />}
                 />
                 {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
-                <Route path="/employeeInfo/" component={EmployeeInfo} />
+                <Route
+                  path="/employeeInfo/"
+                  render={props => (
+                    <EmployeeInfo
+                      employee={employees.find(e =>
+                        props.location.search.includes(e.vat),
+                      )}
+                    />
+                  )}
+                />
                 <Route path="/employeeForm/" component={EmployeeForm} />
                 <Route path="/employerForm/" component={EmployerForm} />
-                <Route path="/e8Form/" component={E8Form} />
+                <Route
+                  path="/e8Form/"
+                  render={props => {
+                    console.log(props.history);
+                    return (
+                      <E8Form
+                        employee={employees.find(e =>
+                          props.location.search.includes(e.vat),
+                        )}
+                      />
+                    );
+                  }}
+                />
                 <Redirect to="/employeeList" />
               </Switch>
             </div>
