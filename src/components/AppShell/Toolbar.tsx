@@ -4,12 +4,15 @@ import { routes } from '../../routes';
 import EmployeeInfoToolbar from './Toolbars/EmployeeInfoToolbar';
 import HomeToolbar from './Toolbars/HomeToolbar';
 import { withRouter, RouteComponentProps, Route, Switch } from 'react-router';
+import { IEmployee } from '../../interfaces';
+import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
 
 interface IProps {
   onOpenDrawer?: (e: any) => void;
+  employee?: IEmployee;
 }
 const Toolbar: FC<RouteComponentProps & IProps> = props => {
-  const { location, history, match, onOpenDrawer } = props;
+  const { location, history, employee, match, onOpenDrawer } = props;
   const SmsLogToolbar = () => (
     <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
   );
@@ -25,33 +28,33 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
   const E8Toolbar = () => (
     <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
   );
+  const RenderEmployeeInfoToolbar = () =>
+    employee && (
+      <EmployeeInfoToolbar
+        onGoBack={history.goBack}
+        employeeName={employee.name}
+        initials={toUpperCaseInitial(employee.name)}
+        vatNumber={employee.vat}
+        workHours="08:00 - 16:00"
+      />
+    );
 
   return (
     <>
-      <div>You are now at {location.pathname}{location.search}</div>
       <Switch>
         <Route path={routes.SMS_LOG} render={SmsLogToolbar} />
         <Route path={routes.EMPLOYER_FORM} render={EmployerFormToolbar} />
         <Route path={routes.EMPLOYEE_FORM} render={EmployeeFormToolbar} />
         <Route path={routes.EMPLOYEE_LIST} render={EmployeeListToolbar} />
+        <Route path={routes.EMPLOYEE_INFO} render={RenderEmployeeInfoToolbar} />
         <Route path={routes.E8FORM} render={E8Toolbar} />
       </Switch>
+      <div>
+        You are now at {location.pathname}
+        {location.search}
+      </div>
     </>
   );
-
-  // TODO
-  switch (location.pathname) {
-    case routes.EMPLOYEE_INFO:
-      return (
-        <EmployeeInfoToolbar
-          onGoBack={history && history.goBack}
-          employeeName="Γιάννης Χιονίδης"
-          initials="ΓΧ"
-          vatNumber="293845928"
-          workHours="08:00 - 16:00"
-        />
-      );
-  }
 };
 
 export default withRouter(Toolbar);

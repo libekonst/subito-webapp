@@ -42,7 +42,7 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
           primary={name}
           secondary={
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <Typography component="span" color="textSecondary">
+              <Typography color="textSecondary">
                 {`ΑΦΜ: ${vat}`}
               </Typography>
               {`${workStart || '00:00'} - ${workFinish || '00:00'}`}

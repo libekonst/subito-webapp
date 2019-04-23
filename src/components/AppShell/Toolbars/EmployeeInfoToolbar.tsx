@@ -19,6 +19,11 @@ const styles = (theme: any) =>
       display: 'flex',
       justifyContent: 'flex-end',
     },
+    listItem: {
+      justifySelf: 'flex-start',
+      flex: 1,
+      paddingLeft: 0,
+    },
     empInfo: {
       paddingLeft: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit,
@@ -47,7 +52,7 @@ interface IProps extends WithStyles<typeof styles> {
   employeeName: string;
   vatNumber: string;
   workHours: string;
-  initials: string;
+  initials?: string;
   onGoBack?: (e: any) => void;
 }
 
@@ -61,18 +66,52 @@ const EmployeeInfo: FC<IProps> = props => {
           <ArrowBackIcon />
         </LeftIconButton>
         <List className={classes.grow}>
-          <ListItem>
+          <ListItem className={classes.listItem} key={vatNumber}>
             <Avatar>{initials}</Avatar>
-            <ListItemText color="inherit" primary={employeeName} />
+            <ListItemText
+              color="inherit"
+              primary={employeeName}
+              secondary={
+                <>
+                  <Typography color="textSecondary">ΑΦΜ: {vatNumber}</Typography>
+                  <Typography color="textSecondary" className={classes.pos}>
+                    Ωράριο: {workHours}
+                  </Typography>
+                </>
+              }
+            />
           </ListItem>
         </List>
+        <div className={classes.secondaryActions}>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Delete">
+            <DeleteIcon />
+          </IconButton>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Edit">
+            <EditIcon />
+          </IconButton>
+        </div>
       </Toolbar>
       <Toolbar className={classes.secondToolbar}>
         <div className={classes.empInfo}>
-          <Typography color="inherit">ΑΦΜ: {vatNumber}</Typography>
+          {/* <Typography color="inherit">ΑΦΜ: {vatNumber}</Typography>
           <Typography color="inherit" className={classes.pos}>
             Ωράριο: {workHours}
-          </Typography>
+          </Typography> */}
+          <ListItem className={classes.listItem} key={vatNumber}>
+            <Avatar>{initials}</Avatar>
+            <ListItemText
+              color="inherit"
+              primary={employeeName}
+              secondary={
+                <>
+                  <Typography color="textSecondary">ΑΦΜ: {vatNumber}</Typography>
+                  <Typography color="textSecondary" className={classes.pos}>
+                    Ωράριο: {workHours}
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
         </div>
         <div className={classes.secondaryActions}>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Delete">

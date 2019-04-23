@@ -54,6 +54,9 @@ function App() {
                   <AppShell
                     toggleDrawerOpen={toggleDrawerState}
                     isDrawerOpen={drawerState}
+                    employee={employees.find(e =>
+                      props.location.search.includes(e.vat),
+                    )}
                     {...props}
                   />
                 )}
