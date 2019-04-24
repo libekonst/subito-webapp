@@ -37,24 +37,24 @@ const EmployeeForm: FC<IProps> = props => {
 
   const handleSubmit = (event: any) => {
     if (event) event.preventDefault();
-
     const theErrors = validateOnSubmit(values);
-    if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) {
-      return setErrors(theErrors);
-    }
 
     setErrors(theErrors);
+
+    if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) return;
+
     console.log({ ...values, workStart, workFinish });
   };
 
   const handleChange = (valueName: string) => (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    event.persist();
-    setValues(values => ({ ...values, [valueName]: event.target.value }));
+    const currentValues = { ...values, [valueName]: event.target.value };
+    const currentErrors = validateOnChange(currentValues);
+    setValues(currentValues);
+    setErrors(currentErrors);
   };
-  // Validate after every render, useEffect runs the callback after every render.
-  useEffect(() => setErrors(validateOnChange(values)));
+
   return (
     <>
       <List
