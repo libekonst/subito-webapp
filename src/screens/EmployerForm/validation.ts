@@ -2,7 +2,7 @@ import { IEmployerErrors, IEmployer } from '../../interfaces';
 
 export const isNumeric = /^\d+$/;
 
-export function getErrors(formValues: IEmployer) {
+export function validateInput(formValues: IEmployer) {
   let errors: IEmployerErrors = {};
   const { vat, name, ame, smsNumber } = formValues;
 
@@ -16,7 +16,7 @@ export function getErrors(formValues: IEmployer) {
   if (ame && ame.length !== 9) errors.ame = 'Ο ΑΦΜ αποτελείται από 9 αριθμούς';
 
   // name
-  if (!name) errors.name = 'Προσθέστε ονοματεπώνυμο.';
+  if (!name) errors.name = 'Προσθέστε ονοματεπώνυμο';
   if (name && name.length > 255) errors.name = 'Προσθέστε λιγότερους χαρακτήρες';
 
   // smsNumber

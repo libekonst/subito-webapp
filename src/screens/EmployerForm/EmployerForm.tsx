@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { stickyTopWithAppbar } from '../../styles/mixins';
 import { IEmployer, IEmployerErrors } from '../../interfaces';
-import { isNumeric, getErrors } from './validation';
+import { isNumeric, validateInput } from './validation';
 import Button from '@material-ui/core/Button';
 
 interface IProps extends WithStyles<typeof styles> {}
@@ -54,7 +54,7 @@ const EmployerForm: FC<IProps> = props => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const validationErrors = getErrors(values);
+    const validationErrors = validateInput(values);
     setErrors(validationErrors);
 
     if (Object.values(validationErrors).reduce((acc, val) => acc && val, true))
@@ -76,7 +76,14 @@ const EmployerForm: FC<IProps> = props => {
           <ListItemIcon>
             <AccountIcon />
           </ListItemIcon>
-          <TextField variant={variant} label="Όνομα" className={classes.textField} />
+          <TextField
+            value={values.name}
+            onChange={handleChange('name')}
+            error={!!errors.name}
+            label={errors.name || 'Ονοματεπώνυμο'}
+            variant={variant}
+            className={classes.textField}
+          />
         </ListItem>
         <ListItem key="employer-vat">
           <ListItemIcon>
@@ -85,9 +92,10 @@ const EmployerForm: FC<IProps> = props => {
           <TextField
             value={values.vat}
             onChange={handleChange('vat')}
+            error={!!errors.vat}
+            label={errors.vat || 'ΑΦΜ'}
             variant={variant}
             type="tel"
-            label="ΑΦΜ"
             className={classes.textField}
           />
         </ListItem>
@@ -96,11 +104,12 @@ const EmployerForm: FC<IProps> = props => {
             <WorkTwoToneIcon />
           </ListItemIcon>
           <TextField
-            onChange={handleChange('ame')}
             value={values.ame}
+            onChange={handleChange('ame')}
+            error={!!errors.ame}
+            label={errors.ame || 'ΑΜΕ (προαιρετικό)'}
             variant={variant}
             type="tel"
-            label="ΑΜΕ (προαιρετικό)"
             className={classes.textField}
           />
         </ListItem>
@@ -120,9 +129,10 @@ const EmployerForm: FC<IProps> = props => {
           <TextField
             value={values.smsNumber}
             onChange={handleChange('smsNumber')}
+            error={!!errors.smsNumber}
+            label={errors.smsNumber || 'Αριθμός Παραλήπτη'}
             variant={variant}
             type="tel"
-            label="Αριθμός Παραλήπτη"
             className={classes.textField}
           />
         </ListItem>
