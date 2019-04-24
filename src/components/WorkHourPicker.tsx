@@ -7,9 +7,9 @@ import { Typography } from '@material-ui/core';
 
 interface IProps extends WithStyles<typeof styles> {
   valueStart: Date;
-  onChangeStart: React.Dispatch<React.SetStateAction<Date>>;
+  onChangeStart: (date: Date) => any;
   valueFinish: Date;
-  onChangeFinish: React.Dispatch<React.SetStateAction<Date>>;
+  onChangeFinish: (date: Date) => any;
   labelStart?: React.ReactNode;
   errorLabelStart?: React.ReactNode;
   labelFinish?: React.ReactNode;
@@ -70,14 +70,14 @@ const styles = (theme: Theme) =>
       flexDirection: 'row',
       justifyItems: 'space-between',
       flexGrow: 1,
-      padding: 5,
+      padding: 10,
     },
     timeInput: {
       textAlign: 'center',
       minWidth: 0,
     },
     timeArrow: {
-      marginTop: 35,
+      marginTop: 20,
       marginLeft: 20,
       marginRight: 20,
     },
