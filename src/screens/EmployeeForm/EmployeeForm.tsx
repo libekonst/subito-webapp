@@ -12,9 +12,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import WorkHourPicker from '../../components/WorkHourPicker';
 import validateOnChange, {
   shouldType,
+  validateOnSubmit,
 } from '../../FormsValidations/employeeFormValidations';
 import { IEmployee } from '../../interfaces';
 import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
+import Button from '@material-ui/core/Button';
 
 interface IProps extends WithStyles<typeof styles> {}
 const EmployeeForm: FC<IProps> = props => {
@@ -33,27 +35,27 @@ const EmployeeForm: FC<IProps> = props => {
   const [workStart, setWorkStart] = useState(date);
   const [workFinish, setWorkFinish] = useState(addHours(date, 8));
 
-  // const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleSubmit = (event: any) => {
+    if (event) event.preventDefault();
 
-  // useEffect(() => {
-  //   if (Object.keys(errors).length === 0 && isSubmitting) {
-  //     // callback();
-  //   }
-  // }, [errors]);
+    const theErrors = validateOnSubmit(values);
+    if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) {
+      return setErrors(theErrors);
+    }
 
-  // const handleSubmit = (event: any) => {
-  //   if (event) event.preventDefault();
-  //   setErrors(validateOnSubmit(values));
-  //   setIsSubmitting(true);
-  // };
+    setErrors(theErrors)
+    console.log({ ...values, workStart, workFinish });
+  };
 
-  const handleChange = (valueName: string) => (event: any) => {
-    // event.persist();
-    // if (!shouldType(event.target.value, valueName)) return;
-    setValues(values => ({ ...values, [valueName]: event.currentTarget.value }));
+  const handleChange = (valueName: string) => (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    event.persist();
+    setValues(values => ({ ...values, [valueName]: event.target.value }));
   };
   return (
     <>
+      
       <List
         className={classes.list}
         subheader={
@@ -109,6 +111,7 @@ const EmployeeForm: FC<IProps> = props => {
           />
         </ListItem>
       </List>
+      <Button onClick={handleSubmit}>ΣΑΜΠ ΜΙΤ</Button>
     </>
   );
 };
