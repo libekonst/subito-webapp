@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import WorkIcon from '@material-ui/icons/Work';
 import TextField from '@material-ui/core/TextField';
@@ -43,7 +43,7 @@ const EmployeeForm: FC<IProps> = props => {
       return setErrors(theErrors);
     }
 
-    setErrors(theErrors)
+    setErrors(theErrors);
     console.log({ ...values, workStart, workFinish });
   };
 
@@ -53,9 +53,10 @@ const EmployeeForm: FC<IProps> = props => {
     event.persist();
     setValues(values => ({ ...values, [valueName]: event.target.value }));
   };
+  // Validate after every render, useEffect runs the callback after every render.
+  useEffect(() => setErrors(validateOnChange(values)));
   return (
     <>
-      
       <List
         className={classes.list}
         subheader={
