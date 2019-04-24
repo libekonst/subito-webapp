@@ -12,38 +12,88 @@ import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 import { IEmployee } from '../../interfaces/IEmployee';
 import WorkHourPicker from '../../components/WorkHourPicker';
-import { addMinutes } from 'date-fns';
+import { addMinutes, isAfter, isBefore, differenceInMinutes } from 'date-fns';
+
+const durationOptions = [
+  { key: 0, label: '30 λεπτά', duration: 30 },
+  { key: 1, label: '1 ώρα', duration: 60 },
+  { key: 2, label: '1 ώρα, 30 λεπτά', duration: 90 },
+  { key: 3, label: '2 ώρες', duration: 120 },
+  { key: 4, label: '2 ώρες, 30 λεπτά', duration: 150 },
+  { key: 5, label: '3 ώρες', duration: 180 },
+  { key: 6, label: 'Άλλο...' },
+];
 
 interface IProps extends WithStyles<typeof styles> {
   history?: any;
   employee?: IEmployee;
 }
-interface IState {
-  value: 'submitNew' | 'submitCancelPrevious';
-  duration: string;
-}
 
 const E8Form: FC<IProps> = props => {
-  const [state, setState] = useState<IState>({
-    value: 'submitNew',
-    duration: '30 λεπτά',
+  const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
+  const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
+
+  const [submitionType, setSubmitType] = useState('submitNew');
+  const selectSubmitionType = (e: any) => setSubmitType(e.target.value);
+
+  const [durationLabel, setDurationLabel] = useState(durationOptions[0].label);
+
+  const handleChangeDuration = (duration?: number) => (event: any) => {
+    if (!duration) return setDurationLabel(durationOptions[6].label);
+
+    // find the durationOption
+    // store it to set the durationLabel in the next lines.
+    const durOpt = durationOptions.find(el => el.duration === duration);
+    if (!durOpt) return;
+
+    setDurationLabel(durOpt.label);
+
+    // with validate()
+    // handleChangeOvertimeFinish(addMinutes(overtimeStart, duration));
+
+    // without validate()
+    setOvertimeFinish(addMinutes(overtimeStart, duration));
+  };
+  const handleChangeOvertimeStart = (date: Date) => {
+    setOvertimeStart(date);
+    validate();
+  };
+  const handleChangeOvertimeFinish = (date: Date) => {
+    setOvertimeFinish(date);
+    validate();
+  };
+
+  const [errors, setErrors] = useState({
+    overtimeStart: '',
+    overtimeFinish: '',
   });
-  const selectSubmitionType = (e: any) => setState({ ...state, value: e.target.value });
-  const selectDuration = (value: string) => () =>
-    setState({ ...state, duration: value });
+  const validate = () => {
+    let currentErrors = { overtimeStart: '', overtimeFinish: '' };
 
-  const [overtimeStart, handleOvertimeStart] = useState(addMinutes(new Date(), 5));
-  const [overtimeFinish, handleOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
+    // overtimeStart > overtimeFinish
+    if (isAfter(overtimeStart, overtimeFinish))
+      currentErrors.overtimeStart =
+        'Η έναρξη της υπερωρίας πρέπει να είναι μετά την λήξη';
 
-  const durationOptions = [
-    { key: 0, value: '30 λεπτά' },
-    { key: 1, value: '1 ώρα' },
-    { key: 2, value: '1 ώρα, 30 λεπτά' },
-    { key: 3, value: '2 ώρες' },
-    { key: 4, value: '2 ώρες, 30 λεπτά' },
-    { key: 5, value: '3 ώρες' },
-    { key: 6, value: 'Άλλο...' },
-  ];
+    // overtimeStart < employee.workFinish
+    if (isBefore(overtimeStart, props.employee!.workFinish))
+      currentErrors.overtimeStart =
+        'Η έναρξη της υπερωρίας πρέπει να είναι μετά τη λήξη της εργασίας';
+
+    // overtimeStart  > Date.now
+    if (isAfter(overtimeStart, Date.now()))
+      currentErrors.overtimeStart =
+        'Η έναρξη της υπερωρίας πρέπει να είναι μετά την ώρα που υποβάλεται η δήλωση';
+
+    // overtimeFinish - overtimeStart > 180 minutes
+    if (differenceInMinutes(overtimeFinish, overtimeStart) > 180)
+      currentErrors.overtimeFinish =
+        'Η διάρκια της υπερωρίας δεν μπορεί να υπερβαίνει τις 3 ώρες';
+
+    setErrors(currentErrors);
+  };
+
+  // JSX
   const newSubmition = (
     <>
       <FormControl className={`${props.classes.formControl} `}>
@@ -53,21 +103,20 @@ const E8Form: FC<IProps> = props => {
             <Chip
               className={props.classes.chip}
               key={option.key}
-              // color={option.value === state.duration ? 'secondary' : 'primary'}
               color="primary"
-              label={option.value}
-              onClick={selectDuration(option.value)}
-              variant={state.duration === option.value ? 'default' : 'outlined'}
+              label={option.label}
+              onClick={handleChangeDuration(option.duration)}
+              variant={durationLabel === option.label ? 'default' : 'outlined'}
             />
           ))}
         </div>
       </FormControl>
-      {state.duration === 'Άλλο...' && (
+      {durationLabel === 'Άλλο...' && (
         <WorkHourPicker
           valueStart={overtimeStart}
           valueFinish={overtimeFinish}
-          onChangeStart={handleOvertimeStart}
-          onChangeFinish={handleOvertimeFinish}
+          onChangeStart={handleChangeOvertimeStart}
+          onChangeFinish={handleChangeOvertimeFinish}
         />
       )}
     </>
@@ -91,7 +140,7 @@ const E8Form: FC<IProps> = props => {
         <RadioGroup
           aria-label="Submition type"
           name="submitionType"
-          value={state.value}
+          value={submitionType}
           onChange={selectSubmitionType}
         >
           <FormControlLabel value="submitNew" control={<Radio />} label="Νέα υποβολή" />
@@ -102,7 +151,7 @@ const E8Form: FC<IProps> = props => {
           />
         </RadioGroup>
       </FormControl>
-      {state.value === 'submitNew' ? newSubmition : <CancelSubmitionInfoCard />}
+      {submitionType === 'submitNew' ? newSubmition : <CancelSubmitionInfoCard />}
       <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
     </section>
   );
