@@ -23,7 +23,7 @@ const EmployeeInfo: FC<IProps> = props => {
       <Toolbar className={classes.mainToolbar}>
         <LeftIconButton
           onClick={onGoBack}
-          color="primary"
+          color="inherit"
           aria-label="Πίσω"
           title="Πίσω"
         >

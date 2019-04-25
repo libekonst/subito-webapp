@@ -27,7 +27,7 @@ const FormToolbar: FC<IProps> = props => {
       {/* <Button color="inherit">ΑΠΟΘΗΚΕΥΣΗ</Button> */}
       <IconButton
         onClick={onSubmit}
-        color="inherit"
+        color="primary"
         aria-label="Αποθήκευση"
         title="Αποθήκευση"
       >
