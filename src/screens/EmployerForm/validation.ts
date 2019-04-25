@@ -13,7 +13,7 @@ export function validateInput(formValues: IEmployer) {
 
   // ame
   if (ame && !isNumeric.test(ame)) errors.ame = 'Ο ΑΜΕ αποτελείται μόνο απο αριθμούς';
-  if (ame && ame.length !== 9) errors.ame = 'Ο ΑΦΜ αποτελείται από 9 αριθμούς';
+  if (ame && ame.length !== 10) errors.ame = 'Ο ΑΦΜ αποτελείται από 10 αριθμούς';
 
   // name
   if (!name) errors.name = 'Προσθέστε ονοματεπώνυμο';
