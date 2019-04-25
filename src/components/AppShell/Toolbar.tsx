@@ -29,15 +29,7 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
     <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
   );
   const RenderEmployeeInfoToolbar = () =>
-    employee && (
-      <EmployeeInfoToolbar
-        onGoBack={history.goBack}
-        employeeName={employee.name}
-        initials={toUpperCaseInitial(employee.name)}
-        vatNumber={employee.vat}
-        workHours="08:00 - 16:00"
-      />
-    );
+    employee && <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />;
 
   return (
     <>
@@ -49,10 +41,10 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
         <Route path={routes.EMPLOYEE_INFO} render={RenderEmployeeInfoToolbar} />
         <Route path={routes.E8FORM} render={E8Toolbar} />
       </Switch>
-      <div>
+      {/* <div>
         You are now at {location.pathname}
         {location.search}
-      </div>
+      </div> */}
     </>
   );
 };

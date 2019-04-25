@@ -35,17 +35,17 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   if (employee) initial = toUpperCaseInitial(employee.name);
 
   return (
-    <List>
+    <div style={{ flex: 1 }}>
       <ListItem {...rest} onClick={!employee ? goBack : toggleExpand}>
         <Avatar>{initial || <PersonIcon />}</Avatar>
         <ListItemText
           primary={name}
           secondary={
             <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
               <Typography color="textSecondary">
-                {`ΑΦΜ: ${vat}`}
+                {`${workStart || '00:00'} - ${workFinish || '00:00'}`}
               </Typography>
-              {`${workStart || '00:00'} - ${workFinish || '00:00'}`}
             </Collapse>
           }
         />
@@ -55,7 +55,8 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
-    </List>
+    </div>
   );
 }
+
 export default ExpandableListTile;
