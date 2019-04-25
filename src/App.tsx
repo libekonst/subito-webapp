@@ -89,6 +89,7 @@ function App() {
                         employee={employees.find(e =>
                           props.location.search.includes(e.vat),
                         )}
+                        onGoBack={props.history.goBack}
                       />
                     );
                   }}

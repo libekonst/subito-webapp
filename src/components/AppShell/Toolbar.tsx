@@ -25,9 +25,9 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
   const EmployeeListToolbar = () => (
     <HomeToolbar onOpenDrawer={onOpenDrawer} pageTitle="Υπάλληλοι" />
   );
-  const E8Toolbar = () => (
-    <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
-  );
+  // const E8Toolbar = () => (
+  //   <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={history.goBack} />
+  // );
   const RenderEmployeeInfoToolbar = () =>
     employee && <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />;
 
@@ -39,7 +39,7 @@ const Toolbar: FC<RouteComponentProps & IProps> = props => {
         <Route path={routes.EMPLOYEE_FORM} render={EmployeeFormToolbar} />
         <Route path={routes.EMPLOYEE_LIST} render={EmployeeListToolbar} />
         <Route path={routes.EMPLOYEE_INFO} render={RenderEmployeeInfoToolbar} />
-        <Route path={routes.E8FORM} render={E8Toolbar} />
+        {/* <Route path={routes.E8FORM} render={E8Toolbar} /> */}
       </Switch>
       {/* <div>
         You are now at {location.pathname}

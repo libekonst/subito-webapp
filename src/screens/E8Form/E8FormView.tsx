@@ -10,6 +10,8 @@ import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 
 import NewSubmition from './NewSubmition';
+import { DeadEndToolbar } from '../../components/AppShell/Toolbars';
+import AppBar from '../../components/AppShell/AppBar';
 
 interface IProps extends WithStyles<typeof styles> {
   durationLabel: any;
@@ -23,6 +25,7 @@ interface IProps extends WithStyles<typeof styles> {
   selectSubmitionType: any;
   errors: any;
   durationOptions: any[];
+  onGoBack?: (e: any) => void;
 }
 
 const E8FormView: FC<IProps> = props => {
@@ -38,45 +41,56 @@ const E8FormView: FC<IProps> = props => {
     submitionType,
     selectSubmitionType,
     durationOptions,
+    onGoBack,
   } = props;
 
   return (
-    <section className={classes.section}>
-      <ExpandableListTile employee={employee} divider button />
-      <FormControl className={classes.formControl}>
-        <FormLabel>Τύπος υποβολής</FormLabel>
-        <RadioGroup
-          aria-label="Submition type"
-          name="submitionType"
-          value={submitionType}
-          onChange={selectSubmitionType}
-        >
-          <FormControlLabel value="submitNew" control={<Radio />} label="Νέα υποβολή" />
-          <FormControlLabel
-            value="submitCancelPrevious"
-            control={<Radio />}
-            label="Ακύρωση τελευταίας υποβολής"
+    <>
+      <AppBar>
+        <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={onGoBack} />
+      </AppBar>
+
+      <section className={classes.section}>
+        <ExpandableListTile employee={employee} divider button />
+        <FormControl className={classes.formControl}>
+          <FormLabel>Τύπος υποβολής</FormLabel>
+          <RadioGroup
+            aria-label="Submition type"
+            name="submitionType"
+            value={submitionType}
+            onChange={selectSubmitionType}
+          >
+            <FormControlLabel
+              value="submitNew"
+              control={<Radio />}
+              label="Νέα υποβολή"
+            />
+            <FormControlLabel
+              value="submitCancelPrevious"
+              control={<Radio />}
+              label="Ακύρωση τελευταίας υποβολής"
+            />
+          </RadioGroup>
+        </FormControl>
+        {submitionType === 'submitNew' ? (
+          <NewSubmition
+            {...{
+              classes,
+              durationLabel,
+              handleChangeDuration,
+              overtimeStart,
+              overtimeFinish,
+              handleChangeOvertimeStart,
+              handleChangeOvertimeFinish,
+              durationOptions,
+            }}
           />
-        </RadioGroup>
-      </FormControl>
-      {submitionType === 'submitNew' ? (
-        <NewSubmition
-          {...{
-            classes,
-            durationLabel,
-            handleChangeDuration,
-            overtimeStart,
-            overtimeFinish,
-            handleChangeOvertimeStart,
-            handleChangeOvertimeFinish,
-            durationOptions,
-          }}
-        />
-      ) : (
-        <CancelSubmitionInfoCard />
-      )}
-      <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
-    </section>
+        ) : (
+          <CancelSubmitionInfoCard />
+        )}
+        <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
+      </section>
+    </>
   );
 };
 

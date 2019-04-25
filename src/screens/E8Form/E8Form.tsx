@@ -15,6 +15,7 @@ const durationOptions = [
 
 interface IProps {
   employee?: IEmployee;
+  onGoBack?: (e: any) => void;
 }
 
 const E8Form: FC<IProps> = props => {
@@ -85,6 +86,7 @@ const E8Form: FC<IProps> = props => {
 
   return (
     <E8FormView
+      onGoBack={props.onGoBack}
       {...{
         durationLabel,
         handleChangeDuration,
@@ -96,7 +98,7 @@ const E8Form: FC<IProps> = props => {
         submitionType,
         selectSubmitionType,
         errors,
-        durationOptions
+        durationOptions,
       }}
     />
   );
