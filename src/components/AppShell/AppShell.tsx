@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import AppDrawer from './AppDrawer';
 import AppBar from './AppBar';
 import Toolbar from './Toolbar';
+import { IEmployee } from '../../interfaces';
 
-// 1. Dead end toolbar
-// 2. Employee name from state
-// 3. If no name, "Υπάλληλος"
 interface IProps {
   isDrawerOpen: boolean;
   location?: any;
   history?: any;
+  employee?: IEmployee;
   toggleDrawerOpen: (e: any) => void;
 }
 function AppShell(props: IProps) {
-  const { isDrawerOpen, toggleDrawerOpen, location, history } = props;
+  const { isDrawerOpen, toggleDrawerOpen } = props;
 
   return (
     <>
       <AppBar>
-        <Toolbar history={history} location={location} onOpenDrawer={toggleDrawerOpen} />
+        <Toolbar onOpenDrawer={toggleDrawerOpen} employee={props.employee} />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerOpen} isOpen={isDrawerOpen} />
     </>

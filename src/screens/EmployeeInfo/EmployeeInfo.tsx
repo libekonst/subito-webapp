@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps {
-  history?: any;
   employee?: IEmployee;
-  classes: any;
 }
 
 const EmployeeInfo: FC<IProps> = props => {
+  const { employee } = props;
+
+  // if (!props.employee && !location.state) return <Redirect to="/" />;
+  // if (!location.state.vat) return <Redirect to="/" />;
+
   const smsFactory = () => ({
     employee: {
-      name: 'Γιάννης Χιονίδης',
+      name: employee ? employee.name : 'No employee found',
       vat: '104957382',
       workStart: '08:00',
       workFinish: '14:00',
@@ -26,7 +29,6 @@ const EmployeeInfo: FC<IProps> = props => {
   const list: IE8Sms[] = Array(30)
     .fill(0)
     .map(smsFactory);
-  if (!props.employee) return <Redirect to="/" />;
   return <SmsList smsList={list} />;
 };
 

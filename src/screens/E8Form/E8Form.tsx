@@ -25,7 +25,6 @@ const durationOptions = [
 ];
 
 interface IProps extends WithStyles<typeof styles> {
-  history?: any;
   employee?: IEmployee;
 }
 
@@ -123,18 +122,7 @@ const E8Form: FC<IProps> = props => {
   );
   return (
     <section className={props.classes.section}>
-      <ExpandableListTile
-        employee={
-          {
-            name: 'Γιάννης Χιονίδης',
-            vat: '104957382',
-            workStart: '08:00',
-            workFinish: '14:00',
-          } as IEmployee
-        }
-        divider
-        button
-      />
+      <ExpandableListTile employee={props.employee} divider button />
       <FormControl className={props.classes.formControl}>
         <FormLabel>Τύπος υποβολής</FormLabel>
         <RadioGroup
