@@ -1,18 +1,7 @@
 import React, { FC, useState } from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
-
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Chip from '@material-ui/core/Chip';
-import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
-import ExpandableListTile from './ExpandableListTile';
-import BottomMessageTile from './BottomMessageTile';
 import { IEmployee } from '../../interfaces/IEmployee';
-import WorkHourPicker from '../../components/WorkHourPicker';
 import { addMinutes, isAfter, isBefore, differenceInMinutes } from 'date-fns';
+import E8FormView from './E8FormView';
 
 const durationOptions = [
   { key: 0, label: '30 λεπτά', duration: 30 },
@@ -24,11 +13,13 @@ const durationOptions = [
   { key: 6, label: 'Άλλο...' },
 ];
 
-interface IProps extends WithStyles<typeof styles> {
+interface IProps {
   employee?: IEmployee;
 }
 
 const E8Form: FC<IProps> = props => {
+  const { employee } = props;
+
   const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
 
@@ -92,77 +83,23 @@ const E8Form: FC<IProps> = props => {
     setErrors(currentErrors);
   };
 
-  // JSX
-  const newSubmition = (
-    <>
-      <FormControl className={`${props.classes.formControl} `}>
-        <FormLabel>Διάρκεια υπερωρίας</FormLabel>
-        <div className={props.classes.chipsForm}>
-          {durationOptions.map(option => (
-            <Chip
-              className={props.classes.chip}
-              key={option.key}
-              color="primary"
-              label={option.label}
-              onClick={handleChangeDuration(option.duration)}
-              variant={durationLabel === option.label ? 'default' : 'outlined'}
-            />
-          ))}
-        </div>
-      </FormControl>
-      {durationLabel === 'Άλλο...' && (
-        <WorkHourPicker
-          valueStart={overtimeStart}
-          valueFinish={overtimeFinish}
-          onChangeStart={handleChangeOvertimeStart}
-          onChangeFinish={handleChangeOvertimeFinish}
-        />
-      )}
-    </>
-  );
   return (
-    <section className={props.classes.section}>
-      <ExpandableListTile employee={props.employee} divider button />
-      <FormControl className={props.classes.formControl}>
-        <FormLabel>Τύπος υποβολής</FormLabel>
-        <RadioGroup
-          aria-label="Submition type"
-          name="submitionType"
-          value={submitionType}
-          onChange={selectSubmitionType}
-        >
-          <FormControlLabel value="submitNew" control={<Radio />} label="Νέα υποβολή" />
-          <FormControlLabel
-            value="submitCancelPrevious"
-            control={<Radio />}
-            label="Ακύρωση τελευταίας υποβολής"
-          />
-        </RadioGroup>
-      </FormControl>
-      {submitionType === 'submitNew' ? newSubmition : <CancelSubmitionInfoCard />}
-      <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
-    </section>
+    <E8FormView
+      {...{
+        durationLabel,
+        handleChangeDuration,
+        overtimeStart,
+        overtimeFinish,
+        handleChangeOvertimeStart,
+        handleChangeOvertimeFinish,
+        employee,
+        submitionType,
+        selectSubmitionType,
+        errors,
+        durationOptions
+      }}
+    />
   );
 };
 
-const styles = (theme: Theme) =>
-  createStyles({
-    section: {
-      paddingBottom: theme.spacing.unit * 10,
-    },
-    formControl: {
-      margin: theme.spacing.unit * 2,
-      display: 'block',
-    },
-    chipsForm: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      marginTop: theme.spacing.unit,
-    },
-    chip: {
-      margin: theme.spacing.unit,
-      fontSize: '1rem',
-    },
-  });
-
-export default withStyles(styles)(E8Form);
+export default E8Form;
