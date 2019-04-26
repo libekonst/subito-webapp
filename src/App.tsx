@@ -13,7 +13,6 @@ import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee, IE8Sms, IEmployer, IE8Form } from './interfaces';
-import AppShell from './components/AppShell/AppShell';
 
 const theme = createMuiTheme({
   typography: {
@@ -30,9 +29,6 @@ function App() {
     { name: '', vat: '205056894' },
   ];
 
-  const [drawerState, setDrawerState] = useState(false);
-  const toggleDrawerState = () => setDrawerState(!drawerState);
-
   // Form states. Lift each screen's form state here.
   const [employeeFormState, setEmployeeFormState] = useState<Partial<IEmployee>>({});
   const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
@@ -48,19 +44,6 @@ function App() {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Router basename="/subito-webapp">
             <div className="App">
-              <Route
-                path="/"
-                render={props => (
-                  <AppShell
-                    toggleDrawerOpen={toggleDrawerState}
-                    isDrawerOpen={drawerState}
-                    employee={employees.find(e =>
-                      props.location.search.includes(e.vat),
-                    )}
-                    {...props}
-                  />
-                )}
-              />
               <Switch>
                 <Route
                   path="/employeeList"

@@ -10,8 +10,7 @@ import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 
 import NewSubmition from './NewSubmition';
-import { DeadEndToolbar } from '../../components/AppShell/Toolbars';
-import AppBar from '../../components/AppShell/AppBar';
+import { DeadEndToolbar, AppBar } from '../../components/AppShell';
 
 interface IProps extends WithStyles<typeof styles> {
   durationLabel: any;
@@ -52,26 +51,28 @@ const E8FormView: FC<IProps> = props => {
 
       <section className={classes.section}>
         <ExpandableListTile employee={employee} divider button />
-        <FormControl className={classes.formControl}>
-          <FormLabel>Τύπος υποβολής</FormLabel>
-          <RadioGroup
-            aria-label="Submition type"
-            name="submitionType"
-            value={submitionType}
-            onChange={selectSubmitionType}
-          >
-            <FormControlLabel
-              value="submitNew"
-              control={<Radio />}
-              label="Νέα υποβολή"
-            />
-            <FormControlLabel
-              value="submitCancelPrevious"
-              control={<Radio />}
-              label="Ακύρωση τελευταίας υποβολής"
-            />
-          </RadioGroup>
-        </FormControl>
+        
+            <FormControl className={classes.formControl}>
+              <FormLabel>Τύπος υποβολής</FormLabel>
+              <RadioGroup
+                aria-label="Submition type"
+                name="submitionType"
+                value={submitionType}
+                onChange={selectSubmitionType}
+              >
+                <FormControlLabel
+                  value="submitNew"
+                  control={<Radio />}
+                  label="Νέα υποβολή"
+                />
+                <FormControlLabel
+                  value="submitCancelPrevious"
+                  control={<Radio />}
+                  label="Ακύρωση τελευταίας υποβολής"
+                />
+              </RadioGroup>
+            </FormControl>
+          
         {submitionType === 'submitNew' ? (
           <NewSubmition
             {...{

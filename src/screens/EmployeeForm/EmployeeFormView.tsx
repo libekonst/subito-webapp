@@ -11,7 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import WorkHourPicker from '../../components/WorkHourPicker';
 import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 import Button from '@material-ui/core/Button';
-
+import { AppBar, FormToolbar } from '../../components/AppShell';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps extends WithStyles<typeof styles> {
   errors: IEmployeeErrors;
@@ -24,7 +25,7 @@ interface IProps extends WithStyles<typeof styles> {
   handleSubmit: any;
 }
 
-const EmployeeFormView: FC<IProps> = props => {
+const EmployeeFormView: FC<IProps & RouteComponentProps> = props => {
   const variant = 'standard';
   const {
     classes,
@@ -36,14 +37,22 @@ const EmployeeFormView: FC<IProps> = props => {
     setWorkStart,
     setWorkFinish,
     handleSubmit,
+    history,
   } = props;
   return (
     <>
+      <AppBar color="primary">
+        <FormToolbar
+          pageTitle="Δημιουργία υπαλλήλου"
+          onCancel={history.goBack}
+          onSubmit={handleSubmit}
+        />
+      </AppBar>
       <List
         className={classes.list}
         subheader={
           <ListSubheader color="primary" className={classes.listHeader}>
-            Στοιχεία Υπαλλήλου
+            Στοιχεία υπαλλήλου
           </ListSubheader>
         }
       >
@@ -94,7 +103,6 @@ const EmployeeFormView: FC<IProps> = props => {
           />
         </ListItem>
       </List>
-      <Button onClick={handleSubmit}>ΣΑΜΠ ΜΙΤ</Button>
     </>
   );
 };
@@ -116,4 +124,4 @@ const styles = (theme: Theme) =>
     },
   });
 
-export default withStyles(styles)(EmployeeFormView);
+export default withStyles(styles)(withRouter(EmployeeFormView));

@@ -15,6 +15,8 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { stickyTopWithAppbar } from '../../styles/mixins';
 import { IEmployer, IEmployerErrors } from '../../interfaces';
 import Button from '@material-ui/core/Button';
+import { AppBar, FormToolbar } from '../../components/AppShell';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps extends WithStyles<typeof styles> {
   onChange: (val: keyof IEmployer) => (e: any) => void;
@@ -23,12 +25,15 @@ interface IProps extends WithStyles<typeof styles> {
   errors: IEmployerErrors;
 }
 
-const View: FC<IProps> = props => {
-  const { classes, onChange, onSubmit, errors, values } = props;
+const View: FC<IProps & RouteComponentProps> = props => {
+  const { classes, onChange, onSubmit, errors, values, history } = props;
   const variant = 'standard';
 
   return (
     <>
+      <AppBar color="primary">
+        <FormToolbar onCancel={history.goBack} onSubmit={onSubmit} pageTitle="Ρυθμίσεις" />
+      </AppBar>
       <List
         className={classes.list}
         subheader={
@@ -110,7 +115,6 @@ const View: FC<IProps> = props => {
           </ListItem>
         </div>
       </List>
-      <Button onClick={onSubmit}>ΣΑΜΠ ΜΙΤ</Button>
     </>
   );
 };
@@ -140,4 +144,4 @@ const styles = (theme: Theme) =>
     },
   });
 
-export default withStyles(styles)(View);
+export default withStyles(styles)(withRouter(View));

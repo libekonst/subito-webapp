@@ -1,12 +1,13 @@
 import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms } from '../../interfaces';
+import { withRouter, RouteComponentProps, Route, Switch } from 'react-router';
+import { AppBar, DeadEndToolbar } from '../../components/AppShell';
 
-interface IProps {
-  history: any;
-}
+interface IProps {}
 
-const SmsLog: FC<IProps> = () => {
+const SmsLog: FC<IProps & RouteComponentProps> = props => {
+  const { history } = props;
   const smsFactory = () => ({
     employee: {
       name: 'Γιάννης Χιονίδης',
@@ -23,7 +24,14 @@ const SmsLog: FC<IProps> = () => {
   const list: IE8Sms[] = Array(30)
     .fill(0)
     .map(smsFactory);
-  return <SmsList smsList={list} />;
+  return (
+    <>
+      <AppBar>
+        <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
+      </AppBar>
+      <SmsList smsList={list} />
+    </>
+  );
 };
 
-export default SmsLog;
+export default withRouter(SmsLog);

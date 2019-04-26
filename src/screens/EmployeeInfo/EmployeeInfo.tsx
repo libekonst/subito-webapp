@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 
 interface IProps {
   employee?: IEmployee;
 }
 
-const EmployeeInfo: FC<IProps> = props => {
-  const { employee } = props;
+const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
+  const { employee, history } = props;
 
   // if (!props.employee && !location.state) return <Redirect to="/" />;
   // if (!location.state.vat) return <Redirect to="/" />;
@@ -29,7 +30,17 @@ const EmployeeInfo: FC<IProps> = props => {
   const list: IE8Sms[] = Array(30)
     .fill(0)
     .map(smsFactory);
-  return <SmsList smsList={list} />;
+
+  return (
+    <>
+      {employee && (
+        <AppBar>
+          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />
+        </AppBar>
+      )}
+      <SmsList smsList={list} />
+    </>
+  );
 };
 
-export default EmployeeInfo;
+export default withRouter(EmployeeInfo);
