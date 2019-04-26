@@ -12,15 +12,19 @@ import ErrorIcon from '@material-ui/icons/Error';
 interface IProps extends WithStyles<typeof styles> {
   smsList?: IE8Sms[];
 }
-
+function generateKey() {
+  let key = 0;
+  return () => key++;
+}
 const EmployeeInfo: FC<IProps> = props => {
   const { smsList } = props;
 
+  const getKey = generateKey();
   return (
     <List>
       {smsList &&
         smsList.map(sms => (
-          <ListItem button>
+          <ListItem button key={getKey()}>
             <ListItemAvatar>
               {sms.approved ? <SmsIcon color="primary" /> : <ErrorIcon color="error" />}
             </ListItemAvatar>
