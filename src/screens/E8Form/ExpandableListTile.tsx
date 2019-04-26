@@ -12,8 +12,12 @@ import Collapse from '@material-ui/core/Collapse';
 import { IEmployee } from '../../interfaces/IEmployee';
 import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
 import PersonIcon from '@material-ui/icons/Person';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
   goBack?: () => void;
 }
@@ -21,7 +25,7 @@ interface IProps {
 function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => setExpanded(!expanded);
-  const { employee, goBack, ...rest } = props;
+  const { employee, goBack, classes, ...rest } = props;
 
   const employeeFiller = {
     name: 'Επιλέξτε υπάλληλο',
@@ -36,9 +40,22 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
 
   return (
     <div style={{ flex: 1 }}>
-      <ListItem {...rest} onClick={!employee ? goBack : toggleExpand}>
+      <ListItem {...rest} /* onClick={!employee ? goBack : toggleExpand} */>
         <Avatar>{initial || <PersonIcon />}</Avatar>
-        <ListItemText
+        <ExpansionPanel className={classes.expansionPanel}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.title}>{name}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <div>
+              <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
+              <Typography color="textSecondary">
+                {`${workStart || '00:00'} - ${workFinish || '00:00'}`}
+              </Typography>
+            </div>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+        {/* <ListItemText
           primary={name}
           secondary={
             <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -53,10 +70,25 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
           <IconButton aria-label="Expand info" onClick={toggleExpand}>
             {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </IconButton>
-        </ListItemSecondaryAction>
+        </ListItemSecondaryAction> */}
       </ListItem>
     </div>
   );
 }
 
-export default ExpandableListTile;
+const styles = (theme: any) =>
+  createStyles({
+    expansionPanel: {
+      flex: 1,
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+      minHeight: 0,
+      '&::before': { visibility: 'hidden' },
+    },
+    title: {
+      fontSize: '1rem',
+      fontWeight: 400,
+    }
+  });
+
+export default withStyles(styles)(ExpandableListTile);

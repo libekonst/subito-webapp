@@ -50,7 +50,7 @@ const E8FormView: FC<IProps> = props => {
       </AppBar>
 
       <section className={classes.section}>
-        <ExpandableListTile employee={employee} divider button />
+        <ExpandableListTile employee={employee} divider />
         
             <FormControl className={classes.formControl}>
               <FormLabel>Τύπος υποβολής</FormLabel>
