@@ -13,9 +13,12 @@ const EmployerForm: FC<IProps> = () => {
   });
   const [errors, setErrors] = useState<IEmployerErrors>({});
 
-  // TODO: Errors dont go away unless the user submits again.
   const handleChange = (val: keyof IEmployer) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+
+    // Clear a field's error when the user starts typing in it. 
+    const clearedErrors = { ...errors, [val]: undefined };
+    setErrors(clearedErrors);
 
     // Input guard.
     switch (val) {
