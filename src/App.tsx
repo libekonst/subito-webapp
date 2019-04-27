@@ -30,10 +30,13 @@ function App() {
   ];
 
   // Form states. Lift each screen's form state here.
-  const [employeeFormState, setEmployeeFormState] = useState<Partial<IEmployee>>({});
+  const [employeeState, setEmployeeState] = useState<IEmployee[]>(employees);
   const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
   const [e8FormState, setE8FormState] = useState<Partial<IE8Form>>({});
-  const handleSubmitEmployeeForm = () => null;
+  const handleSubmitEmployee = (employee: any) => {
+    const updatedEmployees = [...employees, employee];
+    setEmployeeState(updatedEmployees);
+  };
   const handleSubmitEmployerForm = () => null;
   const handleSubmitE8Form = () => null;
 
@@ -47,7 +50,7 @@ function App() {
               <Switch>
                 <Route
                   path="/employeeList"
-                  render={props => <EmployeeList employees={employees} />}
+                  render={props => <EmployeeList employees={employeeState} />}
                 />
                 {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
@@ -61,7 +64,10 @@ function App() {
                     />
                   )}
                 />
-                <Route path="/employeeForm/" component={EmployeeForm} />
+                <Route
+                  path="/employeeForm/"
+                  render={props => <EmployeeForm addToState={handleSubmitEmployee} />}
+                />
                 <Route path="/employerForm/" component={EmployerForm} />
                 <Route
                   path="/e8Form/"

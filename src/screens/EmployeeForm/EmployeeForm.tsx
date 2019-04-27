@@ -6,9 +6,14 @@ import validateOnChange, {
 } from '../../FormsValidations/employeeFormValidations';
 import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 import EmployeeFormView from './EmployeeFormView';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-interface IProps {}
-const EmployeeForm: FC<IProps> = props => {
+
+interface IProps {
+  addToState: (employee: any) => void;
+}
+
+const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
   const date: Date = setMinutes(setHours(new Date(), 8), 0);
 
   const [errors, setErrors] = useState<IEmployeeErrors>({
@@ -29,7 +34,10 @@ const EmployeeForm: FC<IProps> = props => {
 
     if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) return;
 
+
     console.log({ ...values, workStart, workFinish });
+    props.history.goBack();
+    return props.addToState({ ...values, workStart, workFinish });
   };
 
   const handleChange = (valueName: string) => (
@@ -57,4 +65,4 @@ const EmployeeForm: FC<IProps> = props => {
   );
 };
 
-export default EmployeeForm;
+export default withRouter(EmployeeForm);
