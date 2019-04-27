@@ -6,6 +6,8 @@
 
 - [Codelab: Service Workers](https://codelabs.developers.google.com/codelabs/debugging-service-workers/#0)
 
+-[Push Notifications](https://codelabs.developers.google.com/codelabs/push-notifications/index.html#0)
+
 - [PWA checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
 - [Fireship youtube TWA](https://www.youtube.com/watch?v=7JDFjeMvxos)
