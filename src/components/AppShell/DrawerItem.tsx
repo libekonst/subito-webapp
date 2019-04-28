@@ -28,7 +28,7 @@ const DrawerItem: FC<Props> = props => {
   return (
     <ListItem
       button
-      selected={selected}
+      // selected={selected}
       className={selected ? classes.selectedTile : undefined}
       {...rest}
     >

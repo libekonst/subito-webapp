@@ -51,28 +51,28 @@ const E8FormView: FC<IProps> = props => {
 
       <section className={classes.section}>
         <ExpandableListTile employee={employee} divider />
-        
-            <FormControl className={classes.formControl}>
-              <FormLabel>Τύπος υποβολής</FormLabel>
-              <RadioGroup
-                aria-label="Submition type"
-                name="submitionType"
-                value={submitionType}
-                onChange={selectSubmitionType}
-              >
-                <FormControlLabel
-                  value="submitNew"
-                  control={<Radio />}
-                  label="Νέα υποβολή"
-                />
-                <FormControlLabel
-                  value="submitCancelPrevious"
-                  control={<Radio />}
-                  label="Ακύρωση τελευταίας υποβολής"
-                />
-              </RadioGroup>
-            </FormControl>
-          
+
+        <FormControl className={classes.formControl}>
+          <FormLabel>Τύπος υποβολής</FormLabel>
+          <RadioGroup
+            aria-label="Submition type"
+            name="submitionType"
+            value={submitionType}
+            onChange={selectSubmitionType}
+          >
+            <FormControlLabel
+              value="submitNew"
+              control={<Radio />}
+              label="Νέα υποβολή"
+            />
+            <FormControlLabel
+              value="submitCancelPrevious"
+              control={<Radio />}
+              label="Ακύρωση τελευταίας υποβολής"
+            />
+          </RadioGroup>
+        </FormControl>
+
         {submitionType === 'submitNew' ? (
           <NewSubmition
             {...{
@@ -89,7 +89,10 @@ const E8FormView: FC<IProps> = props => {
         ) : (
           <CancelSubmitionInfoCard />
         )}
-        <BottomMessageTile message="Y1 1293845692 129384569 16001700" />
+        <BottomMessageTile
+          message="Y1 1293845692 129384569 16001700"
+          isNewSubmition={submitionType === 'submitNew'}
+        />
       </section>
     </>
   );
