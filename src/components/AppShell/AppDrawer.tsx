@@ -7,10 +7,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -44,7 +45,10 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
           ΑΦΜ: 2938471739
         </Typography>
       </div>
-      <List>
+      <List
+        component="nav"
+        subheader={<ListSubheader component="div">Πλοήγηση</ListSubheader>}
+      >
         <DrawerItem
           selected={location.pathname === routes.EMPLOYEE_LIST}
           component={LinkToEmployeeList}
@@ -57,7 +61,16 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
           itemText="Sms Log"
           icon="messages"
         />
-        {/* <ListItem button selected={empListSelected} component={LinkToEmployeeList}>
+        <Divider light variant="middle" />
+
+        <ListItem button component={LinkToEmployerForm}>
+          <ListItemIcon>
+            <SettingsIcon color="inherit" />
+          </ListItemIcon>
+          <ListItemText primary="Employer Form" />
+        </ListItem>
+      </List>
+      {/* <ListItem button selected={empListSelected} component={LinkToEmployeeList}>
           <ListItemIcon>
             <PeopleIcon color={empListSelected ? 'primary' : 'inherit'} />
           </ListItemIcon>
@@ -86,7 +99,12 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
             }
           />
         </ListItem> */}
-        <Divider />
+      <List
+        component="nav"
+        subheader={<ListSubheader component="div">Πληροφορίες</ListSubheader>}
+      >
+        {/* <Divider /> */}
+
         <ListItem button component={LinkToEmployeeInfo}>
           <ListItemText primary="EmployeeInfo" />
         </ListItem>
@@ -95,9 +113,6 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
         </ListItem>
         <ListItem button component={LinkToE8Form}>
           <ListItemText primary="E8Form" />
-        </ListItem>
-        <ListItem button component={LinkToEmployerForm}>
-          <ListItemText primary="EmployerForm" />
         </ListItem>
       </List>
     </div>
