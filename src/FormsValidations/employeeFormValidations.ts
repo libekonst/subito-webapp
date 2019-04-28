@@ -11,7 +11,7 @@ const getEmptyErrors = (): IEmployeeErrors => ({
 });
 export default function validateOnChange(values: IEmployee) {
   let errors: IEmployeeErrors = getEmptyErrors();
-  if (!isNumeric.test(values.vat)) errors.vat = 'Ο Αφμ αποταιλείται μόνο απο αριθμούς.';
+  if (!isNumeric.test(values.vat)) errors.vat = 'Ο Αφμ αποταιλείται μόνο απο αριθμούς';
   if (!values.vat) errors.vat = '';
   return errors;
 }
@@ -20,11 +20,11 @@ export const shouldType = (value: string, valueName: string) =>
 
 export function validateOnSubmit(values: IEmployee) {
   let errors: IEmployeeErrors = getEmptyErrors();
-  if (!isNumeric.test(values.vat)) errors.vat = 'Ο Αφμ αποταιλείται μόνο απο αριθμούς.';
-  if (!values.vat) errors.vat = 'Προσθέστε ΑΦΜ.';
+  if (!isNumeric.test(values.vat)) errors.vat = 'Ο Αφμ αποταιλείται μόνο απο αριθμούς';
+  if (!values.vat) errors.vat = 'Προσθέστε ΑΦΜ';
   if (values.vat && values.vat.length !== 9)
-    errors.vat = 'Ο Αφμ αποταιλείται απο 9 αριθμούς.';
-  if (!values.name) errors.name = 'Προσθέστε ονοματεπώνυμο.';
+    errors.vat = 'Ο Αφμ αποταιλείται απο 9 αριθμούς';
+  if (!values.name) errors.name = 'Προσθέστε ονοματεπώνυμο';
   if (values.name && values.name.length > 255)
     errors.name = 'Προσθέστε λιγότερους χαρακτήρες';
   return errors;

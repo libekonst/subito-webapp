@@ -8,7 +8,6 @@ import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 import EmployeeFormView from './EmployeeFormView';
 import { withRouter, RouteComponentProps } from 'react-router';
 
-
 interface IProps {
   addToState: (employee: any) => void;
 }
@@ -34,7 +33,6 @@ const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
 
     if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) return;
 
-
     console.log({ ...values, workStart, workFinish });
     props.history.goBack();
     return props.addToState({ ...values, workStart, workFinish });
@@ -43,6 +41,7 @@ const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
   const handleChange = (valueName: string) => (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
+    if (valueName === 'vat' && event.target.value.length > 9) return;
     const currentValues = { ...values, [valueName]: event.target.value };
     const currentErrors = validateOnChange(currentValues);
     setValues(currentValues);
