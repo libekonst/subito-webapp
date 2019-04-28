@@ -26,7 +26,12 @@ const DrawerItem: FC<Props> = props => {
     }
   }
   return (
-    <ListItem button className={selected ? classes.selectedTile : undefined} {...rest}>
+    <ListItem
+      button
+      selected={selected}
+      className={selected ? classes.selectedTile : undefined}
+      {...rest}
+    >
       <ListItemIcon>{pickIcon()}</ListItemIcon>
       <ListItemText
         primary={itemText}
@@ -43,9 +48,16 @@ const styles = (theme: Theme) =>
       fontWeight: 550,
     },
     selectedTile: {
-      borderLeftWidth: theme.spacing.unit / 2,
-      borderLeftStyle: 'solid',
-      borderLeftColor: theme.palette.primary.main,
+      position: 'relative',
+      '&:before': {
+        content: "''",
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: theme.spacing.unit / 2,
+        backgroundColor: theme.palette.primary.main,
+      },
     },
   });
 
