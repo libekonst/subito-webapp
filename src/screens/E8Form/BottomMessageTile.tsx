@@ -34,18 +34,19 @@ function BottomMessageTile(props: IProps) {
         <Typography noWrap>{props.message}</Typography>
         <FileCopyIcon color="primary" fontSize="small" />
       </Button>
-      <Fab
+      {/* <Fab
         className={props.classes.fab}
         color={isNewSubmition ? 'primary' : 'secondary'}
         variant="extended"
       >
-        ΑΠΟΣΤΟΛΗ <SendIcon color="inherit" style={{ marginLeft: 10 }} />
-      </Fab>
+        <SendIcon color="inherit" style={{ marginRight: 10 }} />
+        ΑΠΟΣΤΟΛΗ
+      </Fab> */}
       <IconButton
         className={props.classes.sendButton}
         component={aProps => <a href={`sms:12345?body=${props.message}`} {...aProps} />}
       >
-        <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} />
+        <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} fontSize="large" />
       </IconButton>
     </Paper>
   );
@@ -71,6 +72,7 @@ const styles = (theme: Theme) =>
     },
     sendButton: {
       margin: theme.spacing.unit / 2,
+      padding: theme.spacing.unit,
     },
     messageContainer: {
       // Flex
@@ -86,8 +88,8 @@ const styles = (theme: Theme) =>
     },
     fab: {
       position: 'fixed',
-      bottom: 70,
-      right: 15,
+      bottom: 60,
+      right: 10,
     },
   });
 
