@@ -24,6 +24,7 @@ interface IProps extends WithStyles<typeof styles> {
   selectSubmitionType: any;
   errors: any;
   durationOptions: any[];
+  erganiCode:string
   onGoBack?: (e: any) => void;
 }
 
@@ -41,6 +42,7 @@ const E8FormView: FC<IProps> = props => {
     selectSubmitionType,
     durationOptions,
     onGoBack,
+    erganiCode
   } = props;
 
   return (
@@ -90,7 +92,7 @@ const E8FormView: FC<IProps> = props => {
           <CancelSubmitionInfoCard />
         )}
         <BottomMessageTile
-          message="Y1 1293845692 129384569 16001700"
+          message={erganiCode}
           isNewSubmition={submitionType === 'submitNew'}
         />
       </section>

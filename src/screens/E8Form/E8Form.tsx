@@ -1,6 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { IEmployee } from '../../interfaces/IEmployee';
-import { addMinutes, isAfter, isBefore, differenceInMinutes } from 'date-fns';
+import { addMinutes, isAfter, isBefore, differenceInMinutes, format } from 'date-fns';
 import E8FormView from './E8FormView';
 
 const durationOptions = [
@@ -28,6 +28,16 @@ const E8Form: FC<IProps> = props => {
   const selectSubmitionType = (e: any) => setSubmitType(e.target.value);
 
   const [durationLabel, setDurationLabel] = useState(durationOptions[0].label);
+
+  const makeErganiCode = () => {
+    if (!employee) return '';
+    const data: string[] = [
+      employee.vat,
+      format(overtimeStart, 'HHmm'),
+      format(overtimeStart, 'HHmm'),
+    ];
+    return data.join(' ');
+  };
 
   const handleChangeDuration = (duration?: number) => (event: any) => {
     if (!duration) return setDurationLabel(durationOptions[6].label);
@@ -87,6 +97,7 @@ const E8Form: FC<IProps> = props => {
   return (
     <E8FormView
       onGoBack={props.onGoBack}
+      erganiCode={makeErganiCode()}
       {...{
         durationLabel,
         handleChangeDuration,
