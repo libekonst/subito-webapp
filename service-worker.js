@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/subito-webapp/precache-manifest.74ae2459e3af01ec11e67d7cddd57be0.js"
+  "/subito-webapp/precache-manifest.32e8e9c805098924fefaf4676f5e42e3.js"
 );
 
 workbox.clientsClaim();
