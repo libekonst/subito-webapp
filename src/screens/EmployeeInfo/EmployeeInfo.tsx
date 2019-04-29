@@ -1,22 +1,22 @@
 import React, { FC } from 'react';
-import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
-import SmsList from './SmsList';
-import { green } from '@material-ui/core/colors';
-import Fab from '@material-ui/core/Fab';
-import SaveIcon from '@material-ui/icons/SaveAlt';
-import SmsIcon from '@material-ui/icons/Sms';
-import { IE8Sms } from '../../interfaces/IE8Sms';
+import SmsList from '../../components/SmsList';
+import { IE8Sms, IEmployee } from '../../interfaces';
+import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 
-interface IProps extends WithStyles<typeof styles> {
-  history?: any;
-  classes: any;
+interface IProps {
+  employee?: IEmployee;
 }
 
-const EmployeeInfo: FC<IProps> = props => {
-  const { classes } = props;
-  const smsFactory = (approved: boolean) => ({
+const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
+  const { employee, history } = props;
+
+  // if (!props.employee && !location.state) return <Redirect to="/" />;
+  // if (!location.state.vat) return <Redirect to="/" />;
+
+  const smsFactory = () => ({
     employee: {
-      name: 'Γιάννης Χιονίδης',
+      name: employee ? employee.name : 'No employee found',
       vat: '104957382',
       workStart: '08:00',
       workFinish: '14:00',
@@ -24,44 +24,23 @@ const EmployeeInfo: FC<IProps> = props => {
     overtimeStart: '14:00',
     overtimeFinish: '15:00',
     dateSent: new Date(),
-    approved: true,
+    approved: Math.random() >= 0.3,
   });
-  const list: IE8Sms[] = Array(30).fill(smsFactory(Math.random() >= 0.5));
 
+  const list: IE8Sms[] = Array(30)
+    .fill(0)
+    .map(smsFactory);
 
   return (
-    <main className={classes.main}>
+    <>
+      {employee && (
+        <AppBar>
+          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />
+        </AppBar>
+      )}
       <SmsList smsList={list} />
-      <Fab className={classes.fabCSV}>
-        <SaveIcon />
-      </Fab>
-      <Fab className={classes.fabSMS} color="primary">
-        <SmsIcon />
-      </Fab>
-    </main>
+    </>
   );
 };
 
-const styles = (theme: Theme) =>
-  createStyles({
-    main: {
-      paddingBottom: theme.spacing.unit * 20,
-    },
-    fabCSV: {
-      position: 'fixed',
-      bottom: theme.spacing.unit * 12,
-      right: theme.spacing.unit * 3,
-      color: theme.palette.common.white,
-      backgroundColor: green[800],
-      '&:hover': {
-        backgroundColor: green[900],
-      },
-    },
-    fabSMS: {
-      position: 'fixed',
-      bottom: theme.spacing.unit * 4,
-      right: theme.spacing.unit * 3,
-    },
-  });
-
-export default withStyles(styles)(EmployeeInfo);
+export default withRouter(EmployeeInfo);

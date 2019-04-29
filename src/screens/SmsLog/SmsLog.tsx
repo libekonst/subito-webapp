@@ -1,38 +1,50 @@
-import React, { FC } from 'react';
-import { withStyles, createStyles, Theme, WithStyles } from '@material-ui/core/styles';
-import SmsList from '../EmployeeInfo/SmsList';
-import { green } from '@material-ui/core/colors';
-import Fab from '@material-ui/core/Fab';
-import SaveIcon from '@material-ui/icons/SaveAlt';
+import React, { FC, useState } from 'react';
+import SmsList from '../../components/SmsList';
+import { IE8Sms } from '../../interfaces';
+import { withRouter, RouteComponentProps, Route, Switch } from 'react-router';
+import { AppBar, DeadEndToolbar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
+import IconButton from '@material-ui/core/IconButton';
+import BackupIcon from '@material-ui/icons/Backup';
 
-interface IProps extends WithStyles<typeof styles> {
-  history: any;
-}
+interface IProps {}
 
-const SmsLog: FC<IProps> = props => {
-  const { classes } = props;
+const SmsLog: FC<IProps & RouteComponentProps> = props => {
+  const { history } = props;
+  const smsFactory = () => ({
+    employee: {
+      name: 'Γιάννης Χιονίδης',
+      vat: '104957382',
+      workStart: '08:00',
+      workFinish: '14:00',
+    },
+    overtimeStart: '14:00',
+    overtimeFinish: '15:00',
+    dateSent: new Date(),
+    approved: Math.random() >= 0.3,
+  });
+
+  const list: IE8Sms[] = Array(30)
+    .fill(0)
+    .map(smsFactory);
+  const [drawerState, setDrawerState] = useState(false);
+  const toggleDrawerState = () => setDrawerState(!drawerState);
   return (
     <>
-      <SmsList />
-      <Fab className={classes.fabCSV}>
-        <SaveIcon />
-      </Fab>
+      <AppBar color="primary">
+        <DrawerToolbar
+          onOpenDrawer={toggleDrawerState}
+          pageTitle="Λίστα Sms"
+          secondaryActions={
+            <IconButton color="inherit">
+              <BackupIcon />
+            </IconButton>
+          }
+        />
+      </AppBar>
+      <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
+      <SmsList smsList={list} />
     </>
   );
 };
 
-const styles = (theme: Theme) =>
-  createStyles({
-    fabCSV: {
-      position: 'fixed',
-      bottom: theme.spacing.unit * 4,
-      right: theme.spacing.unit * 3,
-      color: theme.palette.common.white,
-      backgroundColor: green[800],
-      '&:hover': {
-        backgroundColor: green[900],
-      },
-    },
-  });
-
-export default withStyles(styles)(SmsLog);
+export default withRouter(SmsLog);

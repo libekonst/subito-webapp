@@ -1,15 +1,17 @@
 import React from 'react';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
-import SmsIcon from '@material-ui/icons/Sms';
+import SendIcon from '@material-ui/icons/Send';
 import FileCopyIcon from '@material-ui/icons/FileCopyOutlined';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Fab from '@material-ui/core/Fab';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
 
 interface IProps extends WithStyles<typeof styles> {
   message: string;
+  isNewSubmition?: boolean;
 }
 
 function BottomMessageTile(props: IProps) {
@@ -21,6 +23,7 @@ function BottomMessageTile(props: IProps) {
       console.error(e);
     }
   };
+  const { message, classes, isNewSubmition } = props;
 
   return (
     <Paper className={props.classes.messageTile}>
@@ -31,11 +34,19 @@ function BottomMessageTile(props: IProps) {
         <Typography noWrap>{props.message}</Typography>
         <FileCopyIcon color="primary" fontSize="small" />
       </Button>
+      {/* <Fab
+        className={props.classes.fab}
+        color={isNewSubmition ? 'primary' : 'secondary'}
+        variant="extended"
+      >
+        <SendIcon color="inherit" style={{ marginRight: 10 }} />
+        ΑΠΟΣΤΟΛΗ
+      </Fab> */}
       <IconButton
         className={props.classes.sendButton}
         component={aProps => <a href={`sms:12345?body=${props.message}`} {...aProps} />}
       >
-        <SmsIcon color="primary" />
+        <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} fontSize="large" />
       </IconButton>
     </Paper>
   );
@@ -61,6 +72,7 @@ const styles = (theme: Theme) =>
     },
     sendButton: {
       margin: theme.spacing.unit / 2,
+      padding: theme.spacing.unit,
     },
     messageContainer: {
       // Flex
@@ -73,6 +85,11 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit,
       backgroundColor: theme.palette.grey[300],
       borderRadius: 50,
+    },
+    fab: {
+      position: 'fixed',
+      bottom: 60,
+      right: 10,
     },
   });
 

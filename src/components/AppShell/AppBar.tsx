@@ -1,12 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, ComponentProps } from 'react';
 import { default as MuiAppBar } from '@material-ui/core/AppBar';
 
-const AppBar: FC<{}> = props => {
-  return (
-    <MuiAppBar position="sticky" color="primary">
-      {props.children}
-    </MuiAppBar>
-  );
-};
+type Props = ComponentProps<typeof MuiAppBar>;
+const AppBar: FC<Props> = props => (
+  <MuiAppBar position="sticky" color="default" {...props} />
+);
 
 export default AppBar;

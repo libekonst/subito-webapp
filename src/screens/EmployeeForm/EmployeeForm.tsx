@@ -1,73 +1,67 @@
 import React, { FC, useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import PersonIcon from '@material-ui/icons/Person';
-import WorkIcon from '@material-ui/icons/Work';
-import ButtonsAppBar from './ButtonsAppBar';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import { TimePicker } from 'material-ui-pickers';
-import { format, addHours, setHours, setMinutes } from 'date-fns';
-import WorkHourPicker from '../../components/WorkHourPicker';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    width: '100%',
-  },
-  content: {
-    padding: 16,
-  },
-  // margin: {
-  //   marginTop: 20,
-  // },
-};
+import { addHours, setHours, setMinutes } from 'date-fns';
+import validateOnChange, {
+  validateOnSubmit,
+} from '../../FormsValidations/employeeFormValidations';
+import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
+import EmployeeFormView from './EmployeeFormView';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 interface IProps {
-  classes: any;
+  addToState: (employee: any) => void;
 }
-const EmployeeForm: FC<IProps> = props => {
-  const { classes } = props;
+
+const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
   const date: Date = setMinutes(setHours(new Date(), 8), 0);
-  const [workStart, handleWorkStartChange] = useState(date);
-  const [workFinish, handleWorkFinishChange] = useState(addHours(workStart, 8));
+
+  const [errors, setErrors] = useState<IEmployeeErrors>({
+    name: '',
+    vat: '',
+    workStart: '',
+    workFinish: '',
+  });
+  const [values, setValues] = useState({ name: '', vat: '' });
+  const [workStart, setWorkStart] = useState(date);
+  const [workFinish, setWorkFinish] = useState(addHours(date, 8));
+
+  const handleSubmit = (event: any) => {
+    if (event) event.preventDefault();
+    const theErrors = validateOnSubmit(values);
+
+    setErrors(theErrors);
+
+    if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) return;
+
+    console.log({ ...values, workStart, workFinish });
+    props.history.goBack();
+    return props.addToState({ ...values, workStart, workFinish });
+  };
+
+  const handleChange = (valueName: string) => (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (valueName === 'vat' && event.target.value.length > 9) return;
+    const currentValues = { ...values, [valueName]: event.target.value };
+    const currentErrors = validateOnChange(currentValues);
+    setValues(currentValues);
+    setErrors(currentErrors);
+  };
+
   return (
-    <div className={classes.content}>
-      <TextField
-        label="Ονοματεπώνυμο"
-        fullWidth
-        margin="normal"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <PersonIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <TextField
-        label="ΑΦΜ"
-        fullWidth
-        margin="normal"
-        type="tel"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-              <WorkIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <WorkHourPicker
-        title="Ωράριο Εργασίας"
-        selectedDateStart={workStart}
-        selectedDateFinish={workFinish}
-        handleDateStartChange={handleWorkStartChange}
-        handleDateFinishChange={handleWorkFinishChange}
-      />
-    </div>
+    <EmployeeFormView
+      {...{
+        errors,
+        values,
+        workStart,
+        workFinish,
+        setWorkStart,
+        setWorkFinish,
+        handleChange,
+        handleSubmit,
+      }}
+    />
   );
 };
 
-export default withStyles(styles)(EmployeeForm);
+export default withRouter(EmployeeForm);

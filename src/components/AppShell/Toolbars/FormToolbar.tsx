@@ -24,15 +24,23 @@ const FormToolbar: FC<IProps> = props => {
 
       <PageTitle pageTitle={pageTitle} />
 
-      {/* <Button color="inherit">ΑΠΟΘΗΚΕΥΣΗ</Button> */}
-      <IconButton
+      <Button
+        color="inherit"
+        size="small"
+        onClick={onSubmit}
+        aria-label="Αποθήκευση"
+        title="Αποθήκευση"
+      >
+        ΑΠΟΘΗΚΕΥΣΗ
+      </Button>
+      {/* <IconButton
         onClick={onSubmit}
         color="inherit"
         aria-label="Αποθήκευση"
         title="Αποθήκευση"
       >
         <CheckIcon />
-      </IconButton>
+      </IconButton> */}
     </Toolbar>
   );
 };

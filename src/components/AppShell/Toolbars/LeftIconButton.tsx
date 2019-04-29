@@ -4,12 +4,12 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 
 interface IProps extends WithStyles<typeof styles> {}
 type Props = IProps & ComponentProps<typeof IconButton>;
-const LeftIconButton: FC<Props> = props => (
-  <IconButton color="inherit" {...props} className={props.classes.leftButton} />
+const LeftIconButton: FC<Props> = ({ classes, ...rest }) => (
+  <IconButton color="inherit" {...rest} className={classes.buttonMargin} />
 );
 const styles = (theme: any) =>
   createStyles({
-    leftButton: {
+    buttonMargin: {
       marginLeft: -12,
       marginRight: 20,
     },

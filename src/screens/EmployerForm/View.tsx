@@ -12,14 +12,28 @@ import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { stickyTopWithAppbar } from '../styles/mixins';
+import { stickyTopWithAppbar } from '../../styles/mixins';
+import { IEmployer, IEmployerErrors } from '../../interfaces';
+import Button from '@material-ui/core/Button';
+import { AppBar, FormToolbar } from '../../components/AppShell';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-interface IProps extends WithStyles<typeof styles> {}
-const EmployerForm: FC<IProps> = props => {
-  const { classes } = props;
+interface IProps extends WithStyles<typeof styles> {
+  onChange: (val: keyof IEmployer) => (e: any) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  values: IEmployer;
+  errors: IEmployerErrors;
+}
+
+const View: FC<IProps & RouteComponentProps> = props => {
+  const { classes, onChange, onSubmit, errors, values, history } = props;
   const variant = 'standard';
+
   return (
     <>
+      <AppBar color="primary">
+        <FormToolbar onCancel={history.goBack} onSubmit={onSubmit} pageTitle="Ρυθμίσεις" />
+      </AppBar>
       <List
         className={classes.list}
         subheader={
@@ -32,16 +46,26 @@ const EmployerForm: FC<IProps> = props => {
           <ListItemIcon>
             <AccountIcon />
           </ListItemIcon>
-          <TextField variant={variant} label="Όνομα" className={classes.textField} />
+          <TextField
+            value={values.name}
+            onChange={onChange('name')}
+            error={!!errors.name}
+            label={errors.name || 'Ονοματεπώνυμο'}
+            variant={variant}
+            className={classes.textField}
+          />
         </ListItem>
         <ListItem key="employer-vat">
           <ListItemIcon>
             <WorkIcon />
           </ListItemIcon>
           <TextField
+            value={values.vat}
+            onChange={onChange('vat')}
+            error={!!errors.vat}
+            label={errors.vat || 'ΑΦΜ'}
             variant={variant}
             type="tel"
-            label="ΑΦΜ"
             className={classes.textField}
           />
         </ListItem>
@@ -50,9 +74,12 @@ const EmployerForm: FC<IProps> = props => {
             <WorkTwoToneIcon />
           </ListItemIcon>
           <TextField
+            value={values.ame}
+            onChange={onChange('ame')}
+            error={!!errors.ame}
+            label={errors.ame || 'ΑΜΕ (προαιρετικό)'}
             variant={variant}
             type="tel"
-            label="ΑΜΕ (προαιρετικό)"
             className={classes.textField}
           />
         </ListItem>
@@ -70,9 +97,12 @@ const EmployerForm: FC<IProps> = props => {
             <PhoneIcon />
           </ListItemIcon>
           <TextField
+            value={values.smsNumber}
+            onChange={onChange('smsNumber')}
+            error={!!errors.smsNumber}
+            label={errors.smsNumber || 'Αριθμός Παραλήπτη'}
             variant={variant}
             type="tel"
-            label="Αριθμός Παραλήπτη"
             className={classes.textField}
           />
         </ListItem>
@@ -88,7 +118,6 @@ const EmployerForm: FC<IProps> = props => {
     </>
   );
 };
-
 const styles = (theme: Theme) =>
   createStyles({
     list: {
@@ -114,4 +143,5 @@ const styles = (theme: Theme) =>
       borderRadius: theme.spacing.unit,
     },
   });
-export default withStyles(styles)(EmployerForm);
+
+export default withStyles(styles)(withRouter(View));
