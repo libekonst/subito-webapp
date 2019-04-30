@@ -2,6 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { IEmployee } from '../../interfaces/IEmployee';
 import { addMinutes, isAfter, isBefore, differenceInMinutes, format } from 'date-fns';
 import E8FormView from './E8FormView';
+import { IEmployer } from '../../interfaces';
 
 const durationOptions = [
   { key: 0, label: '30 λεπτά', duration: 30 },
@@ -15,11 +16,12 @@ const durationOptions = [
 
 interface IProps {
   employee?: IEmployee;
+  employer?: IEmployer;
   onGoBack?: (e: any) => void;
 }
 
 const E8Form: FC<IProps> = props => {
-  const { employee } = props;
+  const { employee, employer } = props;
 
   const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
@@ -31,9 +33,16 @@ const E8Form: FC<IProps> = props => {
 
   const makeErganiCode = () => {
     if (!employee) return '';
+    if (!employer) return '';
     const data: string[] =
       submitionType === 'submitNew'
-        ? [employee.vat, format(overtimeStart, 'HHmm'), format(overtimeFinish, 'HHmm')]
+        ? [
+            employer.vat,
+            employer.ame || '',
+            employee.vat,
+            format(overtimeStart, 'HHmm'),
+            format(overtimeFinish, 'HHmm'),
+          ]
         : [employee.vat, '0000', '0000'];
     return data.join(' ');
   };
