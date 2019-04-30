@@ -1,4 +1,5 @@
 export interface IEmployer {
+  id?:number;
   name: string;
   vat: string;
   ame?: string;
