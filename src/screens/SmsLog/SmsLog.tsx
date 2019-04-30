@@ -14,11 +14,11 @@ const SmsLog: FC<IProps & RouteComponentProps> = props => {
     employee: {
       name: 'Γιάννης Χιονίδης',
       vat: '104957382',
-      workStart: '08:00',
-      workFinish: '14:00',
+      workStart: new Date(),
+      workFinish: new Date(),
     },
-    overtimeStart: '14:00',
-    overtimeFinish: '15:00',
+    overtimeStart: new Date(),
+    overtimeFinish: new Date(),
     dateSent: new Date(),
     approved: Math.random() >= 0.3,
   });

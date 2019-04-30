@@ -21,12 +21,37 @@ const theme = createMuiTheme({
 });
 function App() {
   const employees: IEmployee[] = [
-    { name: 'Χιοννίδης Ιωάννης', vat: '105356894' },
-    { name: 'Ταργαρίδη Δανάη', vat: '105326894' },
-    { name: 'Φλοίσβου Μαρίνα', vat: '105336894' },
-    { name: 'Ντάβος Σερ', vat: '105356897' },
-    { name: 'Ιωαννίνων Λίμνη', vat: '105056894' },
-    { name: '', vat: '205056894' },
+    {
+      name: 'Χιοννίδης Ιωάννης',
+      vat: '105356894',
+      workStart: new Date(),
+      workFinish: new Date(),
+    },
+    {
+      name: 'Ταργαρίδη Δανάη',
+      vat: '105326894',
+      workStart: new Date(),
+      workFinish: new Date(),
+    },
+    {
+      name: 'Φλοίσβου Μαρίνα',
+      vat: '105336894',
+      workStart: new Date(),
+      workFinish: new Date(),
+    },
+    {
+      name: 'Ντάβος Σερ',
+      vat: '105356897',
+      workStart: new Date(),
+      workFinish: new Date(),
+    },
+    {
+      name: 'Ιωαννίνων Λίμνη',
+      vat: '105056894',
+      workStart: new Date(),
+      workFinish: new Date(),
+    },
+    { name: '', vat: '205056894', workStart: new Date(), workFinish: new Date() },
   ];
 
   // Form states. Lift each screen's form state here.

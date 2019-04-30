@@ -31,7 +31,10 @@ const EmployeeInfo: FC<IProps> = props => {
             <ListItemText
               primary={
                 format(sms.dateSent, 'dd/MM/yyyy') +
-                `  [${sms.overtimeStart} - ${sms.overtimeFinish}]`
+                `  [${format(sms.overtimeStart, 'HH:mm')} - ${format(
+                  sms.overtimeFinish,
+                  'HH:mm',
+                )}]`
               }
               secondary={sms.employee.name}
             />

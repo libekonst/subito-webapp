@@ -2,8 +2,8 @@ import { IEmployee } from './IEmployee';
 
 export interface IE8Sms {
   employee: IEmployee;
-  overtimeStart: string;
-  overtimeFinish: string;
+  overtimeStart: Date;
+  overtimeFinish: Date;
   dateSent: Date;
   approved: boolean;
 }
