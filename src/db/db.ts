@@ -19,5 +19,5 @@ class LocalDb extends Dexie {
   }
 }
 
-const db = new LocalDb();
-export default db;
+const dexieDb = new LocalDb();
+export default dexieDb;

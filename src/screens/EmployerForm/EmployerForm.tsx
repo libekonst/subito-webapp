@@ -2,6 +2,7 @@ import React, { FC, useState, ChangeEvent } from 'react';
 import { IEmployer, IEmployerErrors } from '../../interfaces';
 import { isNumeric, validateInput } from './validation';
 import View from './View';
+import dexieDb from '../../db/db';
 
 interface IProps {}
 const EmployerForm: FC<IProps> = () => {
@@ -16,7 +17,7 @@ const EmployerForm: FC<IProps> = () => {
   const handleChange = (val: keyof IEmployer) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    // Clear a field's error when the user starts typing in it. 
+    // Clear a field's error when the user starts typing in it.
     const clearedErrors = { ...errors, [val]: undefined };
     setErrors(clearedErrors);
 
@@ -42,7 +43,7 @@ const EmployerForm: FC<IProps> = () => {
     setValues(newValues);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateInput(values);
 
@@ -54,7 +55,12 @@ const EmployerForm: FC<IProps> = () => {
       return console.log(validationErrors);
 
     // Submit
-    return console.log(values);
+    try {
+      return await dexieDb.employer.put(values);
+    } catch (error) {
+      return console.log(error);
+    }
+    
   };
 
   return (
