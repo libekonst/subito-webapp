@@ -51,7 +51,7 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
             <div>
               <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
               <Typography color="textSecondary">
-                {`${format(workStart, 'HHmm')} - ${format(workFinish, 'HHmm')}`}
+                {`${format(workStart, 'HH:mm')} - ${format(workFinish, 'HH:mm')}`}
               </Typography>
             </div>
           </ExpansionPanelDetails>
