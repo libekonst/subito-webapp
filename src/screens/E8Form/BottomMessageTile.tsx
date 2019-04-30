@@ -8,10 +8,15 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
+import { IEmployer } from '../../interfaces';
+import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 
 interface IProps extends WithStyles<typeof styles> {
   message: string;
   isNewSubmition?: boolean;
+  handleSubmitSms: any;
+  errors: { overtimeStart: string; overTimefinish: string };
+  employer: IEmployer;
 }
 
 function BottomMessageTile(props: IProps) {
@@ -44,7 +49,14 @@ function BottomMessageTile(props: IProps) {
       </Fab> */}
       <IconButton
         className={props.classes.sendButton}
-        component={aProps => <a href={`sms:12345?body=${props.message}`} {...aProps} />}
+        onClick={props.handleSubmitSms}
+        /* disabled={!!Object.values(props.errors).reduce((acc, val) => acc + val, '')} */
+        component={aProps => (
+          <a
+            href={`sms:${props.employer.smsNumber}?body=${props.message}`}
+            {...aProps}
+          />
+        )}
       >
         <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} fontSize="large" />
       </IconButton>
