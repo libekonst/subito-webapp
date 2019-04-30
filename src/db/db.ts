@@ -8,9 +8,9 @@ class LocalDb extends Dexie {
   constructor() {
     super('LocalDb');
     this.version(1).stores({
-      employer: '++id, name, vat, ame, smsNumber',
-      employee: '++id, name, vat, workStart, workFinish',
-      sms: 'id++ employee, overtimeStart, overtimeFinish, dateSent, approved',
+      employer: '++id, name, vat',
+      employee: '++id, name, vat',
+      sms: 'id++, employee, dateSent',
     });
 
     this.employer = this.table('employer');
