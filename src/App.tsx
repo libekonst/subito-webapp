@@ -58,7 +58,7 @@ function App() {
   const [employeesState, setEmployeesState] = useState<IEmployee[]>(employees);
   const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
   const [e8FormState, setE8FormState] = useState<Partial<IE8Form>>({});
-  
+
   const handleSubmitEmployee = (employee: any) => {
     const updatedEmployees = [...employees, employee];
     setEmployeesState(updatedEmployees);
@@ -90,10 +90,7 @@ function App() {
                     />
                   )}
                 />
-                <Route
-                  path="/employeeForm/"
-                  render={props => <EmployeeForm addToState={handleSubmitEmployee} />}
-                />
+                <Route path="/employeeForm/" render={props => <EmployeeForm />} />
                 <Route path="/employerForm/" component={EmployerForm} />
                 <Route
                   path="/e8Form/"

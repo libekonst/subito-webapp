@@ -1,5 +1,5 @@
-import { IEmployee } from '../interfaces';
-import { IEmployeeErrors } from '../interfaces/IEmployeeErrors';
+import { IEmployee } from '../../interfaces';
+import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 
 const isNumeric = /^\d+$/;
 

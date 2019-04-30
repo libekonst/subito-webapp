@@ -1,15 +1,13 @@
 import React, { FC, useState } from 'react';
 
 import { addHours, setHours, setMinutes } from 'date-fns';
-import validateOnChange, {
-  validateOnSubmit,
-} from '../../FormsValidations/employeeFormValidations';
+import validateOnChange, { validateOnSubmit } from './validation';
 import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 import EmployeeFormView from './EmployeeFormView';
 import { withRouter, RouteComponentProps } from 'react-router';
+import db from '../../db/db';
 
 interface IProps {
-  addToState: (employee: any) => void;
 }
 
 const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
@@ -31,11 +29,15 @@ const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
 
     setErrors(theErrors);
 
-    if (!!Object.values(theErrors).reduce((acc, val) => acc + val)) return;
+    // If errors, prevent submition.
+    if (!!Object.values(theErrors).reduce((acc, val) => acc + val, '')) return;
 
-    console.log({ ...values, workStart, workFinish });
     props.history.goBack();
-    return props.addToState({ ...values, workStart, workFinish });
+    try {
+      db.employee.put({ ...values, workStart, workFinish });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (valueName: string) => (
