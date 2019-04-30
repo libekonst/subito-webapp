@@ -16,6 +16,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import { setHours, setMinutes, format } from 'date-fns';
 
 interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
@@ -27,11 +28,11 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   const toggleExpand = () => setExpanded(!expanded);
   const { employee, goBack, classes, ...rest } = props;
 
-  const employeeFiller = {
+  const employeeFiller: IEmployee = {
     name: 'Επιλέξτε υπάλληλο',
     vat: '000000000',
-    workStart: '00:00',
-    workFinish: '00:00',
+    workStart: setHours(setMinutes(new Date(), 0), 0),
+    workFinish: setHours(setMinutes(new Date(), 0), 0),
   };
 
   const { name, vat, workStart, workFinish } = employee ? employee : employeeFiller;
@@ -50,27 +51,11 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
             <div>
               <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
               <Typography color="textSecondary">
-                {`${workStart || '00:00'} - ${workFinish || '00:00'}`}
+                {`${format(workStart, 'HHmm')} - ${format(workFinish, 'HHmm')}`}
               </Typography>
             </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        {/* <ListItemText
-          primary={name}
-          secondary={
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-              <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
-              <Typography color="textSecondary">
-                {`${workStart || '00:00'} - ${workFinish || '00:00'}`}
-              </Typography>
-            </Collapse>
-          }
-        />
-        <ListItemSecondaryAction>
-          <IconButton aria-label="Expand info" onClick={toggleExpand}>
-            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        </ListItemSecondaryAction> */}
       </ListItem>
     </div>
   );
@@ -88,7 +73,7 @@ const styles = (theme: any) =>
     title: {
       fontSize: '1rem',
       fontWeight: 400,
-    }
+    },
   });
 
 export default withStyles(styles)(ExpandableListTile);
