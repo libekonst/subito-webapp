@@ -34,7 +34,7 @@ const E8Form: FC<IProps> = props => {
     const data: string[] = [
       employee.vat,
       format(overtimeStart, 'HHmm'),
-      format(overtimeStart, 'HHmm'),
+      format(overtimeFinish, 'HHmm'),
     ];
     return data.join(' ');
   };
