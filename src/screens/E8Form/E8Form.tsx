@@ -31,11 +31,10 @@ const E8Form: FC<IProps> = props => {
 
   const makeErganiCode = () => {
     if (!employee) return '';
-    const data: string[] = [
-      employee.vat,
-      format(overtimeStart, 'HHmm'),
-      format(overtimeFinish, 'HHmm'),
-    ];
+    const data: string[] =
+      submitionType === 'submitNew'
+        ? [employee.vat, format(overtimeStart, 'HHmm'), format(overtimeFinish, 'HHmm')]
+        : [employee.vat, '0000', '0000'];
     return data.join(' ');
   };
 
