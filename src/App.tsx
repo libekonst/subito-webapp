@@ -58,7 +58,7 @@ function App() {
                   path="/employeeInfo/"
                   render={props => (
                     <EmployeeInfo
-                      employee={employees.find(e =>
+                      employee={employeeState.find(e =>
                         props.location.search.includes(e.vat),
                       )}
                     />
@@ -75,7 +75,7 @@ function App() {
                     console.log(props.history);
                     return (
                       <E8Form
-                        employee={employees.find(e =>
+                        employee={employeeState.find(e =>
                           props.location.search.includes(e.vat),
                         )}
                         onGoBack={props.history.goBack}
