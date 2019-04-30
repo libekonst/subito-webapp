@@ -62,7 +62,7 @@ const EmployerForm: FC<IProps> = () => {
 
     // If validationErrors contains any errors, prevent submition
     if (!!Object.values(validationErrors).reduce((acc, val) => acc + val,''))
-      return console.log('validationErrors');
+      return console.log(validationErrors);
 
     // Submit
     try {
