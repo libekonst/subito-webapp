@@ -55,12 +55,12 @@ function App() {
   ];
 
   // Form states. Lift each screen's form state here.
-  const [employeeState, setEmployeeState] = useState<IEmployee[]>(employees);
+  const [employeesState, setEmployeesState] = useState<IEmployee[]>(employees);
   const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
   const [e8FormState, setE8FormState] = useState<Partial<IE8Form>>({});
   const handleSubmitEmployee = (employee: any) => {
     const updatedEmployees = [...employees, employee];
-    setEmployeeState(updatedEmployees);
+    setEmployeesState(updatedEmployees);
   };
   const handleSubmitEmployerForm = () => null;
   const handleSubmitE8Form = () => null;
@@ -75,7 +75,7 @@ function App() {
               <Switch>
                 <Route
                   path="/employeeList"
-                  render={props => <EmployeeList employees={employeeState} />}
+                  render={props => <EmployeeList employees={employeesState} />}
                 />
                 {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
@@ -83,7 +83,7 @@ function App() {
                   path="/employeeInfo/"
                   render={props => (
                     <EmployeeInfo
-                      employee={employeeState.find(e =>
+                      employee={employeesState.find(e =>
                         props.location.search.includes(e.vat),
                       )}
                     />
@@ -100,7 +100,7 @@ function App() {
                     console.log(props.history);
                     return (
                       <E8Form
-                        employee={employeeState.find(e =>
+                        employee={employeesState.find(e =>
                           props.location.search.includes(e.vat),
                         )}
                         onGoBack={props.history.goBack}
