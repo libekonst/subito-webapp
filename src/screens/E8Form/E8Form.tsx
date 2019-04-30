@@ -57,11 +57,11 @@ const E8Form: FC<IProps> = props => {
   };
   const handleChangeOvertimeStart = (date: Date) => {
     setOvertimeStart(date);
-    validate();
+    setErrors(validate());
   };
   const handleChangeOvertimeFinish = (date: Date) => {
     setOvertimeFinish(date);
-    validate();
+    setErrors(validate());
   };
 
   const [errors, setErrors] = useState({
@@ -91,7 +91,7 @@ const E8Form: FC<IProps> = props => {
       currentErrors.overtimeFinish =
         'Η διάρκια της υπερωρίας δεν μπορεί να υπερβαίνει τις 3 ώρες';
 
-    setErrors(currentErrors);
+    return currentErrors;
   };
 
   return (
