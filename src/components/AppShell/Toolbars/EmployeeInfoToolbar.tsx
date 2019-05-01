@@ -15,10 +15,11 @@ import { routes } from '../../../routes';
 interface IProps extends WithStyles<typeof styles> {
   employee: IEmployee;
   onGoBack?: (e: any) => void;
+  onDelete: (e: any) => void;
 }
 
 const EmployeeInfo: FC<IProps> = props => {
-  const { classes, employee, onGoBack } = props;
+  const { classes, employee, onGoBack, onDelete } = props;
   const LinkToEmployeeForm = (props: any) => (
     <Link {...props} to={`${routes.EMPLOYEE_FORM}/${employee.id}`} />
   );
@@ -36,7 +37,13 @@ const EmployeeInfo: FC<IProps> = props => {
         <ExpandableListTile employee={employee} className={classes.listItem} />
       </Toolbar>
       <Toolbar className={classes.secondaryToolbar}>
-        <Button color="primary" variant="text" aria-label="Διαγραφή" title="Διαγραφή">
+        <Button
+          color="primary"
+          variant="text"
+          aria-label="Διαγραφή"
+          title="Διαγραφή"
+          onClick={onDelete}
+        >
           ΔΙΑΓΡΑΦΗ
           <DeleteIcon className={classes.rightIcon} />
         </Button>

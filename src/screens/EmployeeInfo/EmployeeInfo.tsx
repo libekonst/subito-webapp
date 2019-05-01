@@ -46,11 +46,24 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
     .fill(0)
     .map(smsFactory);
 
+  const handleDelete = async (event: any) => {
+    if (!employee) return;
+
+    const { employeeID } = props.match.params;
+    if (!employeeID) return;
+
+    try {
+      db.employee.delete(parseInt(employeeID, 10));
+      return props.history.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {employee && (
         <AppBar>
-          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />
+          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} onDelete={handleDelete} />
         </AppBar>
       )}
       <SmsList smsList={list} />
