@@ -1,46 +1,83 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
-import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
+import db from '../../db/db';
 
-interface IProps {
-  employee?: IEmployee;
+interface IMatchParams {
+  employeeID?: string;
 }
 
-const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
-  const { employee, history } = props;
+const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
+  const { match, history } = props;
 
-  // if (!props.employee && !location.state) return <Redirect to="/" />;
-  // if (!location.state.vat) return <Redirect to="/" />;
+  const [smsList, setSmsList] = useState<IE8Sms[]>([]);
+  const [employee, setEmployee] = useState<IEmployee | undefined>();
 
-  const smsFactory = () => ({
-    employee: {
-      name: employee ? employee.name : 'No employee found',
-      vat: '104957382',
-      workStart: '08:00',
-      workFinish: '14:00',
-    },
-    overtimeStart: '14:00',
-    overtimeFinish: '15:00',
-    dateSent: new Date(),
-    approved: Math.random() >= 0.3,
-  });
+  // Fetch employee
+  useEffect(() => {
+    async function fetchEmployee() {
+      const { employeeID } = match.params;
+      let employee;
+      try {
+        if (employeeID) employee = await db.employee.get(parseInt(employeeID, 10));
+      } catch (error) {
+        console.log(error);
+      }
+      // setIsLoading(false);
+      setEmployee(employee);
+    }
+    fetchEmployee();
+  }, []);
 
-  const list: IE8Sms[] = Array(30)
-    .fill(0)
-    .map(smsFactory);
+  // Fetch employee sms
+  useEffect(() => {
+    async function fetchSmsList() {
+      let smsList: IE8Sms[] = [];
+      const { employeeID } = match.params;
+      try {
+        if (employeeID)
+          smsList = await db.sms
+            .where('employee.id')
+            .equals(parseInt(employeeID))
+            .toArray();
+      } catch (error) {
+        console.log(error);
+      }
+      setSmsList(smsList);
+    }
+    fetchSmsList();
+  }, []);
 
+  // DELETE
+  const handleDelete = async () => {
+    if (!employee) return;
+
+    const { employeeID } = props.match.params;
+    if (!employeeID) return;
+
+    try {
+      db.employee.delete(parseInt(employeeID, 10));
+      return props.history.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {employee && (
         <AppBar>
-          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} />
+          <EmployeeInfoToolbar
+            onGoBack={history.goBack}
+            employee={employee}
+            onDelete={handleDelete}
+          />
         </AppBar>
       )}
-      <SmsList smsList={list} />
+      <SmsList smsList={smsList} />
     </>
   );
 };
 
-export default withRouter(EmployeeInfo);
+export default EmployeeInfo;

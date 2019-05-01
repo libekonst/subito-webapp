@@ -1,6 +1,7 @@
 export interface IEmployee {
+  id?:number;
   name: string;
   vat: string;
-  workStart?: any;
-  workFinish?: any;
+  workStart: Date;
+  workFinish: Date;
 }

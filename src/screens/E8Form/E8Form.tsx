@@ -1,7 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { IEmployee } from '../../interfaces/IEmployee';
-import { addMinutes, isAfter, isBefore, differenceInMinutes } from 'date-fns';
+import { addMinutes, isAfter, isBefore, differenceInMinutes, format } from 'date-fns';
 import E8FormView from './E8FormView';
+import { IEmployer } from '../../interfaces';
+import dexieDb from '../../db/db';
+import { RouteComponentProps } from 'react-router';
 
 const durationOptions = [
   { key: 0, label: '30 λεπτά', duration: 30 },
@@ -12,14 +15,41 @@ const durationOptions = [
   { key: 5, label: '3 ώρες', duration: 180 },
   { key: 6, label: 'Άλλο...' },
 ];
-
-interface IProps {
-  employee?: IEmployee;
-  onGoBack?: (e: any) => void;
+interface IMatchParams {
+  employeeID?: string;
 }
+const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
+  const {
+    match: {
+      params: { employeeID },
+    },
+    history,
+  } = props;
+  const [employer, setEmployer] = useState();
+  const [employee, setEmployee] = useState();
+  useEffect(() => {
+    async function fetchEmployer() {
+      const employer = await dexieDb.employer.toCollection().last();
+      if (!employer) return;
+      setEmployer(employer);
+    }
+    fetchEmployer();
+  }, []);
 
-const E8Form: FC<IProps> = props => {
-  const { employee } = props;
+  useEffect(() => {
+    async function fetchEmployee() {
+      if (!employeeID) return;
+      let employee;
+      try {
+        employee = await dexieDb.employee.get(parseInt(employeeID));
+      } catch (error) {
+        console.log(error);
+      }
+      if (!employee) return;
+      setEmployee(employee);
+    }
+    fetchEmployee();
+  }, []);
 
   const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
@@ -28,6 +58,22 @@ const E8Form: FC<IProps> = props => {
   const selectSubmitionType = (e: any) => setSubmitType(e.target.value);
 
   const [durationLabel, setDurationLabel] = useState(durationOptions[0].label);
+
+  const makeErganiCode = () => {
+    if (!employee) return '';
+    if (!employer) return '';
+    const data: string[] =
+      submitionType === 'submitNew'
+        ? [
+            employer.vat,
+            employer.ame || '',
+            employee.vat,
+            format(overtimeStart, 'HHmm'),
+            format(overtimeFinish, 'HHmm'),
+          ]
+        : [employer.vat, employer.ame || '', employee.vat, '0000', '0000'];
+    return data.join(' ');
+  };
 
   const handleChangeDuration = (duration?: number) => (event: any) => {
     if (!duration) return setDurationLabel(durationOptions[6].label);
@@ -47,11 +93,11 @@ const E8Form: FC<IProps> = props => {
   };
   const handleChangeOvertimeStart = (date: Date) => {
     setOvertimeStart(date);
-    validate();
+    setErrors(validate());
   };
   const handleChangeOvertimeFinish = (date: Date) => {
     setOvertimeFinish(date);
-    validate();
+    setErrors(validate());
   };
 
   const [errors, setErrors] = useState({
@@ -67,7 +113,7 @@ const E8Form: FC<IProps> = props => {
         'Η έναρξη της υπερωρίας πρέπει να είναι μετά την λήξη';
 
     // overtimeStart < employee.workFinish
-    if (isBefore(overtimeStart, props.employee!.workFinish))
+    if (isBefore(overtimeStart, employee!.workFinish))
       currentErrors.overtimeStart =
         'Η έναρξη της υπερωρίας πρέπει να είναι μετά τη λήξη της εργασίας';
 
@@ -81,12 +127,32 @@ const E8Form: FC<IProps> = props => {
       currentErrors.overtimeFinish =
         'Η διάρκια της υπερωρίας δεν μπορεί να υπερβαίνει τις 3 ώρες';
 
-    setErrors(currentErrors);
+    return currentErrors;
   };
 
-  return (
+  const handleSubmitSms = async () => {
+    if (!employee) return;
+    validate();
+    if (!!Object.values(errors).reduce((acc, val) => acc + val, ''))
+      return console.log(errors);
+    try {
+      await dexieDb.sms.put({
+        employee,
+        overtimeStart,
+        overtimeFinish,
+        approved: true,
+        dateSent: new Date(),
+      });
+      history.goBack();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return employer && employee ? (
     <E8FormView
-      onGoBack={props.onGoBack}
+      onGoBack={history.goBack}
+      erganiCode={makeErganiCode()}
       {...{
         durationLabel,
         handleChangeDuration,
@@ -99,8 +165,12 @@ const E8Form: FC<IProps> = props => {
         selectSubmitionType,
         errors,
         durationOptions,
+        handleSubmitSms,
+        employer,
       }}
     />
+  ) : (
+    <div>lol</div>
   );
 };
 

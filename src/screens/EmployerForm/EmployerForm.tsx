@@ -1,22 +1,34 @@
-import React, { FC, useState, ChangeEvent } from 'react';
+import React, { FC, useState, ChangeEvent, useEffect } from 'react';
 import { IEmployer, IEmployerErrors } from '../../interfaces';
 import { isNumeric, validateInput } from './validation';
 import View from './View';
+import dexieDb from '../../db/db';
+import { RouteComponentProps } from 'react-router';
 
-interface IProps {}
-const EmployerForm: FC<IProps> = () => {
+const EmployerForm: FC<RouteComponentProps> = props => {
+  const { history } = props;
   const [values, setValues] = useState<IEmployer>({
     name: '',
     vat: '',
     ame: '',
     smsNumber: '',
   });
+
+  useEffect(() => {
+    async function fetchEmployer() {
+      const employer = await dexieDb.employer.toCollection().last();
+      if (!employer) return;
+      setValues(employer);
+    }
+    fetchEmployer();
+  }, []);
+
   const [errors, setErrors] = useState<IEmployerErrors>({});
 
   const handleChange = (val: keyof IEmployer) => (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    // Clear a field's error when the user starts typing in it. 
+    // Clear a field's error when the user starts typing in it.
     const clearedErrors = { ...errors, [val]: undefined };
     setErrors(clearedErrors);
 
@@ -42,7 +54,7 @@ const EmployerForm: FC<IProps> = () => {
     setValues(newValues);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validateInput(values);
 
@@ -50,11 +62,16 @@ const EmployerForm: FC<IProps> = () => {
     setErrors(validationErrors);
 
     // If validationErrors contains any errors, prevent submition
-    if (Object.values(validationErrors).reduce((acc, val) => acc && val, true))
+    if (!!Object.values(validationErrors).reduce((acc, val) => acc + val, ''))
       return console.log(validationErrors);
 
     // Submit
-    return console.log(values);
+    try {
+      await dexieDb.employer.put(values);
+      return history.goBack()
+    } catch (error) {
+      return console.log(error);
+    }
   };
 
   return (

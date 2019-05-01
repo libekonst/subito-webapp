@@ -23,24 +23,10 @@ const EmployeeListItem: FC<IProps> = props => {
   const { employee } = props;
   const initial = toUpperCaseInitial(employee.name);
   const EmployeeInfoLink = (props: any) => (
-    <Link
-      {...props}
-      to={{
-        pathname: routes.EMPLOYEE_INFO,
-        search: `?vat=${employee.vat}`,
-        // state: employee,
-      }}
-    />
+    <Link {...props} to={`${routes.EMPLOYEE_INFO}/${employee.id}`} />
   );
   const EmployeeE8Link = (props: any) => (
-    <Link
-      {...props}
-      to={{
-        pathname: routes.E8FORM,
-        search: `?vat=${employee.vat}`,
-        // state: employee,
-      }}
-    />
+    <Link {...props} to={`${routes.E8FORM}/${employee.id}`} />
   );
   return (
     <ListItem button component={EmployeeE8Link}>

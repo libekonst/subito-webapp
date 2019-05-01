@@ -11,6 +11,7 @@ import BottomMessageTile from './BottomMessageTile';
 
 import NewSubmition from './NewSubmition';
 import { DeadEndToolbar, AppBar } from '../../components/AppShell';
+import { IEmployer } from '../../interfaces';
 
 interface IProps extends WithStyles<typeof styles> {
   durationLabel: any;
@@ -24,7 +25,10 @@ interface IProps extends WithStyles<typeof styles> {
   selectSubmitionType: any;
   errors: any;
   durationOptions: any[];
+  erganiCode: string;
   onGoBack?: (e: any) => void;
+  handleSubmitSms: any;
+  employer:IEmployer;
 }
 
 const E8FormView: FC<IProps> = props => {
@@ -41,6 +45,10 @@ const E8FormView: FC<IProps> = props => {
     selectSubmitionType,
     durationOptions,
     onGoBack,
+    erganiCode,
+    handleSubmitSms,
+    errors,
+    employer
   } = props;
 
   return (
@@ -90,8 +98,9 @@ const E8FormView: FC<IProps> = props => {
           <CancelSubmitionInfoCard />
         )}
         <BottomMessageTile
-          message="Y1 1293845692 129384569 16001700"
+          message={erganiCode}
           isNewSubmition={submitionType === 'submitNew'}
+          {...{ handleSubmitSms, errors, employer }}
         />
       </section>
     </>

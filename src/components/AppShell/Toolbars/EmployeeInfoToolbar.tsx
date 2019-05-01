@@ -9,15 +9,20 @@ import Button from '@material-ui/core/Button';
 
 import ExpandableListTile from '../../../screens/E8Form/ExpandableListTile';
 import { IEmployee } from '../../../interfaces';
+import { Link } from 'react-router-dom';
+import { routes } from '../../../routes';
 
 interface IProps extends WithStyles<typeof styles> {
-  employee?: IEmployee;
+  employee: IEmployee;
   onGoBack?: (e: any) => void;
+  onDelete: (e: any) => void;
 }
 
 const EmployeeInfo: FC<IProps> = props => {
-  const { classes, employee, onGoBack } = props;
-
+  const { classes, employee, onGoBack, onDelete } = props;
+  const LinkToEmployeeForm = (props: any) => (
+    <Link {...props} to={`${routes.EMPLOYEE_FORM}/${employee.id}`} />
+  );
   return (
     <>
       <Toolbar className={classes.mainToolbar}>
@@ -32,7 +37,13 @@ const EmployeeInfo: FC<IProps> = props => {
         <ExpandableListTile employee={employee} className={classes.listItem} />
       </Toolbar>
       <Toolbar className={classes.secondaryToolbar}>
-        <Button color="primary" variant="text" aria-label="Διαγραφή" title="Διαγραφή">
+        <Button
+          color="primary"
+          variant="text"
+          aria-label="Διαγραφή"
+          title="Διαγραφή"
+          onClick={onDelete}
+        >
           ΔΙΑΓΡΑΦΗ
           <DeleteIcon className={classes.rightIcon} />
         </Button>
@@ -41,6 +52,7 @@ const EmployeeInfo: FC<IProps> = props => {
           variant="text"
           aria-label="Επεξεργασία"
           title="Επεξεργασία"
+          component={LinkToEmployeeForm}
         >
           ΕΠΕΞΕΡΓΑΣΙΑ
           <EditIcon className={classes.rightIcon} />
