@@ -10,7 +10,6 @@ import {
   Route,
   Redirect,
   Switch,
-  RouteComponentProps,
 } from 'react-router-dom';
 import SmsLog from './screens/SmsLog';
 import EmployeeList from './screens/EmployeeList';
@@ -99,7 +98,6 @@ function App() {
             <div className="App">
               <Switch>
                 <Route path={routes.EMPLOYEE_LIST} component={EmployeeList} />
-                {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
                 <Route
                   path={`${routes.EMPLOYEE_INFO}/:employeeID`}

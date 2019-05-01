@@ -3,9 +3,10 @@ import { IEmployer, IEmployerErrors } from '../../interfaces';
 import { isNumeric, validateInput } from './validation';
 import View from './View';
 import dexieDb from '../../db/db';
+import { RouteComponentProps } from 'react-router';
 
-interface IProps {}
-const EmployerForm: FC<IProps> = () => {
+const EmployerForm: FC<RouteComponentProps> = props => {
+  const { history } = props;
   const [values, setValues] = useState<IEmployer>({
     name: '',
     vat: '',
@@ -61,12 +62,13 @@ const EmployerForm: FC<IProps> = () => {
     setErrors(validationErrors);
 
     // If validationErrors contains any errors, prevent submition
-    if (!!Object.values(validationErrors).reduce((acc, val) => acc + val,''))
+    if (!!Object.values(validationErrors).reduce((acc, val) => acc + val, ''))
       return console.log(validationErrors);
 
     // Submit
     try {
-      return await dexieDb.employer.put(values);
+      await dexieDb.employer.put(values);
+      return history.goBack()
     } catch (error) {
       return console.log(error);
     }

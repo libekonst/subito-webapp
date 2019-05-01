@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
-import { Redirect, withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
 
@@ -12,8 +12,10 @@ interface IMatchParams {
 const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
   const { match, history } = props;
 
+  const [smsList, setSmsList] = useState<IE8Sms[]>([]);
   const [employee, setEmployee] = useState<IEmployee | undefined>();
 
+  // Fetch employee
   useEffect(() => {
     async function fetchEmployee() {
       const { employeeID } = match.params;
@@ -29,24 +31,27 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
     fetchEmployee();
   }, []);
 
-  const smsFactory = () => ({
-    employee: {
-      name: employee ? employee.name : 'No employee found',
-      vat: '104957382',
-      workStart: new Date(),
-      workFinish: new Date(),
-    },
-    overtimeStart: new Date(),
-    overtimeFinish: new Date(),
-    dateSent: new Date(),
-    approved: Math.random() >= 0.3,
-  });
+  // Fetch employee sms
+  useEffect(() => {
+    async function fetchSmsList() {
+      let smsList: IE8Sms[] = [];
+      const { employeeID } = match.params;
+      try {
+        if (employeeID)
+          smsList = await db.sms
+            .where('employee.id')
+            .equals(parseInt(employeeID))
+            .toArray();
+      } catch (error) {
+        console.log(error);
+      }
+      setSmsList(smsList);
+    }
+    fetchSmsList();
+  }, []);
 
-  const list: IE8Sms[] = Array(30)
-    .fill(0)
-    .map(smsFactory);
-
-  const handleDelete = async (event: any) => {
+  // DELETE
+  const handleDelete = async () => {
     if (!employee) return;
 
     const { employeeID } = props.match.params;
@@ -63,10 +68,14 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
     <>
       {employee && (
         <AppBar>
-          <EmployeeInfoToolbar onGoBack={history.goBack} employee={employee} onDelete={handleDelete} />
+          <EmployeeInfoToolbar
+            onGoBack={history.goBack}
+            employee={employee}
+            onDelete={handleDelete}
+          />
         </AppBar>
       )}
-      <SmsList smsList={list} />
+      <SmsList smsList={smsList} />
     </>
   );
 };

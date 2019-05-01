@@ -10,7 +10,7 @@ class LocalDb extends Dexie {
     this.version(1).stores({
       employer: '++id, name, vat',
       employee: '++id, name, vat',
-      sms: 'id++, employee, dateSent',
+      sms: 'id++, employee.id, dateSent',
     });
 
     this.employer = this.table('employer');
