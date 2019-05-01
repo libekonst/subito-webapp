@@ -109,6 +109,7 @@ function App() {
                   path={`${routes.EMPLOYEE_FORM}/:employeeID`}
                   component={EmployeeForm}
                 />
+                <Route path={routes.EMPLOYEE_FORM} component={EmployeeForm} />
                 <Route path="/employerForm/" component={EmployerForm} />
                 {/* <Route
                   path="/e8Form/"
