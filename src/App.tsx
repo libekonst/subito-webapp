@@ -111,18 +111,7 @@ function App() {
                 />
                 <Route path={routes.EMPLOYEE_FORM} component={EmployeeForm} />
                 <Route path="/employerForm/" component={EmployerForm} />
-                {/* <Route
-                  path="/e8Form/"
-                  render={props => {
-                    console.log(props.history);
-                    return (
-                      <E8Form
-                        employee={findEmployee(props.location)}
-                        onGoBack={props.history.goBack}
-                      />
-                    );
-                  }}
-                /> */}
+                <Route path="/e8Form/:employeeID" component={E8Form} />
                 <Redirect to="/employeeList" />
               </Switch>
             </div>

@@ -26,14 +26,7 @@ const EmployeeListItem: FC<IProps> = props => {
     <Link {...props} to={`${routes.EMPLOYEE_INFO}/${employee.id}`} />
   );
   const EmployeeE8Link = (props: any) => (
-    <Link
-      {...props}
-      to={{
-        pathname: routes.E8FORM,
-        // search: employee.id,
-        // state: employee,
-      }}
-    />
+    <Link {...props} to={`${routes.E8FORM}/${employee.id}`} />
   );
   return (
     <ListItem button component={EmployeeE8Link}>
