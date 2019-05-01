@@ -1,13 +1,13 @@
 {
   "main.css": "/subito-webapp/static/css/main.8298375e.chunk.css",
-  "main.js": "/subito-webapp/static/js/main.9afa2465.chunk.js",
-  "main.js.map": "/subito-webapp/static/js/main.9afa2465.chunk.js.map",
+  "main.js": "/subito-webapp/static/js/main.13bdaeee.chunk.js",
+  "main.js.map": "/subito-webapp/static/js/main.13bdaeee.chunk.js.map",
   "runtime~main.js": "/subito-webapp/static/js/runtime~main.f9f43a59.js",
   "runtime~main.js.map": "/subito-webapp/static/js/runtime~main.f9f43a59.js.map",
-  "static/js/2.7097e8f0.chunk.js": "/subito-webapp/static/js/2.7097e8f0.chunk.js",
-  "static/js/2.7097e8f0.chunk.js.map": "/subito-webapp/static/js/2.7097e8f0.chunk.js.map",
+  "static/js/2.2c56d1be.chunk.js": "/subito-webapp/static/js/2.2c56d1be.chunk.js",
+  "static/js/2.2c56d1be.chunk.js.map": "/subito-webapp/static/js/2.2c56d1be.chunk.js.map",
   "index.html": "/subito-webapp/index.html",
-  "precache-manifest.32e8e9c805098924fefaf4676f5e42e3.js": "/subito-webapp/precache-manifest.32e8e9c805098924fefaf4676f5e42e3.js",
+  "precache-manifest.91e75e6822b45d4dbfb1f7f36ae26b8f.js": "/subito-webapp/precache-manifest.91e75e6822b45d4dbfb1f7f36ae26b8f.js",
   "service-worker.js": "/subito-webapp/service-worker.js",
   "static/css/main.8298375e.chunk.css.map": "/subito-webapp/static/css/main.8298375e.chunk.css.map"
 }
