@@ -9,15 +9,25 @@ import Button from '@material-ui/core/Button';
 
 import ExpandableListTile from '../../../screens/E8Form/ExpandableListTile';
 import { IEmployee } from '../../../interfaces';
+import { Link } from 'react-router-dom';
+import { routes } from '../../../routes';
 
 interface IProps extends WithStyles<typeof styles> {
-  employee?: IEmployee;
+  employee: IEmployee;
   onGoBack?: (e: any) => void;
 }
 
 const EmployeeInfo: FC<IProps> = props => {
   const { classes, employee, onGoBack } = props;
-
+  const LinkToEmployeeForm = (props: any) => (
+    <Link
+      {...props}
+      to={{
+        pathname: routes.EMPLOYEE_FORM,
+        search: `?vat=${employee.vat}`,
+      }}
+    />
+  );
   return (
     <>
       <Toolbar className={classes.mainToolbar}>
@@ -41,6 +51,7 @@ const EmployeeInfo: FC<IProps> = props => {
           variant="text"
           aria-label="Επεξεργασία"
           title="Επεξεργασία"
+          component={LinkToEmployeeForm}
         >
           ΕΠΕΞΕΡΓΑΣΙΑ
           <EditIcon className={classes.rightIcon} />

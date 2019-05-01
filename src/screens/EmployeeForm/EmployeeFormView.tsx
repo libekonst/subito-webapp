@@ -13,8 +13,10 @@ import { IEmployeeErrors } from '../../interfaces/IEmployeeErrors';
 import Button from '@material-ui/core/Button';
 import { AppBar, FormToolbar } from '../../components/AppShell';
 import { withRouter, RouteComponentProps } from 'react-router';
+import { IEmployee } from '../../interfaces';
 
 interface IProps extends WithStyles<typeof styles> {
+  employee?: IEmployee;
   errors: IEmployeeErrors;
   handleChange: any;
   values: any;
@@ -43,7 +45,7 @@ const EmployeeFormView: FC<IProps & RouteComponentProps> = props => {
     <>
       <AppBar color="primary">
         <FormToolbar
-          pageTitle="Δημιουργία υπαλλήλου"
+          pageTitle={props.employee ? 'Επεξεργασία' : 'Νέος υπάλληλος'}
           onCancel={history.goBack}
           onSubmit={handleSubmit}
         />

@@ -28,7 +28,7 @@ const EmployeeListItem: FC<IProps> = props => {
       to={{
         pathname: routes.EMPLOYEE_INFO,
         search: `?vat=${employee.vat}`,
-        // state: employee,
+        state: employee,
       }}
     />
   );

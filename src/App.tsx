@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import DateFnsUtils from '@date-io/date-fns';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+  RouteComponentProps,
+} from 'react-router-dom';
 import SmsLog from './screens/SmsLog';
 import EmployeeList from './screens/EmployeeList';
 import EmployeeInfo from './screens/EmployeeInfo';
@@ -13,6 +19,7 @@ import EmployeeForm from './screens/EmployeeForm';
 import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee, IE8Sms, IEmployer, IE8Form } from './interfaces';
+import db from './db/db';
 
 const theme = createMuiTheme({
   typography: {
@@ -59,6 +66,21 @@ function App() {
   const [employerFormState, setEmployerFormState] = useState<Partial<IEmployer>>({});
   const [e8FormState, setE8FormState] = useState<Partial<IE8Form>>({});
 
+  const updateEmployeesState = async () => {
+    try {
+      const employees = await db.employee.toCollection().toArray();
+      setEmployeesState(employees);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const findEmployee = async (location: any) => {
+    // try {
+    //   const employee = await db.employee.get({ id: location.state.id });
+    //   return employee;
+    // } catch (error) {}
+    return employeesState.find(e => location.search.includes(e.vat));
+  };
   const handleSubmitEmployee = (employee: any) => {
     const updatedEmployees = [...employees, employee];
     setEmployeesState(updatedEmployees);
@@ -83,14 +105,18 @@ function App() {
                 <Route
                   path="/employeeInfo/"
                   render={props => (
-                    <EmployeeInfo
-                      employee={employeesState.find(e =>
-                        props.location.search.includes(e.vat),
-                      )}
+                    <EmployeeInfo employee={findEmployee(props.location)} />
+                  )}
+                />
+                <Route
+                  path="/employeeForm/"
+                  render={props => (
+                    <EmployeeForm
+                      updateState={updateEmployeesState}
+                      employee={findEmployee(props.location)}
                     />
                   )}
                 />
-                <Route path="/employeeForm/" render={props => <EmployeeForm />} />
                 <Route path="/employerForm/" component={EmployerForm} />
                 <Route
                   path="/e8Form/"
@@ -98,9 +124,7 @@ function App() {
                     console.log(props.history);
                     return (
                       <E8Form
-                        employee={employeesState.find(e =>
-                          props.location.search.includes(e.vat),
-                        )}
+                        employee={findEmployee(props.location)}
                         onGoBack={props.history.goBack}
                       />
                     );
