@@ -74,12 +74,13 @@ function App() {
       console.log(error);
     }
   };
-  const findEmployee = async (location: any) => {
+  const findEmployee = (location: any) => {
     // try {
     //   const employee = await db.employee.get({ id: location.state.id });
     //   return employee;
     // } catch (error) {}
-    return employeesState.find(e => location.search.includes(e.vat));
+    // return employeesState.find(e => location.search === e.id);
+    return employees;
   };
   const handleSubmitEmployee = (employee: any) => {
     const updatedEmployees = [...employees, employee];
@@ -98,17 +99,17 @@ function App() {
               <Switch>
                 <Route
                   path="/employeeList"
-                  render={props => <EmployeeList employees={employeesState} />}
+                  render={props => <EmployeeList /* employees={employeesState}  */ />}
                 />
                 {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
-                <Route
+                {/* <Route
                   path="/employeeInfo/"
                   render={props => (
                     <EmployeeInfo employee={findEmployee(props.location)} />
                   )}
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path="/employeeForm/"
                   render={props => (
                     <EmployeeForm
@@ -116,9 +117,9 @@ function App() {
                       employee={findEmployee(props.location)}
                     />
                   )}
-                />
+                /> */}
                 <Route path="/employerForm/" component={EmployerForm} />
-                <Route
+                {/* <Route
                   path="/e8Form/"
                   render={props => {
                     console.log(props.history);
@@ -129,7 +130,7 @@ function App() {
                       />
                     );
                   }}
-                />
+                /> */}
                 <Redirect to="/employeeList" />
               </Switch>
             </div>

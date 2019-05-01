@@ -24,7 +24,7 @@ const EmployeeInfo: FC<IProps> = props => {
       {...props}
       to={{
         pathname: routes.EMPLOYEE_FORM,
-        search: `?vat=${employee.vat}`,
+        // search: `?vat=${employee.vat}`,
       }}
     />
   );

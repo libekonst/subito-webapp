@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { withStyles, createStyles, WithStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import EmployeeListItem from './EmployeeListItem';
@@ -10,17 +10,35 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/PersonAdd';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
+import db from '../../db/db';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
-  employees: IEmployee[];
+  // employees: IEmployee[];
 }
 const EmployeeList: FC<IProps> = props => {
-  const { classes, employees } = props;
+  const { classes } = props;
 
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+
+  // Empty array as 2nd arg to run the effect only after the first render.
+  // Similar to componentdidmount.
+  useEffect(() => {
+    async function fetchEmployees() {
+      try {
+        const employees = await db.employee.toCollection().toArray();
+        setEmployees(employees);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchEmployees();
+  }, []);
   const LinkToEmployeeForm = (props: any) => (
     <Link to={routes.EMPLOYEE_FORM} {...props} />
   );
@@ -48,7 +66,7 @@ const EmployeeList: FC<IProps> = props => {
       </Fab>
       <List className={classes.list}>
         {employees.map(e => (
-          <EmployeeListItem employee={e} key={e.vat} />
+          <EmployeeListItem employee={e} key={e.id} />
         ))}
       </List>
     </>

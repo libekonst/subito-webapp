@@ -27,8 +27,8 @@ const EmployeeListItem: FC<IProps> = props => {
       {...props}
       to={{
         pathname: routes.EMPLOYEE_INFO,
-        search: `?vat=${employee.vat}`,
-        state: employee,
+        // search: employee.id,
+        // state: employee,
       }}
     />
   );
@@ -37,7 +37,7 @@ const EmployeeListItem: FC<IProps> = props => {
       {...props}
       to={{
         pathname: routes.E8FORM,
-        search: `?vat=${employee.vat}`,
+        // search: employee.id,
         // state: employee,
       }}
     />
