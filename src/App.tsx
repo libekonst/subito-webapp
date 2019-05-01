@@ -20,6 +20,7 @@ import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee, IE8Sms, IEmployer, IE8Form } from './interfaces';
 import db from './db/db';
+import { routes } from './routes';
 
 const theme = createMuiTheme({
   typography: {
@@ -97,27 +98,17 @@ function App() {
           <Router basename="/subito-webapp">
             <div className="App">
               <Switch>
-                <Route
-                  path="/employeeList"
-                  render={props => <EmployeeList /* employees={employeesState}  */ />}
-                />
+                <Route path={routes.EMPLOYEE_LIST} component={EmployeeList} />
                 {/* TODO: Redirect "/smsLog/ambiguous" to '/smsLog' to avoid pushing to history and causing render/fetch onBack */}
                 <Route path="/smsLog/" component={SmsLog} />
-                {/* <Route
-                  path="/employeeInfo/"
-                  render={props => (
-                    <EmployeeInfo employee={findEmployee(props.location)} />
-                  )}
-                /> */}
-                {/* <Route
-                  path="/employeeForm/"
-                  render={props => (
-                    <EmployeeForm
-                      updateState={updateEmployeesState}
-                      employee={findEmployee(props.location)}
-                    />
-                  )}
-                /> */}
+                <Route
+                  path={`${routes.EMPLOYEE_INFO}/:employeeID`}
+                  component={EmployeeInfo}
+                />
+                <Route
+                  path={`${routes.EMPLOYEE_FORM}/:employeeID`}
+                  component={EmployeeForm}
+                />
                 <Route path="/employerForm/" component={EmployerForm} />
                 {/* <Route
                   path="/e8Form/"

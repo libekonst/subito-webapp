@@ -126,4 +126,4 @@ const styles = (theme: Theme) =>
     },
   });
 
-export default withStyles(styles)(withRouter(EmployeeFormView));
+export default withStyles(styles)(EmployeeFormView);

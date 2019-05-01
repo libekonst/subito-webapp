@@ -29,13 +29,14 @@ const EmployeeList: FC<IProps> = props => {
   // Similar to componentdidmount.
   useEffect(() => {
     async function fetchEmployees() {
+      let employees;
       try {
-        const employees = await db.employee.toCollection().toArray();
-        setEmployees(employees);
-        setIsLoading(false);
+        employees = await db.employee.toCollection().toArray();
       } catch (error) {
         console.log(error);
       }
+      setEmployees(employees || []);
+      setIsLoading(false);
     }
     fetchEmployees();
   }, []);

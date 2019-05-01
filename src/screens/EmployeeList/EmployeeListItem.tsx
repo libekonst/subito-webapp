@@ -23,14 +23,7 @@ const EmployeeListItem: FC<IProps> = props => {
   const { employee } = props;
   const initial = toUpperCaseInitial(employee.name);
   const EmployeeInfoLink = (props: any) => (
-    <Link
-      {...props}
-      to={{
-        pathname: routes.EMPLOYEE_INFO,
-        // search: employee.id,
-        // state: employee,
-      }}
-    />
+    <Link {...props} to={`${routes.EMPLOYEE_INFO}/${employee.id}`} />
   );
   const EmployeeE8Link = (props: any) => (
     <Link

@@ -1,18 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { Redirect, withRouter, RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
+import db from '../../db/db';
 
-interface IProps {
-  employee?: IEmployee;
+interface IMatchParams {
+  employeeID?: string;
 }
 
-const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
-  const { employee, history } = props;
+const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
+  const { match, history } = props;
 
-  // if (!props.employee && !location.state) return <Redirect to="/" />;
-  // if (!location.state.vat) return <Redirect to="/" />;
+  const [employee, setEmployee] = useState<IEmployee | undefined>();
+
+  useEffect(() => {
+    async function fetchEmployee() {
+      const { employeeID } = match.params;
+      let employee;
+      try {
+        if (employeeID) employee = await db.employee.get(parseInt(employeeID, 10));
+      } catch (error) {
+        console.log(error);
+      }
+      // setIsLoading(false);
+      setEmployee(employee);
+    }
+    fetchEmployee();
+  }, []);
 
   const smsFactory = () => ({
     employee: {
@@ -43,4 +58,4 @@ const EmployeeInfo: FC<IProps & RouteComponentProps> = props => {
   );
 };
 
-export default withRouter(EmployeeInfo);
+export default EmployeeInfo;

@@ -20,13 +20,7 @@ interface IProps extends WithStyles<typeof styles> {
 const EmployeeInfo: FC<IProps> = props => {
   const { classes, employee, onGoBack } = props;
   const LinkToEmployeeForm = (props: any) => (
-    <Link
-      {...props}
-      to={{
-        pathname: routes.EMPLOYEE_FORM,
-        // search: `?vat=${employee.vat}`,
-      }}
-    />
+    <Link {...props} to={`${routes.EMPLOYEE_FORM}/${employee.id}`} />
   );
   return (
     <>

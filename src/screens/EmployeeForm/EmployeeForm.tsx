@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import { addHours, setHours, setMinutes } from 'date-fns';
 import validateOnChange, { validateOnSubmit } from './validation';
@@ -8,28 +8,45 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import db from '../../db/db';
 import { IEmployee } from '../../interfaces';
 
-interface IProps {
-  updateState: () => void;
-  employee?: IEmployee;
+interface IMatchParams {
+  employeeID?: string;
 }
 
-const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
+const EmployeeForm: FC<RouteComponentProps<IMatchParams>> = props => {
   const date: Date = setMinutes(setHours(new Date(), 8), 0);
-  const { employee } = props;
+  const [employee, setEmployee] = useState<IEmployee | undefined>();
+
   const [errors, setErrors] = useState<IEmployeeErrors>({
     name: '',
     vat: '',
     workStart: '',
     workFinish: '',
   });
-  const [values, setValues] = useState(
-    employee ? { name: employee.name, vat: employee.vat } : { name: '', vat: '' },
-  );
+  const [values, setValues] = useState({ name: '', vat: '' });
   const [workStart, setWorkStart] = useState(employee ? employee.workStart : date);
   const [workFinish, setWorkFinish] = useState(
     employee ? employee.workFinish : addHours(date, 8),
   );
 
+  useEffect(() => {
+    async function fetchEmployee() {
+      const { employeeID } = props.match.params;
+      let employee;
+      try {
+        if (employeeID) employee = await db.employee.get(parseInt(employeeID, 10));
+      } catch (error) {
+        console.log(error);
+      }
+      // setIsLoading(false);
+      setEmployee(employee);
+      setValues(
+        employee ? { name: employee.name, vat: employee.vat } : { name: '', vat: '' },
+      );
+      setWorkStart(employee ? employee.workStart : date);
+      setWorkFinish(employee ? employee.workFinish : addHours(date, 8));
+    }
+    fetchEmployee();
+  }, []);
   const handleSubmit = async (event: any) => {
     if (event) event.preventDefault();
     const theErrors = validateOnSubmit(values);
@@ -41,8 +58,7 @@ const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
 
     try {
       await db.employee.put({ ...employee, ...values, workStart, workFinish });
-      props.history.goBack();
-      return props.updateState();
+      return props.history.goBack();
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +76,8 @@ const EmployeeForm: FC<IProps & RouteComponentProps> = props => {
 
   return (
     <EmployeeFormView
-      employee={props.employee}
+      employee={employee}
+      {...props}
       {...{
         errors,
         values,
