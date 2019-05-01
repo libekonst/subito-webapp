@@ -1,15 +1,22 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms } from '../../interfaces';
 import { withRouter, RouteComponentProps, Route, Switch } from 'react-router';
-import { AppBar, DeadEndToolbar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
+import {
+  AppBar,
+  DeadEndToolbar,
+  DrawerToolbar,
+  AppDrawer,
+} from '../../components/AppShell';
 import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
+import dexieDb from '../../db/db';
 
 interface IProps {}
 
 const SmsLog: FC<IProps & RouteComponentProps> = props => {
   const { history } = props;
+
   const smsFactory = () => ({
     employee: {
       name: 'Γιάννης Χιονίδης',
@@ -26,6 +33,17 @@ const SmsLog: FC<IProps & RouteComponentProps> = props => {
   const list: IE8Sms[] = Array(30)
     .fill(0)
     .map(smsFactory);
+
+  const [smsList, setSmsList] = useState<IE8Sms[]>(list);
+  useEffect(() => {
+    async function fetchSmses() {
+      const smses = await dexieDb.sms.toArray();
+      if (!smses.length) return;
+      setSmsList(smses);
+    }
+    fetchSmses();
+  }, []);
+
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
   return (
@@ -42,7 +60,7 @@ const SmsLog: FC<IProps & RouteComponentProps> = props => {
         />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <SmsList smsList={list} />
+      <SmsList smsList={smsList} />
     </>
   );
 };

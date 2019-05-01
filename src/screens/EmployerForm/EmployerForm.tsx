@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent } from 'react';
+import React, { FC, useState, ChangeEvent, useEffect } from 'react';
 import { IEmployer, IEmployerErrors } from '../../interfaces';
 import { isNumeric, validateInput } from './validation';
 import View from './View';
@@ -12,6 +12,16 @@ const EmployerForm: FC<IProps> = () => {
     ame: '',
     smsNumber: '',
   });
+
+  useEffect(() => {
+    async function fetchEmployer() {
+      const employer = await dexieDb.employer.toCollection().last();
+      if (!employer) return;
+      setValues(employer);
+    }
+    fetchEmployer();
+  }, []);
+
   const [errors, setErrors] = useState<IEmployerErrors>({});
 
   const handleChange = (val: keyof IEmployer) => (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +61,7 @@ const EmployerForm: FC<IProps> = () => {
     setErrors(validationErrors);
 
     // If validationErrors contains any errors, prevent submition
-    if (Object.values(validationErrors).reduce((acc, val) => acc && val, true))
+    if (!!Object.values(validationErrors).reduce((acc, val) => acc + val,''))
       return console.log(validationErrors);
 
     // Submit
@@ -60,7 +70,6 @@ const EmployerForm: FC<IProps> = () => {
     } catch (error) {
       return console.log(error);
     }
-    
   };
 
   return (

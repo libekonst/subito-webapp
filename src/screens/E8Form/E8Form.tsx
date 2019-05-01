@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect } from 'react';
 import { IEmployee } from '../../interfaces/IEmployee';
 import { addMinutes, isAfter, isBefore, differenceInMinutes, format } from 'date-fns';
 import E8FormView from './E8FormView';
+import { IEmployer } from '../../interfaces';
+import dexieDb from '../../db/db';
 
 const durationOptions = [
   { key: 0, label: '30 λεπτά', duration: 30 },
@@ -15,11 +17,21 @@ const durationOptions = [
 
 interface IProps {
   employee?: IEmployee;
-  onGoBack?: (e: any) => void;
+  
+  onGoBack: (e: any) => void;
 }
 
 const E8Form: FC<IProps> = props => {
-  const { employee } = props;
+  const { employee,  } = props;
+  const [employer, setEmployer] = useState();
+  useEffect(() => {
+    async function fetchEmployer() {
+      const employer = await dexieDb.employer.toCollection().last();
+      if (!employer) return;
+      setEmployer(employer);
+    }
+    fetchEmployer();
+  }, []);
 
   const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
@@ -31,10 +43,17 @@ const E8Form: FC<IProps> = props => {
 
   const makeErganiCode = () => {
     if (!employee) return '';
+    if (!employer) return '';
     const data: string[] =
       submitionType === 'submitNew'
-        ? [employee.vat, format(overtimeStart, 'HHmm'), format(overtimeFinish, 'HHmm')]
-        : [employee.vat, '0000', '0000'];
+        ? [
+            employer.vat,
+            employer.ame || '',
+            employee.vat,
+            format(overtimeStart, 'HHmm'),
+            format(overtimeFinish, 'HHmm'),
+          ]
+        : [employer.vat, employer.ame || '', employee.vat, '0000', '0000'];
     return data.join(' ');
   };
 
@@ -93,7 +112,25 @@ const E8Form: FC<IProps> = props => {
     return currentErrors;
   };
 
-  return (
+  const handleSubmitSms = async () => {
+    if (!employee) return;
+    validate();
+    if (!!Object.values(errors).reduce((acc, val) => acc + val, ''))
+      return console.log(errors);
+    try {
+      await dexieDb.sms.put({
+        employee,
+        overtimeStart,
+        overtimeFinish,
+        approved: true,
+        dateSent: new Date(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return (employer?
     <E8FormView
       onGoBack={props.onGoBack}
       erganiCode={makeErganiCode()}
@@ -109,8 +146,10 @@ const E8Form: FC<IProps> = props => {
         selectSubmitionType,
         errors,
         durationOptions,
+        handleSubmitSms,
+        employer,
       }}
-    />
+    />:<div>lol</div>
   );
 };
 
