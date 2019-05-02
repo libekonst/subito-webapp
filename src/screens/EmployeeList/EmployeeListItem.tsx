@@ -13,14 +13,19 @@ import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
 
-const styles = (theme: any) => createStyles({});
+const styles = (theme: any) =>
+  createStyles({
+    blue: {
+      backgroundColor: theme.palette.primary.light,
+    },
+  });
 
 interface IProps {
   classes: any;
   employee: IEmployee;
 }
 const EmployeeListItem: FC<IProps> = props => {
-  const { employee } = props;
+  const { employee, classes } = props;
   const initial = toUpperCaseInitial(employee.name);
   const EmployeeInfoLink = (props: any) => (
     <Link {...props} to={`${routes.EMPLOYEE_INFO}/${employee.id}`} />
@@ -31,7 +36,7 @@ const EmployeeListItem: FC<IProps> = props => {
   return (
     <ListItem button component={EmployeeE8Link}>
       <ListItemAvatar>
-        <Avatar>{initial || <PersonIcon />}</Avatar>
+        <Avatar className={classes.blue}>{initial || <PersonIcon />}</Avatar>
       </ListItemAvatar>
       <ListItemText primary={employee.name} secondary={employee.vat} />
       <ListItemSecondaryAction>

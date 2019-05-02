@@ -48,7 +48,7 @@ const EmployeeList: FC<IProps> = props => {
   const handleExportToCSV = () => exportToCsvEmployees(employees);
   return (
     <div>
-      <AppBar color="primary">
+      <AppBar color="default">
         <DrawerToolbar
           onOpenDrawer={toggleDrawerState}
           pageTitle="Υπάλληλοι"
@@ -61,12 +61,12 @@ const EmployeeList: FC<IProps> = props => {
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
       <Fab
-        color="primary"
+        color="default"
         aria-label="Add"
         className={classes.fab}
         component={LinkToEmployeeForm}
       >
-        <AddIcon />
+        <AddIcon color="primary" />
       </Fab>
       <Fade in={!!employees.length}>
         <List className={classes.list}>

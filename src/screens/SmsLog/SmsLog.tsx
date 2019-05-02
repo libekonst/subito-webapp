@@ -29,7 +29,7 @@ const SmsLog: FC = props => {
   const toggleDrawerState = () => setDrawerState(!drawerState);
   return (
     <>
-      <AppBar color="primary">
+      <AppBar color="default">
         <DrawerToolbar
           onOpenDrawer={toggleDrawerState}
           pageTitle="Λίστα Sms"
