@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
+import { exportToCsvEmployees } from '../../utils/exportToCSV';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -44,6 +45,7 @@ const EmployeeList: FC<IProps> = props => {
   const LinkToEmployeeForm = (props: any) => (
     <Link to={routes.EMPLOYEE_FORM} {...props} />
   );
+  const handleExportToCSV = () => exportToCsvEmployees(employees);
   return (
     <div>
       <AppBar color="primary">
@@ -51,7 +53,7 @@ const EmployeeList: FC<IProps> = props => {
           onOpenDrawer={toggleDrawerState}
           pageTitle="Υπάλληλοι"
           secondaryActions={
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleExportToCSV}>
               <SaveIcon />
             </IconButton>
           }
