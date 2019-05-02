@@ -1,6 +1,16 @@
 import React, { FC, useState, useEffect } from 'react';
 import { IEmployee } from '../../interfaces/IEmployee';
-import { addMinutes, isAfter, isBefore, differenceInMinutes, format } from 'date-fns';
+import {
+  addMinutes,
+  isAfter,
+  isBefore,
+  differenceInMinutes,
+  format,
+  setMinutes,
+  getMinutes,
+  getHours,
+  setHours,
+} from 'date-fns';
 import E8FormView from './E8FormView';
 import { IEmployer } from '../../interfaces';
 import dexieDb from '../../db/db';
@@ -26,7 +36,7 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     history,
   } = props;
   const [employer, setEmployer] = useState();
-  const [employee, setEmployee] = useState();
+  const [employee, setEmployee] = useState<IEmployee>();
   useEffect(() => {
     async function fetchEmployer() {
       const employer = await dexieDb.employer.toCollection().last();
@@ -51,7 +61,21 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     fetchEmployee();
   }, []);
 
-  const [overtimeStart, setOvertimeStart] = useState(addMinutes(new Date(), 5));
+  let overtimeStartInitial = addMinutes(new Date(), 5);
+  if (employee) {
+    const workFinishHour = getHours(employee.workFinish);
+    const workHourMinute = getMinutes(employee.workFinish);
+
+    overtimeStartInitial = setHours(
+      setMinutes(new Date(), workHourMinute),
+      workFinishHour,
+    );
+
+    if (isAfter(new Date(), overtimeStartInitial))
+      overtimeStartInitial = addMinutes(new Date(), 5);
+  }
+
+  const [overtimeStart, setOvertimeStart] = useState(overtimeStartInitial);
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
 
   const [submitionType, setSubmitType] = useState('submitNew');
