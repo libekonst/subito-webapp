@@ -6,6 +6,7 @@ export default function exportToCsvSmsList(
   smsList: IE8Sms[],
   options?: Partial<Options>,
 ) {
+  if (smsList.length === 0) return;
   const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
@@ -37,6 +38,7 @@ export function exportToCsvEmployees(
   employeeList: IEmployee[],
   options?: Partial<Options>,
 ) {
+  if (employeeList.length === 0) return;
   const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
