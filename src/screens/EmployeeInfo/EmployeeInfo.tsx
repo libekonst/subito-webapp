@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
-import exportToCsv from '../../utils/exportToCSV';
+import exportToCsvSmsList from '../../utils/exportToCSV';
 import { Fab } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 interface IMatchParams {
@@ -68,7 +68,7 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
     }
   };
   const handleExportCSV = () =>
-    exportToCsv(smsList, { filename: `${employee!.name} μηνύματα Εργάνη` });
+    exportToCsvSmsList(smsList, { filename: `${employee!.name} μηνύματα Εργάνη` });
   return (
     <>
       {employee && (

@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
 import Fade from '@material-ui/core/Fade';
-import exportToCsv from '../../utils/exportToCSV';
+import exportToCsvSmsList from '../../utils/exportToCSV';
 
 const SmsLog: FC = props => {
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
@@ -23,7 +23,7 @@ const SmsLog: FC = props => {
     fetchSmsList();
   }, []);
 
-  const handleExportToCSV = () => exportToCsv(smsList);
+  const handleExportToCSV = () => exportToCsvSmsList(smsList);
 
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);

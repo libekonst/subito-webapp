@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import EmployeeListItem from './EmployeeListItem';
 import { IEmployee } from '../../interfaces/IEmployee';
 import IconButton from '@material-ui/core/IconButton';
-import BackupIcon from '@material-ui/icons/Backup';
+import SaveIcon from '@material-ui/icons/Save';
 import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/PersonAdd';
@@ -52,7 +52,7 @@ const EmployeeList: FC<IProps> = props => {
           pageTitle="Υπάλληλοι"
           secondaryActions={
             <IconButton color="inherit">
-              <BackupIcon />
+              <SaveIcon />
             </IconButton>
           }
         />

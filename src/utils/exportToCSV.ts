@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 import { IE8Sms } from '../interfaces';
 import { ExportToCsv, Options } from 'export-to-csv';
 
-export default function exportToCsv(smsList: IE8Sms[], options?: Partial<Options>) {
+export default function exportToCsvSmsList(smsList: IE8Sms[], options?: Partial<Options>) {
   const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
