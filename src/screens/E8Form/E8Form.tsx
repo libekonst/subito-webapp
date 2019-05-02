@@ -15,6 +15,7 @@ import E8FormView from './E8FormView';
 import { IEmployer } from '../../interfaces';
 import dexieDb from '../../db/db';
 import { RouteComponentProps } from 'react-router';
+import roundDateMinute from '../../utils/roundDate';
 
 const durationOptions = [
   { key: 0, label: '30 λεπτά', duration: 30 },
@@ -56,26 +57,24 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         console.log(error);
       }
       if (!employee) return;
+
+      const workFinishHour = getHours(employee.workFinish);
+      const workHourMinute = getMinutes(employee.workFinish);
+      let overtimeStartInitial = setHours(
+        setMinutes(new Date(), workHourMinute),
+        workFinishHour,
+      );
+      if (isAfter(new Date(), overtimeStartInitial))
+        overtimeStartInitial = roundDateMinute(new Date());
+
       setEmployee(employee);
+      setOvertimeStart(overtimeStartInitial);
+      setOvertimeFinish(addMinutes(overtimeStartInitial, 30));
     }
     fetchEmployee();
   }, []);
 
-  let overtimeStartInitial = addMinutes(new Date(), 5);
-  if (employee) {
-    const workFinishHour = getHours(employee.workFinish);
-    const workHourMinute = getMinutes(employee.workFinish);
-
-    overtimeStartInitial = setHours(
-      setMinutes(new Date(), workHourMinute),
-      workFinishHour,
-    );
-
-    if (isAfter(new Date(), overtimeStartInitial))
-      overtimeStartInitial = addMinutes(new Date(), 5);
-  }
-
-  const [overtimeStart, setOvertimeStart] = useState(overtimeStartInitial);
+  const [overtimeStart, setOvertimeStart] = useState(roundDateMinute(new Date()));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
 
   const [submitionType, setSubmitType] = useState('submitNew');
