@@ -50,7 +50,7 @@ function BottomMessageTile(props: IProps) {
       <IconButton
         className={props.classes.sendButton}
         onClick={props.handleSubmitSms}
-        /* disabled={!!Object.values(props.errors).reduce((acc, val) => acc + val, '')} */
+        disabled={!!Object.values(props.errors).reduce((acc, val) => acc + val, '')}
         component={aProps => (
           <a
             href={`sms:${props.employer.smsNumber}?body=${props.message}`}
