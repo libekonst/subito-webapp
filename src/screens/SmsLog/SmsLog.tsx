@@ -6,8 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
 import Fade from '@material-ui/core/Fade';
-import { ExportToCsv } from 'export-to-csv';
-import { format } from 'date-fns';
+import exportToCsv from '../../utils/exportToCSV';
 
 const SmsLog: FC = props => {
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
@@ -24,33 +23,7 @@ const SmsLog: FC = props => {
     fetchSmsList();
   }, []);
 
-  function handleExportToCSV() {
-    const data = smsList.map(sms => {
-      return {
-        Υπάλληλος: sms.employee.name,
-        'Έναρξη υπερωρίας': format(sms.overtimeStart, 'HH:mm'),
-        'Λήξη υπερωρίας': format(sms.overtimeFinish, 'HH:mm'),
-        'Ημερομηνία αποστολής': format(sms.dateSent, 'dd/MM/yyyy HH:mm'),
-        'Δεκτή απο Εργάνη': sms.approved ? 'ΝΑΙ' : 'ΟΧΙ',
-      };
-    });
-
-    const options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalSeparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'Μηνύματα Εργάνη',
-      filename: 'Μηνύματα Εργάνη',
-      useTextFile: false,
-      useBom: true,
-      useKeysAsHeaders: true,
-    };
-    const csvExporter = new ExportToCsv(options);
-
-    csvExporter.generateCsv(data);
-  }
+  const handleExportToCSV = () => exportToCsv(smsList);
 
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
