@@ -1,20 +1,9 @@
 import { format } from 'date-fns';
 import { IE8Sms } from '../interfaces';
-import { ExportToCsv } from 'export-to-csv';
+import { ExportToCsv, Options } from 'export-to-csv';
 
-export default function exportToCsv(smsList: IE8Sms[]) {
-  const data = smsList.map(sms => {
-    return {
-      Υπάλληλος: sms.employee.name,
-      ΑΦΜ: sms.employee.vat,
-      'Έναρξη υπερωρίας': format(sms.overtimeStart, 'HH:mm'),
-      'Λήξη υπερωρίας': format(sms.overtimeFinish, 'HH:mm'),
-      'Ημερομηνία αποστολής': format(sms.dateSent, 'dd/MM/yyyy HH:mm'),
-      'Δεκτή απο Εργάνη': sms.approved ? 'ΝΑΙ' : 'ΟΧΙ',
-    };
-  });
-
-  const options = {
+export default function exportToCsv(smsList: IE8Sms[], options?: Partial<Options>) {
+  const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalSeparator: '.',
@@ -26,7 +15,18 @@ export default function exportToCsv(smsList: IE8Sms[]) {
     useBom: true,
     useKeysAsHeaders: true,
   };
-  const csvExporter = new ExportToCsv(options);
+  const data = smsList.map(sms => {
+    return {
+      Υπάλληλος: sms.employee.name,
+      ΑΦΜ: sms.employee.vat,
+      'Έναρξη υπερωρίας': format(sms.overtimeStart, 'HH:mm'),
+      'Λήξη υπερωρίας': format(sms.overtimeFinish, 'HH:mm'),
+      'Ημερομηνία αποστολής': format(sms.dateSent, 'dd/MM/yyyy HH:mm'),
+      'Δεκτή απο Εργάνη': sms.approved ? 'ΝΑΙ' : 'ΟΧΙ',
+    };
+  });
+
+  const csvExporter = new ExportToCsv({ ...defaultOptions, ...options });
 
   csvExporter.generateCsv(data);
 }

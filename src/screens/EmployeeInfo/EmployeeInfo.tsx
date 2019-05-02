@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
+import exportToCsv from '../../utils/exportToCSV';
 
 interface IMatchParams {
   employeeID?: string;
@@ -65,6 +66,8 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
       console.log(error);
     }
   };
+  const handleExportCSV = () =>
+    exportToCsv(smsList, { filename: `${employee!.name} μηνύματα Εργάνη` });
   return (
     <>
       {employee && (
