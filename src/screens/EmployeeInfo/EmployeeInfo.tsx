@@ -6,7 +6,8 @@ import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import exportToCsv from '../../utils/exportToCSV';
-
+import { Fab } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
 interface IMatchParams {
   employeeID?: string;
 }
@@ -80,7 +81,18 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
         </AppBar>
       )}
       <Fade in={true}>
-        <SmsList smsList={smsList} />
+        <div>
+          <SmsList smsList={smsList} />
+          <Fab
+            onClick={handleExportCSV}
+            color="primary"
+            aria-label="csv"
+            /* className={classes.fab} */
+            style={{ position: 'fixed', bottom: 0, right: 0, margin: 16 }}
+          >
+            <SaveIcon />
+          </Fab>
+        </div>
       </Fade>
     </>
   );
