@@ -17,6 +17,7 @@ import { IEmployer, IEmployerErrors } from '../../interfaces';
 import Button from '@material-ui/core/Button';
 import { AppBar, FormToolbar } from '../../components/AppShell';
 import { withRouter, RouteComponentProps } from 'react-router';
+import Fade from '@material-ui/core/Fade';
 
 interface IProps extends WithStyles<typeof styles> {
   onChange: (val: keyof IEmployer) => (e: any) => void;
@@ -32,89 +33,97 @@ const View: FC<IProps & RouteComponentProps> = props => {
   return (
     <>
       <AppBar color="primary">
-        <FormToolbar onCancel={history.goBack} onSubmit={onSubmit} pageTitle="Ρυθμίσεις" />
+        <FormToolbar
+          onCancel={history.goBack}
+          onSubmit={onSubmit}
+          pageTitle="Ρυθμίσεις"
+        />
       </AppBar>
-      <List
-        className={classes.list}
-        subheader={
-          <ListSubheader color="primary" className={classes.listHeader}>
-            Στοιχεία Εργοδότη
-          </ListSubheader>
-        }
-      >
-        <ListItem key="employer-name">
-          <ListItemIcon>
-            <AccountIcon />
-          </ListItemIcon>
-          <TextField
-            value={values.name}
-            onChange={onChange('name')}
-            error={!!errors.name}
-            label={errors.name || 'Ονοματεπώνυμο'}
-            variant={variant}
-            className={classes.textField}
-          />
-        </ListItem>
-        <ListItem key="employer-vat">
-          <ListItemIcon>
-            <WorkIcon />
-          </ListItemIcon>
-          <TextField
-            value={values.vat}
-            onChange={onChange('vat')}
-            error={!!errors.vat}
-            label={errors.vat || 'ΑΦΜ'}
-            variant={variant}
-            type="tel"
-            className={classes.textField}
-          />
-        </ListItem>
-        <ListItem key="employer-ame">
-          <ListItemIcon>
-            <WorkTwoToneIcon />
-          </ListItemIcon>
-          <TextField
-            value={values.ame}
-            onChange={onChange('ame')}
-            error={!!errors.ame}
-            label={errors.ame || 'ΑΜΕ (προαιρετικό)'}
-            variant={variant}
-            type="tel"
-            className={classes.textField}
-          />
-        </ListItem>
-      </List>
-      <List
-        className={classes.list}
-        subheader={
-          <ListSubheader color="primary" className={classes.listHeader}>
-            Επιλογές SMS
-          </ListSubheader>
-        }
-      >
-        <ListItem key="sms-number">
-          <ListItemIcon>
-            <PhoneIcon />
-          </ListItemIcon>
-          <TextField
-            value={values.smsNumber}
-            onChange={onChange('smsNumber')}
-            error={!!errors.smsNumber}
-            label={errors.smsNumber || 'Αριθμός Παραλήπτη'}
-            variant={variant}
-            type="tel"
-            className={classes.textField}
-          />
-        </ListItem>
-        <div className={classes.infoTileWrapper}>
-          <ListItem key="info" dense className={classes.infoTile}>
-            <ListItemIcon>
-              <InfoIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Για την υποβολή αίτησης Ε8 με SMS, τα μηνύματα αποστέλλονται στον αριθμό 54001." />
-          </ListItem>
+      <Fade in>
+        <div>
+          <List
+            className={classes.list}
+            subheader={
+              <ListSubheader color="primary" className={classes.listHeader}>
+                Στοιχεία Εργοδότη
+              </ListSubheader>
+            }
+          >
+            <ListItem key="employer-name">
+              <ListItemIcon>
+                <AccountIcon />
+              </ListItemIcon>
+              <TextField
+                value={values.name}
+                onChange={onChange('name')}
+                error={!!errors.name}
+                label={errors.name || 'Ονοματεπώνυμο'}
+                variant={variant}
+                className={classes.textField}
+              />
+            </ListItem>
+            <ListItem key="employer-vat">
+              <ListItemIcon>
+                <WorkIcon />
+              </ListItemIcon>
+              <TextField
+                value={values.vat}
+                onChange={onChange('vat')}
+                error={!!errors.vat}
+                label={errors.vat || 'ΑΦΜ'}
+                variant={variant}
+                type="tel"
+                className={classes.textField}
+              />
+            </ListItem>
+            <ListItem key="employer-ame">
+              <ListItemIcon>
+                <WorkTwoToneIcon />
+              </ListItemIcon>
+              <TextField
+                value={values.ame}
+                onChange={onChange('ame')}
+                error={!!errors.ame}
+                label={errors.ame || 'ΑΜΕ (προαιρετικό)'}
+                variant={variant}
+                type="tel"
+                className={classes.textField}
+              />
+            </ListItem>
+          </List>
+          <List
+            className={classes.list}
+            subheader={
+              <ListSubheader color="primary" className={classes.listHeader}>
+                Επιλογές SMS
+              </ListSubheader>
+            }
+          >
+            <ListItem key="sms-number">
+              <ListItemIcon>
+                <PhoneIcon />
+              </ListItemIcon>
+              <TextField
+                value={values.smsNumber}
+                onChange={onChange('smsNumber')}
+                error={!!errors.smsNumber}
+                label={errors.smsNumber || 'Αριθμός Παραλήπτη'}
+                variant={variant}
+                type="tel"
+                className={classes.textField}
+              />
+            </ListItem>
+            <div className={classes.infoTileWrapper}>
+              <ListItem key="info" dense className={classes.infoTile}>
+                <ListItemIcon>
+                  <InfoIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary="Για την υποβολή αίτησης Ε8 με SMS, τα μηνύματα αποστέλλονται στον αριθμό 54001." />
+              </ListItem>
+            </div>
+          </List>
         </div>
-      </List>
+      </Fade>
     </>
   );
 };

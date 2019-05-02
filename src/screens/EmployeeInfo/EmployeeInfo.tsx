@@ -4,6 +4,7 @@ import { IE8Sms, IEmployee } from '../../interfaces';
 import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
+import Fade from '@material-ui/core/Fade';
 
 interface IMatchParams {
   employeeID?: string;
@@ -75,7 +76,9 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
           />
         </AppBar>
       )}
-      <SmsList smsList={smsList} />
+      <Fade in={true}>
+        <SmsList smsList={smsList} />
+      </Fade>
     </>
   );
 };

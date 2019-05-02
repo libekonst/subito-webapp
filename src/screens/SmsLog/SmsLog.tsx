@@ -5,6 +5,7 @@ import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
 import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
+import Fade from '@material-ui/core/Fade';
 
 const SmsLog: FC = props => {
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
@@ -37,7 +38,11 @@ const SmsLog: FC = props => {
         />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <SmsList smsList={smsList} />
+      <Fade in={!!smsList.length}>
+        <div>
+          <SmsList smsList={smsList} />
+        </div>
+      </Fade>
     </>
   );
 };

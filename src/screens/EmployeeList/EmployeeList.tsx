@@ -11,6 +11,7 @@ import AddIcon from '@material-ui/icons/PersonAdd';
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
 import db from '../../db/db';
+import Fade from '@material-ui/core/Fade';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -44,7 +45,7 @@ const EmployeeList: FC<IProps> = props => {
     <Link to={routes.EMPLOYEE_FORM} {...props} />
   );
   return (
-    <>
+    <div>
       <AppBar color="primary">
         <DrawerToolbar
           onOpenDrawer={toggleDrawerState}
@@ -65,12 +66,14 @@ const EmployeeList: FC<IProps> = props => {
       >
         <AddIcon />
       </Fab>
-      <List className={classes.list}>
-        {employees.map(e => (
-          <EmployeeListItem employee={e} key={e.id} />
-        ))}
-      </List>
-    </>
+      <Fade in={!!employees.length}>
+        <List className={classes.list}>
+          {employees.map(e => (
+            <EmployeeListItem employee={e} key={e.id} />
+          ))}
+        </List>
+      </Fade>
+    </div>
   );
 };
 

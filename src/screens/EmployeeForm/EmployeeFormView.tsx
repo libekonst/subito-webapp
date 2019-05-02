@@ -14,6 +14,8 @@ import Button from '@material-ui/core/Button';
 import { AppBar, FormToolbar } from '../../components/AppShell';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { IEmployee } from '../../interfaces';
+import Slide from '@material-ui/core/Slide';
+import Fade from '@material-ui/core/Fade';
 
 interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
@@ -44,7 +46,7 @@ const EmployeeFormView: FC<IProps & RouteComponentProps<IMatchParams>> = props =
     history,
   } = props;
   return (
-    <>
+    <div>
       <AppBar color="primary">
         <FormToolbar
           pageTitle={props.match.params.employeeID ? 'Επεξεργασία' : 'Νέος υπάλληλος'}
@@ -52,62 +54,66 @@ const EmployeeFormView: FC<IProps & RouteComponentProps<IMatchParams>> = props =
           onSubmit={handleSubmit}
         />
       </AppBar>
-      <List
-        className={classes.list}
-        subheader={
-          <ListSubheader color="primary" className={classes.listHeader}>
-            Στοιχεία υπαλλήλου
-          </ListSubheader>
-        }
-      >
-        <ListItem key="employee-fullname">
-          <ListItemIcon>
-            <AccountIcon />
-          </ListItemIcon>
-          <TextField
-            variant={variant}
-            label={errors.name || 'Ονοματεπώνυμο'}
-            error={!!errors.name}
-            value={values.name}
-            onChange={handleChange('name')}
-            className={classes.textField}
-          />
-        </ListItem>
-        <ListItem key="employee-vat">
-          <ListItemIcon>
-            <WorkIcon />
-          </ListItemIcon>
-          <TextField
-            variant={variant}
-            type="tel"
-            label={errors.vat || 'ΑΦΜ'}
-            error={!!errors.vat}
-            value={values.vat}
-            onChange={handleChange('vat')}
-            className={classes.textField}
-          />
-        </ListItem>
-      </List>
-      <List
-        className={classes.list}
-        subheader={
-          <ListSubheader color="primary" className={classes.listHeader}>
-            Τυπικό ωράριο εργασίας
-          </ListSubheader>
-        }
-      >
-        <ListItem key="WorkHour">
-          <WorkHourPicker
-            labelStart="Ώρα Έναρξης"
-            labelFinish="Ώρα Λήξης"
-            valueStart={workStart}
-            valueFinish={workFinish}
-            onChangeStart={setWorkStart}
-            onChangeFinish={setWorkFinish}
-          />
-        </ListItem>
-      </List>
-    </>
+      <Fade in>
+        <div>
+          <List
+            className={classes.list}
+            subheader={
+              <ListSubheader color="primary" className={classes.listHeader}>
+                Στοιχεία υπαλλήλου
+              </ListSubheader>
+            }
+          >
+            <ListItem key="employee-fullname">
+              <ListItemIcon>
+                <AccountIcon />
+              </ListItemIcon>
+              <TextField
+                variant={variant}
+                label={errors.name || 'Ονοματεπώνυμο'}
+                error={!!errors.name}
+                value={values.name}
+                onChange={handleChange('name')}
+                className={classes.textField}
+              />
+            </ListItem>
+            <ListItem key="employee-vat">
+              <ListItemIcon>
+                <WorkIcon />
+              </ListItemIcon>
+              <TextField
+                variant={variant}
+                type="tel"
+                label={errors.vat || 'ΑΦΜ'}
+                error={!!errors.vat}
+                value={values.vat}
+                onChange={handleChange('vat')}
+                className={classes.textField}
+              />
+            </ListItem>
+          </List>
+          <List
+            className={classes.list}
+            subheader={
+              <ListSubheader color="primary" className={classes.listHeader}>
+                Τυπικό ωράριο εργασίας
+              </ListSubheader>
+            }
+          >
+            <ListItem key="WorkHour">
+              <WorkHourPicker
+                labelStart="Ώρα Έναρξης"
+                labelFinish="Ώρα Λήξης"
+                valueStart={workStart}
+                valueFinish={workFinish}
+                onChangeStart={setWorkStart}
+                onChangeFinish={setWorkFinish}
+              />
+            </ListItem>
+          </List>
+        </div>
+      </Fade>
+    </div>
   );
 };
 const styles = (theme: Theme) =>

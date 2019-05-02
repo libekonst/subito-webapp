@@ -8,7 +8,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
 import ExpandableListTile from './ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
-
+import Slide from '@material-ui/core/Slide';
+import Fade from '@material-ui/core/Fade';
 import NewSubmition from './NewSubmition';
 import { DeadEndToolbar, AppBar } from '../../components/AppShell';
 import { IEmployer } from '../../interfaces';
@@ -28,7 +29,7 @@ interface IProps extends WithStyles<typeof styles> {
   erganiCode: string;
   onGoBack?: (e: any) => void;
   handleSubmitSms: any;
-  employer:IEmployer;
+  employer: IEmployer;
 }
 
 const E8FormView: FC<IProps> = props => {
@@ -48,7 +49,7 @@ const E8FormView: FC<IProps> = props => {
     erganiCode,
     handleSubmitSms,
     errors,
-    employer
+    employer,
   } = props;
 
   return (
@@ -57,52 +58,56 @@ const E8FormView: FC<IProps> = props => {
         <DeadEndToolbar pageTitle="Έντυπο Ε8" onGoBack={onGoBack} />
       </AppBar>
 
-      <section className={classes.section}>
-        <ExpandableListTile employee={employee} divider />
+      <Fade in={true}>
+        <div>
+          <section className={classes.section}>
+            <ExpandableListTile employee={employee} divider />
 
-        <FormControl className={classes.formControl}>
-          <FormLabel>Τύπος υποβολής</FormLabel>
-          <RadioGroup
-            aria-label="Submition type"
-            name="submitionType"
-            value={submitionType}
-            onChange={selectSubmitionType}
-          >
-            <FormControlLabel
-              value="submitNew"
-              control={<Radio />}
-              label="Νέα υποβολή"
-            />
-            <FormControlLabel
-              value="submitCancelPrevious"
-              control={<Radio />}
-              label="Ακύρωση τελευταίας υποβολής"
-            />
-          </RadioGroup>
-        </FormControl>
+            <FormControl className={classes.formControl}>
+              <FormLabel>Τύπος υποβολής</FormLabel>
+              <RadioGroup
+                aria-label="Submition type"
+                name="submitionType"
+                value={submitionType}
+                onChange={selectSubmitionType}
+              >
+                <FormControlLabel
+                  value="submitNew"
+                  control={<Radio />}
+                  label="Νέα υποβολή"
+                />
+                <FormControlLabel
+                  value="submitCancelPrevious"
+                  control={<Radio />}
+                  label="Ακύρωση τελευταίας υποβολής"
+                />
+              </RadioGroup>
+            </FormControl>
 
-        {submitionType === 'submitNew' ? (
-          <NewSubmition
-            {...{
-              classes,
-              durationLabel,
-              handleChangeDuration,
-              overtimeStart,
-              overtimeFinish,
-              handleChangeOvertimeStart,
-              handleChangeOvertimeFinish,
-              durationOptions,
-            }}
-          />
-        ) : (
-          <CancelSubmitionInfoCard />
-        )}
-        <BottomMessageTile
-          message={erganiCode}
-          isNewSubmition={submitionType === 'submitNew'}
-          {...{ handleSubmitSms, errors, employer }}
-        />
-      </section>
+            {submitionType === 'submitNew' ? (
+              <NewSubmition
+                {...{
+                  classes,
+                  durationLabel,
+                  handleChangeDuration,
+                  overtimeStart,
+                  overtimeFinish,
+                  handleChangeOvertimeStart,
+                  handleChangeOvertimeFinish,
+                  durationOptions,
+                }}
+              />
+            ) : (
+              <CancelSubmitionInfoCard />
+            )}
+            <BottomMessageTile
+              message={erganiCode}
+              isNewSubmition={submitionType === 'submitNew'}
+              {...{ handleSubmitSms, errors, employer }}
+            />
+          </section>
+        </div>
+      </Fade>
     </>
   );
 };
