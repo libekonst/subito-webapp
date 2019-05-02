@@ -91,6 +91,7 @@ const styles = (theme: Theme) =>
       bottom: 0,
       right: 0,
       margin: theme.spacing.unit * 2,
+      backgroundColor: "white",
     },
   });
 
