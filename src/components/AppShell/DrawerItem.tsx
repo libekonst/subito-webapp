@@ -12,17 +12,17 @@ interface IProps extends WithStyles<typeof styles> {
   icon?: 'people' | 'messages';
 }
 type Props = IProps & ComponentPropsWithRef<typeof ListItem>;
-
+const colorType: 'primary' | 'secondary' = 'primary';
 const DrawerItem: FC<Props> = props => {
   const { selected, itemText, icon, classes, ...rest } = props;
   function pickIcon() {
     switch (icon) {
       case 'people':
-        return <PeopleIcon color={selected ? 'primary' : 'inherit'} />;
+        return <PeopleIcon color={selected ? colorType : 'inherit'} />;
       case 'messages':
-        return <DraftsIcon color={selected ? 'primary' : 'inherit'} />;
+        return <DraftsIcon color={selected ? colorType : 'inherit'} />;
       default:
-        return <DraftsIcon color={selected ? 'primary' : 'inherit'} />;
+        return <DraftsIcon color={selected ? colorType : 'inherit'} />;
     }
   }
   return (
@@ -36,7 +36,7 @@ const DrawerItem: FC<Props> = props => {
       <ListItemText
         primary={itemText}
         primaryTypographyProps={
-          selected ? { color: 'primary', className: classes.selectedText } : undefined
+          selected ? { color: colorType, className: classes.selectedText } : undefined
         }
       />
     </ListItem>
@@ -56,7 +56,20 @@ const styles = (theme: Theme) =>
         top: 0,
         bottom: 0,
         width: theme.spacing.unit / 2,
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette[colorType].main,
+      },
+      '&:after': {
+        content: "''",
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: theme.spacing.unit,
+        borderRadius: '0 10px 10px 0',
+        // borderRadius: '0 40px 40px 0',
+        // @ts-ignore
+        backgroundColor: colorType === 'primary' ? '#e3f2fd' : '#fce4ec',
+        zIndex: -1,
       },
     },
   });
