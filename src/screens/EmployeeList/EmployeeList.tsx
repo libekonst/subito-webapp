@@ -13,6 +13,7 @@ import { routes } from '../../routes';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
+import EmptyList from '../../components/EmptyList';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -68,12 +69,19 @@ const EmployeeList: FC<IProps> = props => {
       >
         <AddIcon color="primary" />
       </Fab>
-      <Fade in={!!employees.length}>
-        <List className={classes.list}>
-          {employees.map(e => (
-            <EmployeeListItem employee={e} key={e.id} />
-          ))}
-        </List>
+      <Fade in={!isLoading}>
+        <div>
+          {employees.length === 0 && (
+            <EmptyList icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
+          )}
+          {employees.length !== 0 && (
+            <List className={classes.list}>
+              {employees.map(e => (
+                <EmployeeListItem employee={e} key={e.id} />
+              ))}
+            </List>
+          )}
+        </div>
       </Fade>
     </div>
   );
@@ -91,7 +99,7 @@ const styles = (theme: Theme) =>
       bottom: 0,
       right: 0,
       margin: theme.spacing.unit * 2,
-      backgroundColor: "white",
+      backgroundColor: 'white',
     },
   });
 

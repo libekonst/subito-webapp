@@ -3,7 +3,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import PeopleIcon from '@material-ui/icons/People';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import MailsIcon from '@material-ui/icons/Email';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 
 interface IProps extends WithStyles<typeof styles> {
@@ -20,9 +20,9 @@ const DrawerItem: FC<Props> = props => {
       case 'people':
         return <PeopleIcon color={selected ? colorType : 'inherit'} />;
       case 'messages':
-        return <DraftsIcon color={selected ? colorType : 'inherit'} />;
+        return <MailsIcon color={selected ? colorType : 'inherit'} />;
       default:
-        return <DraftsIcon color={selected ? colorType : 'inherit'} />;
+        return <MailsIcon color={selected ? colorType : 'inherit'} />;
     }
   }
   return (

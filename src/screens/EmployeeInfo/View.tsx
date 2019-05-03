@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import EmptyList from '../../components/EmptyList';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
+import CenteredSpinner from '../../components/CenteredSpinner';
 
 interface IProps extends WithStyles<typeof styles> {
   isFetchingEmployee: boolean;
@@ -20,15 +21,11 @@ interface IProps extends WithStyles<typeof styles> {
 }
 const View: FC<IProps> = props => {
   const { classes } = props;
-  const Spinner = (
-    <div className={classes.spinner}>
-      <CircularProgress />
-    </div>
-  );
+  // const Spinner = <CenteredSpinner />;
   return (
     <>
       <AppBar>
-        {props.isFetchingEmployee && Spinner}
+        {props.isFetchingEmployee && <CenteredSpinner />}
         {props.employee && (
           <Fade in={!props.isFetchingEmployee}>
             <div>
@@ -41,7 +38,7 @@ const View: FC<IProps> = props => {
           </Fade>
         )}
       </AppBar>
-      {!props.isFetchingEmployee && props.isFetchingSms && Spinner}
+      {!props.isFetchingEmployee && props.isFetchingSms && <CenteredSpinner />}
       {props.smsList.length !== 0 && (
         <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
           <div>

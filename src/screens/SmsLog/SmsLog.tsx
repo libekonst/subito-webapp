@@ -7,9 +7,12 @@ import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import exportToCsvSmsList from '../../utils/exportToCSV';
+import CenteredSpinner from '../../components/CenteredSpinner';
+import EmptyList from '../../components/EmptyList';
 
 const SmsLog: FC = props => {
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function fetchSmsList() {
       let smsList: IE8Sms[] = [];
@@ -19,6 +22,7 @@ const SmsLog: FC = props => {
         console.log(error);
       }
       setSmsList(smsList);
+      setIsLoading(false);
     }
     fetchSmsList();
   }, []);
@@ -41,11 +45,17 @@ const SmsLog: FC = props => {
         />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <Fade in={!!smsList.length}>
-        <div>
-          <SmsList smsList={smsList} />
-        </div>
-      </Fade>
+      {isLoading && <CenteredSpinner />}
+      {!isLoading && (
+        <Fade in={!isLoading}>
+          <div>
+            {smsList.length === 0 && (
+              <EmptyList icon="message" message="Δεν βρέθηκαν μηνύματα" />
+            )}
+            {smsList.length !== 0 && <SmsList smsList={smsList} />}
+          </div>
+        </Fade>
+      )}
     </>
   );
 };

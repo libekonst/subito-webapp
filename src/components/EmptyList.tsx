@@ -11,22 +11,7 @@ interface IProps extends WithStyles<typeof styles> {
 }
 const EmptyList: FC<IProps> = props => {
   const { classes, icon, message } = props;
-  const noSmsEmployee = (
-    <>
-      <MailIcon className={classes.icon} />
-      <Typography variant="h5" className={classes.text}>
-        Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο.
-      </Typography>
-    </>
-  );
-  const noSms = (
-    <>
-      <MailIcon className={classes.icon} />
-      <Typography variant="h5" className={classes.text}>
-        Δεν βρέθηκαν μηνύματα.
-      </Typography>
-    </>
-  );
+
   function pickIcon() {
     switch (icon) {
       case 'message':
