@@ -14,6 +14,7 @@ import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
 import EmptyList from '../../components/EmptyList';
+import CenteredSpinner from '../../components/CenteredSpinner';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -25,7 +26,7 @@ const EmployeeList: FC<IProps> = props => {
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, toggleLoading] = useState(true);
   const [employees, setEmployees] = useState<IEmployee[]>([]);
 
   // Empty array as 2nd arg to run the effect only after the first render.
@@ -39,7 +40,7 @@ const EmployeeList: FC<IProps> = props => {
         console.log(error);
       }
       setEmployees(employees || []);
-      setIsLoading(false);
+      toggleLoading(false);
     }
     fetchEmployees();
   }, []);
@@ -69,6 +70,7 @@ const EmployeeList: FC<IProps> = props => {
       >
         <AddIcon color="primary" />
       </Fab>
+      {isLoading && <CenteredSpinner />}
       <Fade in={!isLoading}>
         <div>
           {employees.length === 0 && (
