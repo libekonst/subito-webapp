@@ -30,6 +30,8 @@ interface IProps extends WithStyles<typeof styles> {
   onGoBack?: (e: any) => void;
   handleSubmitSms: any;
   employer: IEmployer;
+  isFetchingEmployee:boolean;
+  isFetchingEmployer:boolean
 }
 
 const E8FormView: FC<IProps> = props => {
