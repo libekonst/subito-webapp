@@ -4,7 +4,7 @@ import { EmployeeInfoToolbar, AppBar, DeadEndToolbar } from '../../components/Ap
 import Fade from '@material-ui/core/Fade';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EmptyList from '../../components/EmptyList';
+import EmptyList from '../../components/NotFound';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import CenteredSpinner from '../../components/CenteredSpinner';
