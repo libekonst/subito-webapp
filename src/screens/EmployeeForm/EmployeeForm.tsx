@@ -15,6 +15,7 @@ interface IMatchParams {
 const EmployeeForm: FC<RouteComponentProps<IMatchParams>> = props => {
   const date: Date = setMinutes(setHours(new Date(), 8), 0);
   const [employee, setEmployee] = useState<IEmployee | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(!!props.match.params.employeeID);
 
   const [errors, setErrors] = useState<IEmployeeErrors>({
     name: '',
@@ -37,7 +38,7 @@ const EmployeeForm: FC<RouteComponentProps<IMatchParams>> = props => {
       } catch (error) {
         console.log(error);
       }
-      // setIsLoading(false);
+      setIsLoading(false);
       setEmployee(employee);
       setValues(
         employee ? { name: employee.name, vat: employee.vat } : { name: '', vat: '' },
@@ -63,7 +64,6 @@ const EmployeeForm: FC<RouteComponentProps<IMatchParams>> = props => {
       console.log(error);
     }
   };
-  
 
   const handleChange = (valueName: string) => (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -78,6 +78,7 @@ const EmployeeForm: FC<RouteComponentProps<IMatchParams>> = props => {
   return (
     <EmployeeFormView
       employee={employee}
+      isLoading={isLoading}
       {...props}
       {...{
         errors,

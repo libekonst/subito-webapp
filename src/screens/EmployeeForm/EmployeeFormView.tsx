@@ -16,6 +16,8 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { IEmployee } from '../../interfaces';
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
+import CenteredSpinner from '../../components/CenteredSpinner';
+import NotFound from '../../components/NotFound';
 
 interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
@@ -27,6 +29,7 @@ interface IProps extends WithStyles<typeof styles> {
   setWorkStart: any;
   setWorkFinish: any;
   handleSubmit: any;
+  isLoading: boolean;
 }
 interface IMatchParams {
   employeeID?: string;
@@ -44,73 +47,84 @@ const EmployeeFormView: FC<IProps & RouteComponentProps<IMatchParams>> = props =
     setWorkFinish,
     handleSubmit,
     history,
+    isLoading,
+    employee,
   } = props;
+  const { employeeID } = props.match.params;
   return (
     <div>
       <AppBar color="primary">
         <FormToolbar
-          pageTitle={props.match.params.employeeID ? 'Επεξεργασία' : 'Νέος υπάλληλος'}
+          pageTitle={employeeID ? 'Επεξεργασία' : 'Νέος υπάλληλος'}
           onCancel={history.goBack}
           onSubmit={handleSubmit}
         />
       </AppBar>
-      <Fade in>
+      {isLoading && <CenteredSpinner />}
+      <Fade in={!isLoading}>
         <div>
-          <List
-            className={classes.list}
-            subheader={
-              <ListSubheader color="primary" className={classes.listHeader}>
-                Στοιχεία υπαλλήλου
-              </ListSubheader>
-            }
-          >
-            <ListItem key="employee-fullname">
-              <ListItemIcon>
-                <AccountIcon />
-              </ListItemIcon>
-              <TextField
-                variant={variant}
-                label={errors.name || 'Ονοματεπώνυμο'}
-                error={!!errors.name}
-                value={values.name}
-                onChange={handleChange('name')}
-                className={classes.textField}
-              />
-            </ListItem>
-            <ListItem key="employee-vat">
-              <ListItemIcon>
-                <WorkIcon />
-              </ListItemIcon>
-              <TextField
-                variant={variant}
-                type="tel"
-                label={errors.vat || 'ΑΦΜ'}
-                error={!!errors.vat}
-                value={values.vat}
-                onChange={handleChange('vat')}
-                className={classes.textField}
-              />
-            </ListItem>
-          </List>
-          <List
-            className={classes.list}
-            subheader={
-              <ListSubheader color="primary" className={classes.listHeader}>
-                Τυπικό ωράριο εργασίας
-              </ListSubheader>
-            }
-          >
-            <ListItem key="WorkHour">
-              <WorkHourPicker
-                labelStart="Ώρα Έναρξης"
-                labelFinish="Ώρα Λήξης"
-                valueStart={workStart}
-                valueFinish={workFinish}
-                onChangeStart={setWorkStart}
-                onChangeFinish={setWorkFinish}
-              />
-            </ListItem>
-          </List>
+          {employeeID && !employee && (
+            <NotFound icon="sadface" message="Δεν βρέθηκε ο υπάλληλος" />
+          )}
+          {(!employeeID || employee) && (
+            <>
+              <List
+                className={classes.list}
+                subheader={
+                  <ListSubheader color="primary" className={classes.listHeader}>
+                    Στοιχεία υπαλλήλου
+                  </ListSubheader>
+                }
+              >
+                <ListItem key="employee-fullname">
+                  <ListItemIcon>
+                    <AccountIcon />
+                  </ListItemIcon>
+                  <TextField
+                    variant={variant}
+                    label={errors.name || 'Ονοματεπώνυμο'}
+                    error={!!errors.name}
+                    value={values.name}
+                    onChange={handleChange('name')}
+                    className={classes.textField}
+                  />
+                </ListItem>
+                <ListItem key="employee-vat">
+                  <ListItemIcon>
+                    <WorkIcon />
+                  </ListItemIcon>
+                  <TextField
+                    variant={variant}
+                    type="tel"
+                    label={errors.vat || 'ΑΦΜ'}
+                    error={!!errors.vat}
+                    value={values.vat}
+                    onChange={handleChange('vat')}
+                    className={classes.textField}
+                  />
+                </ListItem>
+              </List>
+              <List
+                className={classes.list}
+                subheader={
+                  <ListSubheader color="primary" className={classes.listHeader}>
+                    Τυπικό ωράριο εργασίας
+                  </ListSubheader>
+                }
+              >
+                <ListItem key="WorkHour">
+                  <WorkHourPicker
+                    labelStart="Ώρα Έναρξης"
+                    labelFinish="Ώρα Λήξης"
+                    valueStart={workStart}
+                    valueFinish={workFinish}
+                    onChangeStart={setWorkStart}
+                    onChangeFinish={setWorkFinish}
+                  />
+                </ListItem>
+              </List>
+            </>
+          )}
         </div>
       </Fade>
     </div>
