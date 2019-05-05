@@ -30,7 +30,7 @@ const EmptyList: FC<IProps> = props => {
   return (
     <div className={classes.root}>
       {pickIcon()}
-      <Typography variant="h5" className={classes.text} align="left">
+      <Typography variant="h5" className={classes.text} align="center">
         {message}
       </Typography>
     </div>
@@ -42,10 +42,10 @@ const styles = (theme: Theme) =>
     icon: {
       color: grey[100],
       fontSize: theme.spacing.unit * 10,
-      marginRight: theme.spacing.unit * 3,
     },
     text: {
       color: grey[300],
+      marginLeft: theme.spacing.unit * 2,
     },
     root: {
       width: '100%',
