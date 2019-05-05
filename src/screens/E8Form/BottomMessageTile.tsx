@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
@@ -15,7 +15,7 @@ interface IProps extends WithStyles<typeof styles> {
   message: string;
   isNewSubmition?: boolean;
   handleSubmitSms: any;
-  errors: { overtimeStart: string; overTimefinish: string };
+  isError: bool;
   employer: IEmployer;
 }
 
@@ -28,7 +28,13 @@ function BottomMessageTile(props: IProps) {
       console.error(e);
     }
   };
-  const { message, classes, isNewSubmition } = props;
+  const { message, classes, isNewSubmition, isError } = props;
+
+  const getColor = () => {
+    if (isError) return 'disabled';
+    if (isNewSubmition) return 'primary';
+    return 'secondary';
+  };
 
   return (
     <Paper className={props.classes.messageTile}>
@@ -50,7 +56,7 @@ function BottomMessageTile(props: IProps) {
       <IconButton
         className={props.classes.sendButton}
         onClick={props.handleSubmitSms}
-        disabled={!!Object.values(props.errors).reduce((acc, val) => acc + val, '')}
+        disabled={isError}
         component={aProps => (
           <a
             href={`sms:${props.employer.smsNumber}?body=${props.message}`}
@@ -58,7 +64,7 @@ function BottomMessageTile(props: IProps) {
           />
         )}
       >
-        <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} fontSize="large" />
+        <SendIcon color={getColor()} fontSize="large" />
       </IconButton>
     </Paper>
   );
