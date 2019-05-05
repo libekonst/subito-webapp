@@ -36,7 +36,7 @@ function BottomMessageTile(props: IProps) {
         onClick={navigator.clipboard && copyToClipboard}
         className={props.classes.messageContainer}
       >
-        <Typography noWrap>{props.message}</Typography>
+        <Typography>{props.message}</Typography>
         <FileCopyIcon color="primary" fontSize="small" />
       </Button>
       {/* <Fab
