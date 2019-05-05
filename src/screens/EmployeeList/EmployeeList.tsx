@@ -13,7 +13,7 @@ import { routes } from '../../routes';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
-import EmptyList from '../../components/EmptyList';
+import NotFound from '../../components/NotFound';
 import CenteredSpinner from '../../components/CenteredSpinner';
 
 interface IProps extends WithStyles<typeof styles> {
@@ -55,26 +55,42 @@ const EmployeeList: FC<IProps> = props => {
           onOpenDrawer={toggleDrawerState}
           pageTitle="Υπάλληλοι"
           secondaryActions={
-            <IconButton color="inherit" onClick={handleExportToCSV}>
-              <SaveIcon />
-            </IconButton>
+            !isLoading &&
+            employees.length !== 0 && (
+              <IconButton
+                color="inherit"
+                onClick={handleExportToCSV}
+                title="Αποθήκευση σε CSV"
+              >
+                <SaveIcon />
+              </IconButton>
+            )
           }
         />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <Fab
-        color="default"
-        aria-label="Add"
-        className={classes.fab}
-        component={LinkToEmployeeForm}
+      <div
+        className={`${classes.fabContainer} ${!isLoading &&
+          employees.length === 0 &&
+          classes.grow}`}
       >
-        <AddIcon color="primary" />
-      </Fab>
+        <Fab
+          color="default"
+          aria-label="Add"
+          component={LinkToEmployeeForm}
+          // className={classes.fab}
+          className={`${classes.fab} ${!isLoading &&
+            employees.length === 0 &&
+            classes.fabGrow}`}
+        >
+          <AddIcon color="primary" style={{ zIndex: 1 }} />
+        </Fab>
+      </div>
       {isLoading && <CenteredSpinner />}
       <Fade in={!isLoading}>
         <div>
           {employees.length === 0 && (
-            <EmptyList icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
+            <NotFound icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
           )}
           {employees.length !== 0 && (
             <List className={classes.list}>
@@ -97,11 +113,44 @@ const styles = (theme: Theme) =>
       paddingBottom: '100px',
     },
     fab: {
+      backgroundColor: 'white',
+    },
+    fabContainer: {
       position: 'fixed',
       bottom: 0,
       right: 0,
-      margin: theme.spacing.unit * 2,
-      backgroundColor: 'white',
+      padding: theme.spacing.unit * 2,
+    },
+    '@keyframes growAnimation': {
+      from: { transform: 'scale(2.8)' },
+      to: { transform: 'scale(3.5)' },
+    },
+    '@keyframes fabGrowAnimation': {
+      from: { transform: 'scale(1)' },
+      to: { transform: 'scale(1.1)' },
+    },
+    fabGrow: {
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        borderRadius: '50%',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        animation: '0.4s alternate fabGrowAnimation ease-out infinite',
+      },
+    },
+    grow: {
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        zIndex: -1,
+        borderRadius: '50%',
+        width: '100%',
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
+        animation: '1s alternate growAnimation ease-out infinite',
+      },
     },
   });
 
