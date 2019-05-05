@@ -16,6 +16,8 @@ import { IEmployer } from '../../interfaces';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import { Typography } from '@material-ui/core';
 import NotFound from '../../components/NotFound';
+import { routes } from '../../routes';
+import { Link } from 'react-router-dom';
 
 interface IProps extends WithStyles<typeof styles> {
   errors: { overtimeStart: string; overtimeFinish: string };
@@ -75,9 +77,13 @@ const E8FormView: FC<IProps> = props => {
       {(isFetchingEmployee || isFetchingEmployer) && <CenteredSpinner />}
       <Fade in={!isFetchingEmployee && !isFetchingEmployer}>
         <div>
-          {!employee && <NotFound icon="sadface" message="Δεν βρέθηκε υπάλληλος" />}
+          {!employee && <NotFound icon="sadface" message="Δεν βρέθηκε ο υπάλληλος" />}
           {!employer && (
-            <NotFound icon="sadface" message="Δεν βρέθηκαν στοιχεία εργοδότη" />
+            <NotFound
+              icon="sadface"
+              message="Δεν βρέθηκαν στοιχεία εργοδότη."
+              component={props => <Link to={routes.EMPLOYER_FORM} {...props}>Πατήστε εδώ για να προσθέσετε.</Link>}
+            />
           )}
           {employee && employer && (
             <div>

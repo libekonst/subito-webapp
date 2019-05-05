@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ComponentProps } from 'react';
 import grey from '@material-ui/core/colors/blueGrey';
 import MailIcon from '@material-ui/icons/Email';
 import PeopleIcon from '@material-ui/icons/People';
@@ -11,8 +11,8 @@ interface IProps extends WithStyles<typeof styles> {
   icon: 'message' | 'people' | 'person' | 'sadface';
   message?: string;
 }
-const NotFound: FC<IProps> = props => {
-  const { classes, icon, message } = props;
+const NotFound: FC<IProps & ComponentProps<typeof Typography>> = props => {
+  const { classes, icon, message, ...rest } = props;
 
   function pickIcon() {
     switch (icon) {
@@ -30,9 +30,25 @@ const NotFound: FC<IProps> = props => {
   return (
     <div className={classes.root}>
       {pickIcon()}
-      <Typography variant="h5" className={classes.text} align="center">
-        {message}
-      </Typography>
+      <div className={classes.textWrapper}>
+        <Typography
+          variant="h5"
+          className={classes.text}
+          align="center"
+          {...rest}
+          component={undefined}
+        >
+          {message}
+        </Typography>
+        {!!props.component && (
+          <Typography
+            variant="h6"
+            className={classes.text + ' ' + classes.secondaryText}
+            align="center"
+            {...rest}
+          />
+        )}
+      </div>
     </div>
   );
 };
@@ -46,6 +62,11 @@ const styles = (theme: Theme) =>
     text: {
       color: grey[300],
       marginLeft: theme.spacing.unit * 2,
+    },
+    secondaryText: { paddingTop: theme.spacing.unit },
+    textWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
     },
     root: {
       width: '100%',
