@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
@@ -15,7 +15,7 @@ interface IProps extends WithStyles<typeof styles> {
   message: string;
   isNewSubmition?: boolean;
   handleSubmitSms: any;
-  errors: { overtimeStart: string; overTimefinish: string };
+  isError: boolean;
   employer: IEmployer;
 }
 
@@ -28,29 +28,28 @@ function BottomMessageTile(props: IProps) {
       console.error(e);
     }
   };
-  const { message, classes, isNewSubmition } = props;
+  const { message, classes, isNewSubmition, isError } = props;
+
+  const getColor = () => {
+    if (isError) return 'disabled';
+    if (isNewSubmition) return 'primary';
+    return 'secondary';
+  };
 
   return (
-    <Paper className={props.classes.messageTile}>
+    <Paper className={classes.messageTile}>
       <Button
         onClick={navigator.clipboard && copyToClipboard}
-        className={props.classes.messageContainer}
+        className={classes.messageContainer}
       >
-        <Typography>{props.message}</Typography>
-        <FileCopyIcon color="primary" fontSize="small" />
+        <Typography className={classes.erganiCode}>{props.message}</Typography>
+        <FileCopyIcon className={classes.fileButton} color="primary" fontSize="small" />
       </Button>
-      {/* <Fab
-        className={props.classes.fab}
-        color={isNewSubmition ? 'primary' : 'secondary'}
-        variant="extended"
-      >
-        <SendIcon color="inherit" style={{ marginRight: 10 }} />
-        ΑΠΟΣΤΟΛΗ
-      </Fab> */}
+
       <IconButton
-        className={props.classes.sendButton}
+        className={classes.sendButton}
         onClick={props.handleSubmitSms}
-        disabled={!!Object.values(props.errors).reduce((acc, val) => acc + val, '')}
+        disabled={isError}
         component={aProps => (
           <a
             href={`sms:${props.employer.smsNumber}?body=${props.message}`}
@@ -58,7 +57,7 @@ function BottomMessageTile(props: IProps) {
           />
         )}
       >
-        <SendIcon color={isNewSubmition ? 'primary' : 'secondary'} fontSize="large" />
+        <SendIcon color={getColor()} fontSize="large" />
       </IconButton>
     </Paper>
   );
@@ -86,6 +85,13 @@ const styles = (theme: Theme) =>
       margin: theme.spacing.unit / 2,
       padding: theme.spacing.unit,
     },
+    fileButton: {
+      marginLeft: theme.spacing.unit,
+    },
+    erganiCode: {
+      overflowX: 'auto',
+      whiteSpace: 'nowrap',
+    },
     messageContainer: {
       // Flex
       width: '100%',
@@ -97,11 +103,6 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit,
       backgroundColor: theme.palette.grey[300],
       borderRadius: 50,
-    },
-    fab: {
-      position: 'fixed',
-      bottom: 60,
-      right: 10,
     },
   });
 

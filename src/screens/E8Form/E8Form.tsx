@@ -198,6 +198,7 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
       onGoBack={history.goBack}
       erganiCode={makeErganiCode()}
       {...{
+        errors,
         durationLabel,
         handleChangeDuration,
         overtimeStart,
@@ -207,7 +208,6 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         employee,
         submitionType,
         selectSubmitionType,
-        errors,
         durationOptions,
         handleSubmitSms,
         employer,
