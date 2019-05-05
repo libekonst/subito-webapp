@@ -15,6 +15,7 @@ import { DeadEndToolbar, AppBar } from '../../components/AppShell';
 import { IEmployer } from '../../interfaces';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import { Typography } from '@material-ui/core';
+import NotFound from '../../components/NotFound';
 
 interface IProps extends WithStyles<typeof styles> {
   errors: { overtimeStart: string; overtimeFinish: string };
@@ -74,55 +75,65 @@ const E8FormView: FC<IProps> = props => {
       {(isFetchingEmployee || isFetchingEmployer) && <CenteredSpinner />}
       <Fade in={!isFetchingEmployee && !isFetchingEmployer}>
         <div>
-          <section className={classes.section}>
-            <ExpandableListTile employee={employee} divider />
+          {!employee && <NotFound icon="sadface" message="Δεν βρέθηκε υπάλληλος" />}
+          {!employer && (
+            <NotFound icon="sadface" message="Δεν βρέθηκαν στοιχεία εργοδότη" />
+          )}
+          {employee && employer && (
+            <div>
+              <section className={classes.section}>
+                <ExpandableListTile employee={employee} divider />
 
-            <FormControl className={classes.formControl}>
-              <FormLabel>Τύπος υποβολής</FormLabel>
-              <RadioGroup
-                aria-label="Submition type"
-                name="submitionType"
-                value={submitionType}
-                onChange={selectSubmitionType}
-              >
-                <FormControlLabel
-                  value="submitNew"
-                  control={<Radio />}
-                  label="Νέα υποβολή"
-                />
-                <FormControlLabel
-                  value="submitCancelPrevious"
-                  control={<Radio />}
-                  label="Ακύρωση τελευταίας υποβολής"
-                />
-              </RadioGroup>
-            </FormControl>
+                <FormControl className={classes.formControl}>
+                  <FormLabel>Τύπος υποβολής</FormLabel>
+                  <RadioGroup
+                    aria-label="Submition type"
+                    name="submitionType"
+                    value={submitionType}
+                    onChange={selectSubmitionType}
+                  >
+                    <FormControlLabel
+                      value="submitNew"
+                      control={<Radio />}
+                      label="Νέα υποβολή"
+                    />
+                    <FormControlLabel
+                      value="submitCancelPrevious"
+                      control={<Radio />}
+                      label="Ακύρωση τελευταίας υποβολής"
+                    />
+                  </RadioGroup>
+                </FormControl>
 
-            {submitionType === 'submitNew' ? (
-              <NewSubmition
-                {...{
-                  classes,
-                  durationLabel,
-                  handleChangeDuration,
-                  overtimeStart,
-                  overtimeFinish,
-                  handleChangeOvertimeStart,
-                  handleChangeOvertimeFinish,
-                  durationOptions,
-                }}
-              />
-            ) : (
-              <CancelSubmitionInfoCard />
-            )}
-            {isError && (
-              <Typography>{errors.overtimeStart || errors.overtimeFinish}</Typography>
-            )}
-            <BottomMessageTile
-              message={erganiCode}
-              isNewSubmition={submitionType === 'submitNew'}
-              {...{ handleSubmitSms, isError, employer }}
-            />
-          </section>
+                {submitionType === 'submitNew' ? (
+                  <NewSubmition
+                    {...{
+                      classes,
+                      durationLabel,
+                      handleChangeDuration,
+                      overtimeStart,
+                      overtimeFinish,
+                      handleChangeOvertimeStart,
+                      handleChangeOvertimeFinish,
+                      durationOptions,
+                    }}
+                  />
+                ) : (
+                  <CancelSubmitionInfoCard />
+                )}
+                {isError && (
+                  <Typography>
+                    {errors.overtimeStart || errors.overtimeFinish}
+                  </Typography>
+                )}
+                <BottomMessageTile
+                  message={erganiCode}
+                  isNewSubmition={submitionType === 'submitNew'}
+                  {...{ handleSubmitSms, isError, employer }}
+                />
+              </section>
+            </div>
+          )}
         </div>
       </Fade>
     </>
