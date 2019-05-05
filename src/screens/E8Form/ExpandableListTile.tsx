@@ -42,7 +42,7 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
   return (
     <div style={{ flex: 1 }}>
       <ListItem {...rest} /* onClick={!employee ? goBack : toggleExpand} */>
-        <Avatar>{initial || <PersonIcon />}</Avatar>
+        <Avatar className={classes.primary}>{initial || <PersonIcon />}</Avatar>
         <ExpansionPanel className={classes.expansionPanel}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.title}>{name}</Typography>
@@ -73,6 +73,9 @@ const styles = (theme: any) =>
     title: {
       fontSize: '1rem',
       fontWeight: 400,
+    },
+    primary: {
+      backgroundColor: theme.palette.primary.light,
     },
   });
 

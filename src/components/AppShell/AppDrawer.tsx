@@ -41,7 +41,7 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
   const sideList = (
     <div className={classes.list}>
       <Typography variant="h4" noWrap color="primary" className={classes.subitoTitle}>
-        Subito
+        Subito E8
       </Typography>
       {/* <Divider light /> */}
       <ListItem className={classes.employerListTile}>
