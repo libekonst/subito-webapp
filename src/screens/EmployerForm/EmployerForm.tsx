@@ -7,18 +7,24 @@ import { RouteComponentProps } from 'react-router';
 
 const EmployerForm: FC<RouteComponentProps> = props => {
   const { history } = props;
-  const [values, setValues] = useState<IEmployer>({
+  const initialValues = {
     name: '',
     vat: '',
     ame: '',
     smsNumber: '',
-  });
-
+  };
+  const [values, setValues] = useState<IEmployer>(initialValues);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     async function fetchEmployer() {
-      const employer = await dexieDb.employer.toCollection().last();
-      if (!employer) return;
-      setValues(employer);
+      let employer;
+      try {
+        employer = await dexieDb.employer.toCollection().last();
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+      setValues(employer || initialValues);
     }
     fetchEmployer();
   }, []);
@@ -68,7 +74,7 @@ const EmployerForm: FC<RouteComponentProps> = props => {
     // Submit
     try {
       await dexieDb.employer.put(values);
-      return history.goBack()
+      return history.goBack();
     } catch (error) {
       return console.log(error);
     }
@@ -80,6 +86,7 @@ const EmployerForm: FC<RouteComponentProps> = props => {
       onSubmit={handleSubmit}
       values={values}
       errors={errors}
+      isLoading={isLoading}
     />
   );
 };

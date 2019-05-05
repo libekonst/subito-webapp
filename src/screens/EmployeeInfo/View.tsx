@@ -63,7 +63,7 @@ const View: FC<IProps> = props => {
             {!!props.employee && props.smsList.length === 0 && (
               <NotFound
                 icon="message"
-                message="Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο"
+                message="Δεν βρέθηκαν μηνύματα για τον υπάλληλο"
               />
             )}
             {!props.isFetchingEmployee && !props.employee && (
