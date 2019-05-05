@@ -1,25 +1,29 @@
 import React, { useState, ComponentProps } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-import { IEmployee } from '../../interfaces/IEmployee';
-import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
+import { IEmployee } from '../interfaces/IEmployee';
+import { toUpperCaseInitial } from '../utils/getUpperCaseInitial';
 import PersonIcon from '@material-ui/icons/Person';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandIcon from '@material-ui/icons/ExpandMore';
+
+import Collapse from '@material-ui/core/Collapse';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import { setHours, setMinutes, format } from 'date-fns';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
 
 interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
   goBack?: () => void;
+  expanded?: boolean;
 }
 
 function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
-  const { employee, goBack, classes, ...rest } = props;
-
+  const { employee, goBack, classes, expanded, ...rest } = props;
+  const [isExpanded, setIsExpanded] = useState(expanded || false);
+  const toggleExpand = () => setIsExpanded(!isExpanded);
   const employeeFiller: IEmployee = {
     name: 'Επιλέξτε υπάλληλο',
     vat: '000000000',
@@ -33,21 +37,29 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
 
   return (
     <div style={{ flex: 1 }}>
-      <ListItem {...rest} /* onClick={!employee ? goBack : toggleExpand} */>
-        <Avatar className={classes.primary}>{initial || <PersonIcon />}</Avatar>
-        <ExpansionPanel className={classes.expansionPanel}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.title}>{name}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+      <ListItem {...rest} onClick={toggleExpand}>
+        <ListItemAvatar>
+          <Avatar className={classes.primary}>{initial || <PersonIcon />}</Avatar>
+        </ListItemAvatar>
+        <div className={classes.panel}>
+          <Typography className={classes.title}>{name}</Typography>
+          <Collapse in={isExpanded} component={'span'}>
             <div>
               <Typography color="textSecondary">{`ΑΦΜ: ${vat}`}</Typography>
               <Typography color="textSecondary">
                 {`${format(workStart, 'HH:mm')} - ${format(workFinish, 'HH:mm')}`}
               </Typography>
             </div>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+          </Collapse>
+        </div>
+        <ListItemSecondaryAction>
+          <IconButton onClick={toggleExpand}>
+            <ExpandIcon
+              color="action"
+              className={`${classes.icon} ${isExpanded && classes.rotate}`}
+            />
+          </IconButton>
+        </ListItemSecondaryAction>
       </ListItem>
     </div>
   );
@@ -55,12 +67,17 @@ function ExpandableListTile(props: IProps & ComponentProps<typeof ListItem>) {
 
 const styles = (theme: any) =>
   createStyles({
-    expansionPanel: {
-      flex: 1,
-      backgroundColor: 'transparent',
-      boxShadow: 'none',
-      minHeight: 0,
-      '&::before': { visibility: 'hidden' },
+    icon: {
+      transition: 'transform 0.1s ease-out',
+    },
+    rotate: {
+      transform: 'rotate(180deg)',
+    },
+    panel: {
+      marginLeft: theme.spacing.unit * 2,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
     },
     title: {
       fontSize: '1rem',
