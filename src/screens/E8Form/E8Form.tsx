@@ -24,7 +24,7 @@ const durationOptions = [
   { key: 3, label: '2 ώρες', duration: 120 },
   { key: 4, label: '2 ώρες, 30 λεπτά', duration: 150 },
   { key: 5, label: '3 ώρες', duration: 180 },
-  { key: 6, label: 'Άλλο...' },
+  // { key: 6, label: 'Άλλο...' },
 ];
 interface IMatchParams {
   employeeID?: string;
@@ -121,7 +121,7 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
   };
 
   const handleChangeDuration = (duration?: number) => (event: any) => {
-    if (!duration) return setDurationLabel(durationOptions[6].label);
+    if (!duration) return; /* setDurationLabel(durationOptions[6].label); */
 
     // find the durationOption
     // store it to set the durationLabel in the next lines.
