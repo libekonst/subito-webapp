@@ -1,14 +1,14 @@
 import React, { FC } from 'react';
 import SmsList from '../../components/SmsList';
-import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
+import { EmployeeInfoToolbar, AppBar, DeadEndToolbar } from '../../components/AppShell';
 import Fade from '@material-ui/core/Fade';
-import { Fab } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import EmptyList from '../../components/EmptyList';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import CenteredSpinner from '../../components/CenteredSpinner';
+import Fab from '@material-ui/core/Fab';
 
 interface IProps extends WithStyles<typeof styles> {
   isFetchingEmployee: boolean;
@@ -26,17 +26,22 @@ const View: FC<IProps> = props => {
     <>
       <AppBar>
         {props.isFetchingEmployee && <CenteredSpinner />}
-        {props.employee && (
-          <Fade in={!props.isFetchingEmployee}>
-            <div>
+        <Fade in={!props.isFetchingEmployee}>
+          <div>
+            {props.employee ? (
               <EmployeeInfoToolbar
                 onGoBack={props.onGoBack}
                 employee={props.employee}
                 onDelete={props.handleDelete}
               />
-            </div>
-          </Fade>
-        )}
+            ) : (
+              <DeadEndToolbar
+                pageTitle="Δεν βρέθηκε υπάλληλος"
+                onGoBack={props.onGoBack}
+              />
+            )}
+          </div>
+        </Fade>
       </AppBar>
       {!props.isFetchingEmployee && props.isFetchingSms && <CenteredSpinner />}
       {props.smsList.length !== 0 && (
@@ -48,22 +53,29 @@ const View: FC<IProps> = props => {
               color="primary"
               aria-label="csv"
               className={classes.fab}
+              title="Αποθήκευση σε CSV"
             >
               <SaveIcon />
             </Fab>
           </div>
         </Fade>
       )}
-      {props.smsList.length === 0 && (
-        <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
-          <div>
+      <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
+        <div>
+          {!!props.employee && props.smsList.length === 0 && (
             <EmptyList
               icon="message"
               message="Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο"
             />
-          </div>
-        </Fade>
-      )}
+          )}
+          {!props.isFetchingEmployee && !props.employee && (
+            <EmptyList
+              message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
+              icon="sadface"
+            />
+          )}
+        </div>
+      </Fade>
     </>
   );
 };
