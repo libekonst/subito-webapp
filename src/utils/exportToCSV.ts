@@ -12,7 +12,7 @@ export default function exportToCsvSmsList(
     quoteStrings: '"',
     decimalSeparator: '.',
     showLabels: true,
-    showTitle: true,
+    showTitle: false,
     title: 'Μηνύματα Εργάνη',
     filename: 'Μηνύματα Εργάνη',
     useTextFile: false,
