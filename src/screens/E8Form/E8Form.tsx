@@ -74,35 +74,36 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
 
       try {
         const employee = await dexieDb.employee.get(parseInt(employeeID));
+        let employeeOvertimeStart;
+
+        if (employee) {
+          const workFinishHours = getHours(employee.workFinish);
+          const workFinishMinutes = getMinutes(employee.workFinish);
+
+          employeeOvertimeStart = setHours(
+            setMinutes(new Date(), workFinishMinutes),
+            workFinishHours,
+          );
+        }
+
+        let initialOvertimeStart: Date;
+        !employeeOvertimeStart || isAfter(new Date(), employeeOvertimeStart)
+          ? (initialOvertimeStart = roundDateMinute(new Date()))
+          : (initialOvertimeStart = employeeOvertimeStart);
+
+        setOvertimeStart(initialOvertimeStart);
+        setOvertimeFinish(addMinutes(initialOvertimeStart, 30));
         setEmployee(employee);
         setIsFetchingEmployee(false);
+
+        console.log(overtimeStart);
+        console.log(overtimeFinish);
       } catch (error) {
         console.log(error);
       }
     }
     fetchEmployee();
   }, [employeeID]);
-
-  useEffect(() => {
-    async function setInitialOvertime() {
-      if (!employee) return;
-
-      const workFinishHours = getHours(employee.workFinish);
-      const workFinishMinutes = getMinutes(employee.workFinish);
-
-      let initialOvertimeStart = setHours(
-        setMinutes(new Date(), workFinishMinutes),
-        workFinishHours,
-      );
-
-      if (isAfter(new Date(), initialOvertimeStart))
-        initialOvertimeStart = roundDateMinute(new Date());
-
-      setOvertimeStart(initialOvertimeStart);
-      setOvertimeFinish(addMinutes(initialOvertimeStart, 30));
-    }
-    setInitialOvertime();
-  }, [employee]);
 
   const makeErganiCode = () => {
     if (!employee) return '';
