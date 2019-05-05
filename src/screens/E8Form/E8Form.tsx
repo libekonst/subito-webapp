@@ -36,43 +36,11 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     },
     history,
   } = props;
+
   const [employer, setEmployer] = useState();
-  const [employee, setEmployee] = useState<IEmployee>();
-  useEffect(() => {
-    async function fetchEmployer() {
-      const employer = await dexieDb.employer.toCollection().last();
-      if (!employer) return;
-      setEmployer(employer);
-    }
-    fetchEmployer();
-  }, []);
-
-  useEffect(() => {
-    async function fetchEmployee() {
-      if (!employeeID) return;
-      let employee;
-      try {
-        employee = await dexieDb.employee.get(parseInt(employeeID));
-      } catch (error) {
-        console.log(error);
-      }
-      if (!employee) return;
-
-      const workFinishHour = getHours(employee.workFinish);
-      const workHourMinute = getMinutes(employee.workFinish);
-      let overtimeStartInitial = setHours(
-        setMinutes(new Date(), workHourMinute),
-        workFinishHour,
-      );
-      if (isAfter(new Date(), overtimeStartInitial))
-        overtimeStartInitial = roundDateMinute(new Date());
-
-      setEmployee(employee);
-      setOvertimeStart(overtimeStartInitial);
-      setOvertimeFinish(addMinutes(overtimeStartInitial, 30));
-    }
-    fetchEmployee();
-  }, []);
+  const [employee, setEmployee] = useState();
+  const [isFetchingEmployee, setIsFetchingEmployee] = useState(true);
+  const [isFetchingEmployer, setIsFetchingEmployer] = useState(true);
 
   const [overtimeStart, setOvertimeStart] = useState(roundDateMinute(new Date()));
   const [overtimeFinish, setOvertimeFinish] = useState(addMinutes(overtimeStart, 30));
@@ -82,14 +50,68 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
 
   const [durationLabel, setDurationLabel] = useState(durationOptions[0].label);
 
+  const [errors, setErrors] = useState({
+    overtimeStart: '',
+    overtimeFinish: '',
+  });
+
+  useEffect(() => {
+    async function fetchEmployer() {
+      try {
+        const employer = await dexieDb.employer.toCollection().last();
+        setEmployer(employer);
+        setIsFetchingEmployer(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchEmployer();
+  }, []);
+
+  useEffect(() => {
+    async function fetchEmployee() {
+      if (!employeeID) return;
+
+      try {
+        const employee = await dexieDb.employee.get(parseInt(employeeID));
+        setEmployee(employee);
+        setIsFetchingEmployee(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchEmployee();
+  }, [employeeID]);
+
+  useEffect(() => {
+    async function setInitialOvertime() {
+      if (!employee) return;
+
+      const workFinishHours = getHours(employee.workFinish);
+      const workFinishMinutes = getMinutes(employee.workFinish);
+
+      let initialOvertimeStart = setHours(
+        setMinutes(new Date(), workFinishMinutes),
+        workFinishHours,
+      );
+
+      if (isAfter(new Date(), initialOvertimeStart))
+        initialOvertimeStart = roundDateMinute(new Date());
+
+      setOvertimeStart(initialOvertimeStart);
+      setOvertimeFinish(addMinutes(initialOvertimeStart, 30));
+    }
+    setInitialOvertime();
+  }, [employee]);
+
   const makeErganiCode = () => {
     if (!employee) return '';
     if (!employer) return '';
     const data: string[] =
       submitionType === 'submitNew'
         ? [
-            employer.vat,
-            employer.ame || '',
+            'Υ1',
+            employer.vat + employer.ame || '',
             employee.vat,
             format(overtimeStart, 'HHmm'),
             format(overtimeFinish, 'HHmm'),
@@ -123,10 +145,6 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     setErrors(validate());
   };
 
-  const [errors, setErrors] = useState({
-    overtimeStart: '',
-    overtimeFinish: '',
-  });
   const validate = () => {
     let currentErrors = { overtimeStart: '', overtimeFinish: '' };
 
@@ -155,9 +173,12 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
 
   const handleSubmitSms = async () => {
     if (!employee) return;
+
     validate();
+
     if (!!Object.values(errors).reduce((acc, val) => acc + val, ''))
       return console.log(errors);
+
     try {
       await dexieDb.sms.put({
         employee,
@@ -172,7 +193,7 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     }
   };
 
-  return employer && employee ? (
+  return (
     <E8FormView
       onGoBack={history.goBack}
       erganiCode={makeErganiCode()}
@@ -190,10 +211,10 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         durationOptions,
         handleSubmitSms,
         employer,
+        isFetchingEmployee,
+        isFetchingEmployer,
       }}
     />
-  ) : (
-    <div>lol</div>
   );
 };
 
