@@ -95,13 +95,12 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         setOvertimeFinish(addMinutes(initialOvertimeStart, 30));
         setEmployee(employee);
         setIsFetchingEmployee(false);
-
       } catch (error) {
         console.log(error);
       }
     }
     fetchEmployee();
-  }, [employeeID]);
+  }, []);
 
   const makeErganiCode = () => {
     if (!employee) return '';
@@ -153,14 +152,14 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         'Η έναρξη της υπερωρίας πρέπει να είναι μετά την λήξη';
 
     // overtimeStart < employee.workFinish
-    if (isBefore(overtimeStart, employee!.workFinish))
-      currentErrors.overtimeStart =
-        'Η έναρξη της υπερωρίας πρέπει να είναι μετά τη λήξη της εργασίας';
+    // if (isAfter())
+    //   currentErrors.overtimeStart =
+    //     'Η έναρξη της υπερωρίας πρέπει να είναι μετά τη λήξη της εργασίας';
 
-    // overtimeStart  > Date.now
-    if (isAfter(overtimeStart, Date.now()))
+    // overtimeStart  > Date.now ==> is Date.now() after overtimeStart ?
+    if (isAfter(Date.now(), overtimeStart))
       currentErrors.overtimeStart =
-        'Η έναρξη της υπερωρίας πρέπει να είναι μετά την ώρα που υποβάλεται η δήλωση';
+        'Η υποβολή της δήλωσης πρέπει να γίνεται πρίν την έναρξη της υπερωρίας.';
 
     // overtimeFinish - overtimeStart > 180 minutes
     if (differenceInMinutes(overtimeFinish, overtimeStart) > 180)
