@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
-import ExpandableListTile from './ExpandableListTile';
+import ExpandableListTile from '../../components/ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
 import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
@@ -82,7 +82,7 @@ const E8FormView: FC<IProps> = props => {
           {employee && employer && (
             <div>
               <section className={classes.section}>
-                <ExpandableListTile employee={employee} divider />
+                <ExpandableListTile employee={employee} divider button />
 
                 <FormControl className={classes.formControl}>
                   <FormLabel>Τύπος υποβολής</FormLabel>
