@@ -138,10 +138,13 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
   const handleChangeOvertimeStart = (date: Date) => {
     setOvertimeStart(date);
     setErrors(validate());
+    setDurationLabel('');
+
   };
   const handleChangeOvertimeFinish = (date: Date) => {
     setOvertimeFinish(date);
     setErrors(validate());
+    setDurationLabel('');
   };
 
   const validate = () => {
