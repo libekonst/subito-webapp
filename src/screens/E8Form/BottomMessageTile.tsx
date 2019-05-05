@@ -15,7 +15,7 @@ interface IProps extends WithStyles<typeof styles> {
   message: string;
   isNewSubmition?: boolean;
   handleSubmitSms: any;
-  isError: bool;
+  isError: boolean;
   employer: IEmployer;
 }
 
