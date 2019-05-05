@@ -9,7 +9,7 @@ import exportToCsvSmsList from '../../utils/exportToCSV';
 import { Fab } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EmptyList from '../../components/NotFound';
+import NotFound from '../../components/NotFound';
 import View from './View';
 
 interface IMatchParams {

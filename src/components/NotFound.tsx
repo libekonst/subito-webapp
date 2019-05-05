@@ -11,7 +11,7 @@ interface IProps extends WithStyles<typeof styles> {
   icon: 'message' | 'people' | 'person' | 'sadface';
   message?: string;
 }
-const EmptyList: FC<IProps> = props => {
+const NotFound: FC<IProps> = props => {
   const { classes, icon, message } = props;
 
   function pickIcon() {
@@ -56,4 +56,4 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit * 2,
     },
   });
-export default withStyles(styles)(EmptyList);
+export default withStyles(styles)(NotFound);

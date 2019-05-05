@@ -13,7 +13,7 @@ import dexieDb from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import exportToCsvSmsList from '../../utils/exportToCSV';
 import CenteredSpinner from '../../components/CenteredSpinner';
-import EmptyList from '../../components/NotFound';
+import NotFound from '../../components/NotFound';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
 import { RouteComponentProps } from 'react-router';
@@ -51,7 +51,7 @@ const SmsLog: FC<RouteComponentProps> = props => {
         <Fade in={!isLoading}>
           <div>
             {smsList.length === 0 && (
-              <EmptyList icon="message" message="Δεν βρέθηκαν μηνύματα" />
+              <NotFound icon="message" message="Δεν βρέθηκαν μηνύματα" />
             )}
             {smsList.length !== 0 && (
               <>

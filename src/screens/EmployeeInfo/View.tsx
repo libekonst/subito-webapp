@@ -4,7 +4,7 @@ import { EmployeeInfoToolbar, AppBar, DeadEndToolbar } from '../../components/Ap
 import Fade from '@material-ui/core/Fade';
 import SaveIcon from '@material-ui/icons/Save';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EmptyList from '../../components/NotFound';
+import NotFound from '../../components/NotFound';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import CenteredSpinner from '../../components/CenteredSpinner';
@@ -61,13 +61,13 @@ const View: FC<IProps> = props => {
         ) : (
           <div>
             {!!props.employee && props.smsList.length === 0 && (
-              <EmptyList
+              <NotFound
                 icon="message"
                 message="Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο"
               />
             )}
             {!props.isFetchingEmployee && !props.employee && (
-              <EmptyList
+              <NotFound
                 message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
                 icon="sadface"
               />
