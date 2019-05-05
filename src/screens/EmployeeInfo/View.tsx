@@ -44,8 +44,8 @@ const View: FC<IProps> = props => {
         </Fade>
       </AppBar>
       {!props.isFetchingEmployee && props.isFetchingSms && <CenteredSpinner />}
-      {props.smsList.length !== 0 && (
-        <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
+      <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
+        {props.smsList.length !== 0 ? (
           <div>
             <SmsList smsList={props.smsList} />
             <Fab
@@ -58,23 +58,22 @@ const View: FC<IProps> = props => {
               <SaveIcon />
             </Fab>
           </div>
-        </Fade>
-      )}
-      <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
-        <div>
-          {!!props.employee && props.smsList.length === 0 && (
-            <EmptyList
-              icon="message"
-              message="Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο"
-            />
-          )}
-          {!props.isFetchingEmployee && !props.employee && (
-            <EmptyList
-              message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
-              icon="sadface"
-            />
-          )}
-        </div>
+        ) : (
+          <div>
+            {!!props.employee && props.smsList.length === 0 && (
+              <EmptyList
+                icon="message"
+                message="Δεν βρέθηκαν μηνύματα για αυτόν τον υπάλληλο"
+              />
+            )}
+            {!props.isFetchingEmployee && !props.employee && (
+              <EmptyList
+                message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
+                icon="sadface"
+              />
+            )}
+          </div>
+        )}
       </Fade>
     </>
   );
