@@ -123,7 +123,7 @@ const E8FormView: FC<IProps> = props => {
                 )}
                 {isError && (
                   <Typography>
-                    {errors.overtimeStart || errors.overtimeFinish}
+                    {errors.overtimeStart + '\n' + errors.overtimeFinish}
                   </Typography>
                 )}
                 <BottomMessageTile

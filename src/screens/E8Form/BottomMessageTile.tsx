@@ -37,24 +37,17 @@ function BottomMessageTile(props: IProps) {
   };
 
   return (
-    <Paper className={props.classes.messageTile}>
+    <Paper className={classes.messageTile}>
       <Button
         onClick={navigator.clipboard && copyToClipboard}
-        className={props.classes.messageContainer}
+        className={classes.messageContainer}
       >
-        <Typography>{props.message}</Typography>
-        <FileCopyIcon color="primary" fontSize="small" />
+        <Typography className={classes.erganiCode}>{props.message}</Typography>
+        <FileCopyIcon className={classes.fileButton} color="primary" fontSize="small" />
       </Button>
-      {/* <Fab
-        className={props.classes.fab}
-        color={isNewSubmition ? 'primary' : 'secondary'}
-        variant="extended"
-      >
-        <SendIcon color="inherit" style={{ marginRight: 10 }} />
-        ΑΠΟΣΤΟΛΗ
-      </Fab> */}
+
       <IconButton
-        className={props.classes.sendButton}
+        className={classes.sendButton}
         onClick={props.handleSubmitSms}
         disabled={isError}
         component={aProps => (
@@ -92,6 +85,13 @@ const styles = (theme: Theme) =>
       margin: theme.spacing.unit / 2,
       padding: theme.spacing.unit,
     },
+    fileButton: {
+      marginLeft: theme.spacing.unit,
+    },
+    erganiCode: {
+      overflowX: 'auto',
+      whiteSpace: 'nowrap',
+    },
     messageContainer: {
       // Flex
       width: '100%',
@@ -103,11 +103,6 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit,
       backgroundColor: theme.palette.grey[300],
       borderRadius: 50,
-    },
-    fab: {
-      position: 'fixed',
-      bottom: 60,
-      right: 10,
     },
   });
 
