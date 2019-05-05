@@ -96,8 +96,6 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
         setEmployee(employee);
         setIsFetchingEmployee(false);
 
-        console.log(overtimeStart);
-        console.log(overtimeFinish);
       } catch (error) {
         console.log(error);
       }
