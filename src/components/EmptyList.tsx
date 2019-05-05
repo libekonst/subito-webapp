@@ -2,11 +2,13 @@ import React, { FC } from 'react';
 import grey from '@material-ui/core/colors/blueGrey';
 import MailIcon from '@material-ui/icons/Email';
 import PeopleIcon from '@material-ui/icons/People';
+import PersonIcon from '@material-ui/icons/Person';
+import SadFaceIcon from '@material-ui/icons/SentimentDissatisfied';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 interface IProps extends WithStyles<typeof styles> {
-  icon: 'message' | 'people';
+  icon: 'message' | 'people' | 'person' | 'sadface';
   message?: string;
 }
 const EmptyList: FC<IProps> = props => {
@@ -16,9 +18,13 @@ const EmptyList: FC<IProps> = props => {
     switch (icon) {
       case 'message':
         return <MailIcon className={classes.icon} />;
-      default:
       case 'people':
         return <PeopleIcon className={classes.icon} />;
+      case 'sadface':
+        return <SadFaceIcon className={classes.icon} />;
+      default:
+      case 'person':
+        return <PersonIcon className={classes.icon} />;
     }
   }
   return (

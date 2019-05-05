@@ -1,7 +1,12 @@
 import React, { FC, useState, useEffect } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms } from '../../interfaces';
-import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
+import {
+  AppBar,
+  DrawerToolbar,
+  AppDrawer,
+  DeadEndToolbar,
+} from '../../components/AppShell';
 import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
@@ -9,8 +14,12 @@ import Fade from '@material-ui/core/Fade';
 import exportToCsvSmsList from '../../utils/exportToCSV';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import EmptyList from '../../components/EmptyList';
+import Fab from '@material-ui/core/Fab';
+import SaveIcon from '@material-ui/icons/Save';
+import { RouteComponentProps } from 'react-router';
 
-const SmsLog: FC = props => {
+const SmsLog: FC<RouteComponentProps> = props => {
+  const { history } = props;
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -34,15 +43,7 @@ const SmsLog: FC = props => {
   return (
     <>
       <AppBar color="default">
-        <DrawerToolbar
-          onOpenDrawer={toggleDrawerState}
-          pageTitle="Λίστα Sms"
-          secondaryActions={
-            <IconButton color="inherit" onClick={handleExportToCSV}>
-              <BackupIcon />
-            </IconButton>
-          }
-        />
+        <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
       {isLoading && <CenteredSpinner />}
@@ -52,7 +53,25 @@ const SmsLog: FC = props => {
             {smsList.length === 0 && (
               <EmptyList icon="message" message="Δεν βρέθηκαν μηνύματα" />
             )}
-            {smsList.length !== 0 && <SmsList smsList={smsList} />}
+            {smsList.length !== 0 && (
+              <>
+                <SmsList smsList={smsList} />
+                <Fab
+                  onClick={handleExportToCSV}
+                  color="primary"
+                  aria-label="csv"
+                  title="Αποθήκευση σε CSV"
+                  style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    right: 0,
+                    margin: 16,
+                  }}
+                >
+                  <SaveIcon />
+                </Fab>
+              </>
+            )}
           </div>
         </Fade>
       )}

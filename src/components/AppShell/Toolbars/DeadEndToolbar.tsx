@@ -17,7 +17,7 @@ const DeadEndToolbar: FC<IProps> = props => {
       <LeftIconButton onClick={onGoBack} aria-label="Πίσω" title="Πίσω">
         <ArrowBackIcon />
       </LeftIconButton>
-      <PageTitle color="primary" pageTitle={pageTitle} />
+      <PageTitle pageTitle={pageTitle} />
     </Toolbar>
   );
 };
