@@ -83,7 +83,7 @@ const EmployeeList: FC<IProps> = props => {
             employees.length === 0 &&
             classes.fabGrow}`}
         >
-          <AddIcon color="primary" />
+          <AddIcon color="primary" style={{zIndex: 1}}/>
         </Fab>
       </div>
       {isLoading && <CenteredSpinner />}
@@ -128,13 +128,13 @@ const styles = (theme: Theme) =>
     },
     '@keyframes fabGrowAnimation': {
       from: { transform: 'scale(1)' },
-      to: { transform: 'scale(1.1)' },
+      to: { transform: 'scale(1.05)' },
     },
     fabGrow: {
       '&:before': {
         content: '""',
         position: 'absolute',
-        zIndex: -1,
+        // zIndex: -1,
         borderRadius: '50%',
         width: '100%',
         height: '100%',
@@ -144,7 +144,7 @@ const styles = (theme: Theme) =>
         // bottom: 0,
         // left: 0,
         backgroundColor: 'white',
-        animation: '1s alternate fabGrowAnimation ease-out infinite',
+        animation: '0.3s alternate fabGrowAnimation ease-out infinite',
       },
     },
     grow: {
