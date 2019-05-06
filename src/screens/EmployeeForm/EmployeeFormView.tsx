@@ -53,7 +53,7 @@ const EmployeeFormView: FC<IProps & RouteComponentProps<IMatchParams>> = props =
   const { employeeID } = props.match.params;
   return (
     <div>
-      <AppBar color="primary">
+      <AppBar>
         <FormToolbar
           pageTitle={employeeID ? 'Επεξεργασία' : 'Νέος υπάλληλος'}
           onCancel={history.goBack}

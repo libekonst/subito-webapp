@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import EmployeeListItem from './EmployeeListItem';
 import { IEmployee } from '../../interfaces/IEmployee';
 import IconButton from '@material-ui/core/IconButton';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@material-ui/icons/SaveAlt';
 import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/PersonAdd';
@@ -15,6 +15,7 @@ import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
 import NotFound from '../../components/NotFound';
 import CenteredSpinner from '../../components/CenteredSpinner';
+import { IEmployer } from '../../interfaces';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -28,6 +29,7 @@ const EmployeeList: FC<IProps> = props => {
 
   const [isLoading, toggleLoading] = useState(true);
   const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const [employer, setEmployer] = useState<IEmployer | undefined>();
 
   // Empty array as 2nd arg to run the effect only after the first render.
   // Similar to componentdidmount.
@@ -43,6 +45,18 @@ const EmployeeList: FC<IProps> = props => {
       toggleLoading(false);
     }
     fetchEmployees();
+  }, []);
+  useEffect(() => {
+    async function fetchEmployer() {
+      let employer;
+      try {
+        employer = await db.employer.toCollection().last();
+      } catch (error) {
+        console.log(error);
+      }
+      setEmployer(employer);
+    }
+    fetchEmployer();
   }, []);
   const LinkToEmployeeForm = (props: any) => (
     <Link to={routes.EMPLOYEE_FORM} {...props} />
@@ -68,7 +82,11 @@ const EmployeeList: FC<IProps> = props => {
           }
         />
       </AppBar>
-      <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
+      <AppDrawer
+        toggleOpen={toggleDrawerState}
+        isOpen={drawerState}
+        employer={employer}
+      />
       <div
         className={`${classes.fabContainer} ${!isLoading &&
           employees.length === 0 &&

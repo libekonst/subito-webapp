@@ -15,7 +15,7 @@ import exportToCsvSmsList from '../../utils/exportToCSV';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import NotFound from '../../components/NotFound';
 import Fab from '@material-ui/core/Fab';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@material-ui/icons/SaveAlt';
 import { RouteComponentProps } from 'react-router';
 
 const SmsLog: FC<RouteComponentProps> = props => {

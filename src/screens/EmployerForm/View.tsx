@@ -34,7 +34,7 @@ const View: FC<IProps & RouteComponentProps> = props => {
 
   return (
     <>
-      <AppBar color="primary">
+      <AppBar>
         <FormToolbar
           onCancel={history.goBack}
           onSubmit={onSubmit}

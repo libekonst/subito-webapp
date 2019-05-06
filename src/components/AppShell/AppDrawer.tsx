@@ -21,6 +21,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import DrawerItem from './DrawerItem';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
+import { IEmployer } from '../../interfaces';
 
 const LinkToSmsLog = (props: any) => <Link to={routes.SMS_LOG} {...props} />;
 const LinkToEmployeeInfo = (props: any) => <Link to={routes.EMPLOYEE_INFO} {...props} />;
@@ -32,9 +33,10 @@ const LinkToEmployerForm = (props: any) => <Link to={routes.EMPLOYER_FORM} {...p
 interface IProps extends WithStyles<typeof styles> {
   toggleOpen: (e: any) => void;
   isOpen: boolean;
+  employer?: IEmployer;
 }
 const AppDrawer: FC<IProps & RouteComponentProps> = props => {
-  const { isOpen, toggleOpen, location, classes } = props;
+  const { isOpen, toggleOpen, location, classes, employer } = props;
 
   const empListSelected = location.pathname === routes.EMPLOYEE_LIST;
   const selectedProps = { color: 'primary', style: { fontWeight: 550 } };
@@ -43,13 +45,21 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
       <Typography variant="h4" noWrap color="primary" className={classes.subitoTitle}>
         Subito E8
       </Typography>
-      {/* <Divider light /> */}
-      <ListItem className={classes.employerListTile}>
-        {/* <ListItemAvatar>
-          <Avatar>{<PersonIcon />}</Avatar>
-        </ListItemAvatar> */}
-        <ListItemText primary="Employer Name" secondary="ΑΦΜ: 2938471739" />
-      </ListItem>
+      {employer && (
+        <ListItem className={classes.employerListTile}>
+          <ListItemText
+            primary={employer.name}
+            secondary={
+              <>
+                <Typography color="textSecondary">{`ΑΦΜ: ${employer.vat}`}</Typography>
+                {!!employer.ame && (
+                  <Typography color="textSecondary">{`AME: ${employer.ame}`}</Typography>
+                )}
+              </>
+            }
+          />
+        </ListItem>
+      )}
       <Divider light />
 
       <List
@@ -82,7 +92,7 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
         </ListItem>
       </List>
 
-      <List
+      {/* <List
         component="nav"
         subheader={
           <ListSubheader disableSticky component="div">
@@ -90,7 +100,6 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
           </ListSubheader>
         }
       >
-        {/* <Divider /> */}
 
         <ListItem button component={LinkToEmployeeInfo}>
           <ListItemText primary="EmployeeInfo" />
@@ -101,7 +110,7 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
         <ListItem button component={LinkToE8Form}>
           <ListItemText primary="E8Form" />
         </ListItem>
-      </List>
+      </List> */}
     </div>
   );
 
