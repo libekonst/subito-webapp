@@ -111,8 +111,7 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
             'Υ1',
             employer.vat + employer.ame || '',
             employee.vat,
-            format(overtimeStart, 'HHmm'),
-            format(overtimeFinish, 'HHmm'),
+            format(overtimeStart, 'HHmm') + format(overtimeFinish, 'HHmm'),
           ]
         : [employer.vat, employer.ame || '', employee.vat, '0000', '0000'];
     return data.join(' ');
@@ -138,7 +137,6 @@ const E8Form: FC<RouteComponentProps<IMatchParams>> = props => {
     setOvertimeStart(date);
     setErrors(validate());
     setDurationLabel('');
-
   };
   const handleChangeOvertimeFinish = (date: Date) => {
     setOvertimeFinish(date);
