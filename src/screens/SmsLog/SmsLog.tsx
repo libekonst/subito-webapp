@@ -45,7 +45,6 @@ const SmsLog: FC<RouteComponentProps> = props => {
       <AppBar color="default">
         <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
       </AppBar>
-      <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
       {isLoading && <CenteredSpinner />}
       {!isLoading && (
         <Fade in={!isLoading}>
