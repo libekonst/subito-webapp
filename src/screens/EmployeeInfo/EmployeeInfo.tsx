@@ -8,6 +8,10 @@ import Fade from '@material-ui/core/Fade';
 import exportToCsvSmsList from '../../utils/exportToCSV';
 import { Fab } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import NotFound from '../../components/NotFound';
+import View from './View';
+
 interface IMatchParams {
   employeeID?: string;
 }
@@ -17,6 +21,8 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
 
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
   const [employee, setEmployee] = useState<IEmployee | undefined>();
+  const [isFetchingEmployee, setIsFetchingEmployee] = useState(true);
+  const [isFetchingSms, setIsFetchingSms] = useState(false);
 
   // Fetch employee
   useEffect(() => {
@@ -28,8 +34,9 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
       } catch (error) {
         console.log(error);
       }
-      // setIsLoading(false);
       setEmployee(employee);
+      setIsFetchingEmployee(false);
+      setIsFetchingSms(true);
     }
     fetchEmployee();
   }, []);
@@ -49,6 +56,7 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
         console.log(error);
       }
       setSmsList(smsList);
+      setIsFetchingSms(false);
     }
     fetchSmsList();
   }, []);
@@ -70,31 +78,15 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
   const handleExportCSV = () =>
     exportToCsvSmsList(smsList, { filename: `${employee!.name} μηνύματα Εργάνη` });
   return (
-    <>
-      {employee && (
-        <AppBar>
-          <EmployeeInfoToolbar
-            onGoBack={history.goBack}
-            employee={employee}
-            onDelete={handleDelete}
-          />
-        </AppBar>
-      )}
-      <Fade in={true}>
-        <div>
-          <SmsList smsList={smsList} />
-          <Fab
-            onClick={handleExportCSV}
-            color="primary"
-            aria-label="csv"
-            /* className={classes.fab} */
-            style={{ position: 'fixed', bottom: 0, right: 0, margin: 16 }}
-          >
-            <SaveIcon />
-          </Fab>
-        </div>
-      </Fade>
-    </>
+    <View
+      onGoBack={history.goBack}
+      isFetchingEmployee={isFetchingEmployee}
+      isFetchingSms={isFetchingSms}
+      employee={employee}
+      smsList={smsList}
+      handleDelete={handleDelete}
+      handleExportCSV={handleExportCSV}
+    />
   );
 };
 

@@ -25,7 +25,7 @@ const FormToolbar: FC<IProps> = props => {
       <PageTitle pageTitle={pageTitle} />
 
       <Button
-        color="inherit"
+        color="primary"
         size="small"
         onClick={onSubmit}
         aria-label="Αποθήκευση"

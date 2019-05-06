@@ -1,15 +1,27 @@
 import React, { FC, useState, useEffect } from 'react';
 import SmsList from '../../components/SmsList';
 import { IE8Sms } from '../../interfaces';
-import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
+import {
+  AppBar,
+  DrawerToolbar,
+  AppDrawer,
+  DeadEndToolbar,
+} from '../../components/AppShell';
 import IconButton from '@material-ui/core/IconButton';
 import BackupIcon from '@material-ui/icons/Backup';
 import dexieDb from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import exportToCsvSmsList from '../../utils/exportToCSV';
+import CenteredSpinner from '../../components/CenteredSpinner';
+import NotFound from '../../components/NotFound';
+import Fab from '@material-ui/core/Fab';
+import SaveIcon from '@material-ui/icons/SaveAlt';
+import { RouteComponentProps } from 'react-router';
 
-const SmsLog: FC = props => {
+const SmsLog: FC<RouteComponentProps> = props => {
+  const { history } = props;
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     async function fetchSmsList() {
       let smsList: IE8Sms[] = [];
@@ -19,6 +31,7 @@ const SmsLog: FC = props => {
         console.log(error);
       }
       setSmsList(smsList);
+      setIsLoading(false);
     }
     fetchSmsList();
   }, []);
@@ -30,22 +43,38 @@ const SmsLog: FC = props => {
   return (
     <>
       <AppBar color="default">
-        <DrawerToolbar
-          onOpenDrawer={toggleDrawerState}
-          pageTitle="Λίστα Sms"
-          secondaryActions={
-            <IconButton color="inherit" onClick={handleExportToCSV}>
-              <BackupIcon />
-            </IconButton>
-          }
-        />
+        <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
       </AppBar>
       <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <Fade in={!!smsList.length}>
-        <div>
-          <SmsList smsList={smsList} />
-        </div>
-      </Fade>
+      {isLoading && <CenteredSpinner />}
+      {!isLoading && (
+        <Fade in={!isLoading}>
+          <div>
+            {smsList.length === 0 && (
+              <NotFound icon="message" message="Δεν βρέθηκαν μηνύματα" />
+            )}
+            {smsList.length !== 0 && (
+              <>
+                <SmsList smsList={smsList} />
+                <Fab
+                  onClick={handleExportToCSV}
+                  color="primary"
+                  aria-label="csv"
+                  title="Αποθήκευση σε CSV"
+                  style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    right: 0,
+                    margin: 16,
+                  }}
+                >
+                  <SaveIcon />
+                </Fab>
+              </>
+            )}
+          </div>
+        </Fade>
+      )}
     </>
   );
 };

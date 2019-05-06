@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import EmployeeListItem from './EmployeeListItem';
 import { IEmployee } from '../../interfaces/IEmployee';
 import IconButton from '@material-ui/core/IconButton';
-import SaveIcon from '@material-ui/icons/Save';
+import SaveIcon from '@material-ui/icons/SaveAlt';
 import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/PersonAdd';
@@ -13,6 +13,9 @@ import { routes } from '../../routes';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
+import NotFound from '../../components/NotFound';
+import CenteredSpinner from '../../components/CenteredSpinner';
+import { IEmployer } from '../../interfaces';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -24,8 +27,9 @@ const EmployeeList: FC<IProps> = props => {
   const [drawerState, setDrawerState] = useState(false);
   const toggleDrawerState = () => setDrawerState(!drawerState);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, toggleLoading] = useState(true);
   const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const [employer, setEmployer] = useState<IEmployer | undefined>();
 
   // Empty array as 2nd arg to run the effect only after the first render.
   // Similar to componentdidmount.
@@ -38,9 +42,21 @@ const EmployeeList: FC<IProps> = props => {
         console.log(error);
       }
       setEmployees(employees || []);
-      setIsLoading(false);
+      toggleLoading(false);
     }
     fetchEmployees();
+  }, []);
+  useEffect(() => {
+    async function fetchEmployer() {
+      let employer;
+      try {
+        employer = await db.employer.toCollection().last();
+      } catch (error) {
+        console.log(error);
+      }
+      setEmployer(employer);
+    }
+    fetchEmployer();
   }, []);
   const LinkToEmployeeForm = (props: any) => (
     <Link to={routes.EMPLOYEE_FORM} {...props} />
@@ -53,27 +69,55 @@ const EmployeeList: FC<IProps> = props => {
           onOpenDrawer={toggleDrawerState}
           pageTitle="Υπάλληλοι"
           secondaryActions={
-            <IconButton color="inherit" onClick={handleExportToCSV}>
-              <SaveIcon />
-            </IconButton>
+            !isLoading &&
+            employees.length !== 0 && (
+              <IconButton
+                color="inherit"
+                onClick={handleExportToCSV}
+                title="Αποθήκευση σε CSV"
+              >
+                <SaveIcon />
+              </IconButton>
+            )
           }
         />
       </AppBar>
-      <AppDrawer toggleOpen={toggleDrawerState} isOpen={drawerState} />
-      <Fab
-        color="default"
-        aria-label="Add"
-        className={classes.fab}
-        component={LinkToEmployeeForm}
+      <AppDrawer
+        toggleOpen={toggleDrawerState}
+        isOpen={drawerState}
+        employer={employer}
+      />
+      <div
+        className={`${classes.fabContainer} ${!isLoading &&
+          employees.length === 0 &&
+          classes.grow}`}
       >
-        <AddIcon color="primary" />
-      </Fab>
-      <Fade in={!!employees.length}>
-        <List className={classes.list}>
-          {employees.map(e => (
-            <EmployeeListItem employee={e} key={e.id} />
-          ))}
-        </List>
+        <Fab
+          color="default"
+          aria-label="Add"
+          component={LinkToEmployeeForm}
+          // className={classes.fab}
+          className={`${classes.fab} ${!isLoading &&
+            employees.length === 0 &&
+            classes.fabGrow}`}
+        >
+          <AddIcon color="primary" className={classes.onTopOfGrow} />
+        </Fab>
+      </div>
+      {isLoading && <CenteredSpinner />}
+      <Fade in={!isLoading}>
+        <div>
+          {employees.length === 0 && (
+            <NotFound icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
+          )}
+          {employees.length !== 0 && (
+            <List className={classes.list}>
+              {employees.map(e => (
+                <EmployeeListItem employee={e} key={e.id} />
+              ))}
+            </List>
+          )}
+        </div>
       </Fade>
     </div>
   );
@@ -87,11 +131,47 @@ const styles = (theme: Theme) =>
       paddingBottom: '100px',
     },
     fab: {
+      backgroundColor: 'white',
+    },
+    fabContainer: {
       position: 'fixed',
       bottom: 0,
       right: 0,
-      margin: theme.spacing.unit * 2,
-      backgroundColor: "white",
+      padding: theme.spacing.unit * 2,
+    },
+    '@keyframes growAnimation': {
+      from: { transform: 'scale(2.8)' },
+      to: { transform: 'scale(3.5)' },
+    },
+    '@keyframes fabGrowAnimation': {
+      from: { transform: 'scale(1)' },
+      to: { transform: 'scale(1.1)' },
+    },
+    fabGrow: {
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        borderRadius: '50%',
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        animation: '0.4s alternate fabGrowAnimation ease-out infinite',
+      },
+    },
+    onTopOfGrow: {
+      zIndex: 1,
+    },
+    grow: {
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        zIndex: -1,
+        borderRadius: '50%',
+        width: '100%',
+        height: '100%',
+        backgroundColor: theme.palette.primary.main,
+        animation: '1s alternate growAnimation ease-out infinite',
+      },
     },
   });
 

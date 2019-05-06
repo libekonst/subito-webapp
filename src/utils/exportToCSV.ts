@@ -6,12 +6,13 @@ export default function exportToCsvSmsList(
   smsList: IE8Sms[],
   options?: Partial<Options>,
 ) {
+  if (smsList.length === 0) return;
   const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalSeparator: '.',
     showLabels: true,
-    showTitle: true,
+    showTitle: false,
     title: 'Μηνύματα Εργάνη',
     filename: 'Μηνύματα Εργάνη',
     useTextFile: false,
@@ -37,6 +38,7 @@ export function exportToCsvEmployees(
   employeeList: IEmployee[],
   options?: Partial<Options>,
 ) {
+  if (employeeList.length === 0) return;
   const defaultOptions = {
     fieldSeparator: ',',
     quoteStrings: '"',
