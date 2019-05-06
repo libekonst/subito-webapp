@@ -21,16 +21,19 @@ const CancelSubmitionInfoCard: FC<IProps> = props => {
         >
           Ακύρωση τελευταίας υποβολής
         </Typography>
-        <Typography color="textPrimary" gutterBottom>
+        <Typography color="textPrimary" gutterBottom align="left">
           Αυτή η επιλογή αντικαθιστά τις ώρες υπερωρίας με τον αριθμό μηδέν (0) στο
           μήνυμα που θα αποσταλεί.
         </Typography>
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set aside
-            for 10 minutes. Heat 1/2 cup of the broth in a pot until simmering, add
-            saffron and set aside for 10 minutes.
+          <Typography paragraph align="left">
+            Πρόκειται για αναίρεση προηγηθείσας υποβολής απασχολούμενου, πριν η δηλωθείσα
+            υπερεργασία ή νόμιμη υπερωριακή απασχόληση αρχίσει να πραγματοποιείται. Σε
+            αυτήν την περίπτωση, τα πεδία ώρας μηδενίζονται. Απαραίτητη προϋπόθεση για
+            την υποβολή ακύρωσης είναι να υφίσταται προηγούμενη υποβολή για τον ίδιο
+            απασχολούμενο με Ημερομηνία και Ώρα Έναρξης της υπερεργασίας μεταγενέστερη
+            της Ημερομηνίας –Ώρας υποβολής της ακύρωσης.
           </Typography>
         </Collapse>
         <CardActions className={props.classes.actions}>

@@ -8,6 +8,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
@@ -18,6 +21,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import DrawerItem from './DrawerItem';
 import Typography from '@material-ui/core/Typography';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
+import { IEmployer } from '../../interfaces';
 
 const LinkToSmsLog = (props: any) => <Link to={routes.SMS_LOG} {...props} />;
 const LinkToEmployeeInfo = (props: any) => <Link to={routes.EMPLOYEE_INFO} {...props} />;
@@ -29,81 +33,73 @@ const LinkToEmployerForm = (props: any) => <Link to={routes.EMPLOYER_FORM} {...p
 interface IProps extends WithStyles<typeof styles> {
   toggleOpen: (e: any) => void;
   isOpen: boolean;
+  employer?: IEmployer;
 }
 const AppDrawer: FC<IProps & RouteComponentProps> = props => {
-  const { isOpen, toggleOpen, location, classes } = props;
+  const { isOpen, toggleOpen, location, classes, employer } = props;
 
   const empListSelected = location.pathname === routes.EMPLOYEE_LIST;
   const selectedProps = { color: 'primary', style: { fontWeight: 550 } };
   const sideList = (
     <div className={classes.list}>
-      <div className={classes.header}>
-        <Typography className={classes.title} variant="h6" noWrap>
-          Employer Name
-        </Typography>
-        <Typography className={classes.title} variant="subtitle1" noWrap>
-          ΑΦΜ: 2938471739
-        </Typography>
-      </div>
+      <Typography variant="h4" noWrap color="primary" className={classes.subitoTitle}>
+        Subito E8
+      </Typography>
+      {employer && (
+        <ListItem className={classes.employerListTile}>
+          <ListItemText
+            primary={employer.name}
+            secondary={
+              <>
+                <Typography color="textSecondary">{`ΑΦΜ: ${employer.vat}`}</Typography>
+                {!!employer.ame && (
+                  <Typography color="textSecondary">{`AME: ${employer.ame}`}</Typography>
+                )}
+              </>
+            }
+          />
+        </ListItem>
+      )}
+      <Divider light />
+
       <List
         component="nav"
-        subheader={<ListSubheader component="div">Πλοήγηση</ListSubheader>}
+        subheader={
+          <ListSubheader disableSticky component="div">
+            Πλοήγηση
+          </ListSubheader>
+        }
       >
         <DrawerItem
           selected={location.pathname === routes.EMPLOYEE_LIST}
           component={LinkToEmployeeList}
-          itemText="Employee List"
+          itemText="Υπάλληλοι"
           icon="people"
         />
         <DrawerItem
           selected={location.pathname === routes.SMS_LOG}
           component={LinkToSmsLog}
-          itemText="Sms Log"
+          itemText="Μηνύματα"
           icon="messages"
         />
-        <Divider light variant="middle" />
+        {/* <Divider light variant="middle" /> */}
 
         <ListItem button component={LinkToEmployerForm}>
           <ListItemIcon>
             <SettingsIcon color="inherit" />
           </ListItemIcon>
-          <ListItemText primary="Employer Form" />
+          <ListItemText primary="Ρυθμίσεις" />
         </ListItem>
       </List>
-      {/* <ListItem button selected={empListSelected} component={LinkToEmployeeList}>
-          <ListItemIcon>
-            <PeopleIcon color={empListSelected ? 'primary' : 'inherit'} />
-          </ListItemIcon>
-          <ListItemText
-            primary="EmployeeList"
-            primaryTypographyProps={
-              empListSelected
-                ? { color: 'primary', style: { fontWeight: 550 } }
-                : undefined
-            }
-          />
-        </ListItem>
-        <ListItem button component={LinkToSmsLog}>
-          <ListItemIcon>
-            <DraftsIcon
-              color={location.pathname === routes.SMS_LOG ? 'primary' : 'inherit'}
-            />
-          </ListItemIcon>
 
-          <ListItemText
-            primary="SmsLog"
-            primaryTypographyProps={
-              location.pathname === routes.SMS_LOG
-                ? { color: 'primary', style: { fontWeight: 550 } }
-                : undefined
-            }
-          />
-        </ListItem> */}
-      <List
+      {/* <List
         component="nav"
-        subheader={<ListSubheader component="div">Πληροφορίες</ListSubheader>}
+        subheader={
+          <ListSubheader disableSticky component="div">
+            Πληροφορίες
+          </ListSubheader>
+        }
       >
-        {/* <Divider /> */}
 
         <ListItem button component={LinkToEmployeeInfo}>
           <ListItemText primary="EmployeeInfo" />
@@ -114,7 +110,7 @@ const AppDrawer: FC<IProps & RouteComponentProps> = props => {
         <ListItem button component={LinkToE8Form}>
           <ListItemText primary="E8Form" />
         </ListItem>
-      </List>
+      </List> */}
     </div>
   );
 
@@ -133,14 +129,23 @@ const styles = (theme: Theme) =>
       width: 250,
     },
     title: {
-      // color: theme.palette.text.primary,
-      color: 'white',
+      color: theme.palette.text.primary,
+      // color: theme.palette.primary.main,
+    },
+    employerListTile: {
+      // marginTop: theme.spacing.unit,
+      // marginBottom: theme.spacing.unit,
+    },
+    subitoTitle: {
+      marginLeft: theme.spacing.unit * 2,
+      marginBottom: theme.spacing.unit,
+      marginTop: theme.spacing.unit * 2,
     },
     header: {
       // Styles
       width: '100%',
       height: '130px',
-      backgroundColor: theme.palette.primary.main,
+      // backgroundColor: theme.palette.primary.main,
       padding: theme.spacing.unit,
 
       // Flex

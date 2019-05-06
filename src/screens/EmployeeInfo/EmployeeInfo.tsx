@@ -4,6 +4,13 @@ import { IE8Sms, IEmployee } from '../../interfaces';
 import { RouteComponentProps } from 'react-router';
 import { EmployeeInfoToolbar, AppBar } from '../../components/AppShell';
 import db from '../../db/db';
+import Fade from '@material-ui/core/Fade';
+import exportToCsvSmsList from '../../utils/exportToCSV';
+import { Fab } from '@material-ui/core';
+import SaveIcon from '@material-ui/icons/Save';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import NotFound from '../../components/NotFound';
+import View from './View';
 
 interface IMatchParams {
   employeeID?: string;
@@ -14,6 +21,8 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
 
   const [smsList, setSmsList] = useState<IE8Sms[]>([]);
   const [employee, setEmployee] = useState<IEmployee | undefined>();
+  const [isFetchingEmployee, setIsFetchingEmployee] = useState(true);
+  const [isFetchingSms, setIsFetchingSms] = useState(false);
 
   // Fetch employee
   useEffect(() => {
@@ -25,8 +34,9 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
       } catch (error) {
         console.log(error);
       }
-      // setIsLoading(false);
       setEmployee(employee);
+      setIsFetchingEmployee(false);
+      setIsFetchingSms(true);
     }
     fetchEmployee();
   }, []);
@@ -46,6 +56,7 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
         console.log(error);
       }
       setSmsList(smsList);
+      setIsFetchingSms(false);
     }
     fetchSmsList();
   }, []);
@@ -64,19 +75,18 @@ const EmployeeInfo: FC<RouteComponentProps<IMatchParams>> = props => {
       console.log(error);
     }
   };
+  const handleExportCSV = () =>
+    exportToCsvSmsList(smsList, { filename: `${employee!.name} μηνύματα Εργάνη` });
   return (
-    <>
-      {employee && (
-        <AppBar>
-          <EmployeeInfoToolbar
-            onGoBack={history.goBack}
-            employee={employee}
-            onDelete={handleDelete}
-          />
-        </AppBar>
-      )}
-      <SmsList smsList={smsList} />
-    </>
+    <View
+      onGoBack={history.goBack}
+      isFetchingEmployee={isFetchingEmployee}
+      isFetchingSms={isFetchingSms}
+      employee={employee}
+      smsList={smsList}
+      handleDelete={handleDelete}
+      handleExportCSV={handleExportCSV}
+    />
   );
 };
 

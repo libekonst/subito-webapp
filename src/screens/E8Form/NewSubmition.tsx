@@ -43,14 +43,14 @@ const NewSubmition: FC<IProps> = props => {
             />
           ))}
         </div>
-        {durationLabel === 'Άλλο...' && (
-          <WorkHourPicker
-            valueStart={overtimeStart}
-            valueFinish={overtimeFinish}
-            onChangeStart={handleChangeOvertimeStart}
-            onChangeFinish={handleChangeOvertimeFinish}
-          />
-        )}
+        <WorkHourPicker
+          labelStart="Ώρα έναρξης"
+          labelFinish="Ώρα λήξης"
+          valueStart={overtimeStart}
+          valueFinish={overtimeFinish}
+          onChangeStart={handleChangeOvertimeStart}
+          onChangeFinish={handleChangeOvertimeFinish}
+        />
       </FormControl>
     </>
   );

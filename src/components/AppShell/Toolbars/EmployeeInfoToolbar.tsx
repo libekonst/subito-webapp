@@ -7,7 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import LeftIconButton from './LeftIconButton';
 import Button from '@material-ui/core/Button';
 
-import ExpandableListTile from '../../../screens/E8Form/ExpandableListTile';
+import ExpandableListTile from '../../ExpandableListTile';
 import { IEmployee } from '../../../interfaces';
 import { Link } from 'react-router-dom';
 import { routes } from '../../../routes';
@@ -34,7 +34,7 @@ const EmployeeInfo: FC<IProps> = props => {
         >
           <ArrowBackIcon />
         </LeftIconButton>
-        <ExpandableListTile employee={employee} className={classes.listItem} />
+        <ExpandableListTile employee={employee} className={classes.listItem} expanded />
       </Toolbar>
       <Toolbar className={classes.secondaryToolbar}>
         <Button
@@ -67,6 +67,7 @@ const styles = (theme: any) =>
     listItem: {
       paddingLeft: 0,
       paddingRight: 0,
+      marginLeft: 0,
     },
     mainToolbar: {
       justifyContent: 'flex-start',

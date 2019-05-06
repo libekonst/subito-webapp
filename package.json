@@ -17,6 +17,7 @@
     "date-fns": "^2.0.0-alpha.27",
     "gh-pages": "^2.0.1",
     "dexie": "^2.0.4",
+    "export-to-csv": "^0.2.1",
     "material-ui-pickers": "^2.2.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
