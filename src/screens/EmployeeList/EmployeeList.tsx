@@ -101,7 +101,7 @@ const EmployeeList: FC<IProps> = props => {
             employees.length === 0 &&
             classes.fabGrow}`}
         >
-          <AddIcon color="primary" style={{ zIndex: 1 }} />
+          <AddIcon color="primary" className={classes.onTopOfGrow} />
         </Fab>
       </div>
       {isLoading && <CenteredSpinner />}
@@ -157,6 +157,9 @@ const styles = (theme: Theme) =>
         backgroundColor: 'white',
         animation: '0.4s alternate fabGrowAnimation ease-out infinite',
       },
+    },
+    onTopOfGrow: {
+      zIndex: 1,
     },
     grow: {
       '&:before': {
