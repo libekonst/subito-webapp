@@ -3,7 +3,6 @@ import SmsList from '../../components/SmsList';
 import { EmployeeInfoToolbar, AppBar, DeadEndToolbar } from '../../components/AppShell';
 import Fade from '@material-ui/core/Fade';
 import SaveIcon from '@material-ui/icons/SaveAlt';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import NotFound from '../../components/NotFound';
 import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
@@ -21,7 +20,7 @@ interface IProps extends WithStyles<typeof styles> {
 }
 const View: FC<IProps> = props => {
   const { classes } = props;
-  
+
   return (
     <>
       <AppBar>
