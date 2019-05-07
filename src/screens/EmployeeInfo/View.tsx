@@ -21,60 +21,64 @@ interface IProps extends WithStyles<typeof styles> {
 }
 const View: FC<IProps> = props => {
   const { classes } = props;
-  // const Spinner = <CenteredSpinner />;
+  
   return (
     <>
       <AppBar>
         {props.isFetchingEmployee && <CenteredSpinner />}
-        <Fade in={!props.isFetchingEmployee}>
-          <div>
-            {props.employee ? (
-              <EmployeeInfoToolbar
-                onGoBack={props.onGoBack}
-                employee={props.employee}
-                onDelete={props.handleDelete}
-              />
-            ) : (
-              <DeadEndToolbar
-                pageTitle="Δεν βρέθηκε υπάλληλος"
-                onGoBack={props.onGoBack}
-              />
-            )}
-          </div>
-        </Fade>
+        {!props.isFetchingEmployee && (
+          <Fade in={!props.isFetchingEmployee}>
+            <div>
+              {props.employee ? (
+                <EmployeeInfoToolbar
+                  onGoBack={props.onGoBack}
+                  employee={props.employee}
+                  onDelete={props.handleDelete}
+                />
+              ) : (
+                <DeadEndToolbar
+                  pageTitle="Δεν βρέθηκε υπάλληλος"
+                  onGoBack={props.onGoBack}
+                />
+              )}
+            </div>
+          </Fade>
+        )}
       </AppBar>
       {!props.isFetchingEmployee && props.isFetchingSms && <CenteredSpinner />}
-      <Fade in={!props.isFetchingEmployee && !props.isFetchingSms}>
-        {props.smsList.length !== 0 ? (
-          <div>
-            <SmsList smsList={props.smsList} />
-            <Fab
-              onClick={props.handleExportCSV}
-              color="primary"
-              aria-label="csv"
-              className={classes.fab}
-              title="Αποθήκευση σε CSV"
-            >
-              <SaveIcon />
-            </Fab>
-          </div>
-        ) : (
-          <div>
-            {!!props.employee && props.smsList.length === 0 && (
-              <NotFound
-                icon="message"
-                message="Δεν βρέθηκαν μηνύματα για τον υπάλληλο"
-              />
-            )}
-            {!props.isFetchingEmployee && !props.employee && (
-              <NotFound
-                message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
-                icon="sadface"
-              />
-            )}
-          </div>
-        )}
-      </Fade>
+      {!props.isFetchingEmployee && !props.isFetchingSms && (
+        <Fade in>
+          {props.smsList.length !== 0 ? (
+            <div>
+              <SmsList smsList={props.smsList} />
+              <Fab
+                onClick={props.handleExportCSV}
+                color="primary"
+                aria-label="csv"
+                className={classes.fab}
+                title="Αποθήκευση σε CSV"
+              >
+                <SaveIcon />
+              </Fab>
+            </div>
+          ) : (
+            <div>
+              {!!props.employee && props.smsList.length === 0 && (
+                <NotFound
+                  icon="message"
+                  message="Δεν βρέθηκαν μηνύματα για τον υπάλληλο"
+                />
+              )}
+              {!props.isFetchingEmployee && !props.employee && (
+                <NotFound
+                  message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
+                  icon="sadface"
+                />
+              )}
+            </div>
+          )}
+        </Fade>
+      )}
     </>
   );
 };

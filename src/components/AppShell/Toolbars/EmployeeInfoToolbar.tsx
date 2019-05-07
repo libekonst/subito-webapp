@@ -36,7 +36,7 @@ const EmployeeInfo: FC<IProps> = props => {
         </LeftIconButton>
         <ExpandableListTile employee={employee} className={classes.listItem} expanded />
       </Toolbar>
-      <Toolbar className={classes.secondaryToolbar}>
+      {/* <Toolbar className={classes.secondaryToolbar}>
         <Button
           color="primary"
           variant="text"
@@ -57,7 +57,7 @@ const EmployeeInfo: FC<IProps> = props => {
           ΕΠΕΞΕΡΓΑΣΙΑ
           <EditIcon className={classes.rightIcon} />
         </Button>
-      </Toolbar>
+      </Toolbar> */}
     </>
   );
 };

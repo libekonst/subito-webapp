@@ -20,8 +20,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from '@material-ui/icons/NavigateNext';
 import Divider from '@material-ui/core/Divider';
+
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -172,7 +173,7 @@ const EmployeeList: FC<IProps> = props => {
                   <MenuItem onClick={handleCloseMenu} component={LinkToEmployeeInfo}>
                     <ListItemText primary="Μηνύματα" />
                     <ListItemIcon>
-                      <LaunchIcon style={{ fontSize: 16 }} />
+                      <LaunchIcon />
                     </ListItemIcon>
                   </MenuItem>
                 </Menu>
