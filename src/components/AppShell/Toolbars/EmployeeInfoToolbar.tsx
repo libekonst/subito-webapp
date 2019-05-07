@@ -24,41 +24,12 @@ const EmployeeInfo: FC<IProps> = props => {
     <Link {...props} to={`${routes.EMPLOYEE_FORM}/${employee.id}`} />
   );
   return (
-    <>
-      <Toolbar className={classes.mainToolbar}>
-        <LeftIconButton
-          onClick={onGoBack}
-          color="inherit"
-          aria-label="Πίσω"
-          title="Πίσω"
-        >
-          <ArrowBackIcon />
-        </LeftIconButton>
-        <ExpandableListTile employee={employee} className={classes.listItem} expanded />
-      </Toolbar>
-      {/* <Toolbar className={classes.secondaryToolbar}>
-        <Button
-          color="primary"
-          variant="text"
-          aria-label="Διαγραφή"
-          title="Διαγραφή"
-          onClick={onDelete}
-        >
-          ΔΙΑΓΡΑΦΗ
-          <DeleteIcon className={classes.rightIcon} />
-        </Button>
-        <Button
-          color="primary"
-          variant="text"
-          aria-label="Επεξεργασία"
-          title="Επεξεργασία"
-          component={LinkToEmployeeForm}
-        >
-          ΕΠΕΞΕΡΓΑΣΙΑ
-          <EditIcon className={classes.rightIcon} />
-        </Button>
-      </Toolbar> */}
-    </>
+    <Toolbar className={classes.mainToolbar}>
+      <LeftIconButton onClick={onGoBack} color="inherit" aria-label="Πίσω" title="Πίσω">
+        <ArrowBackIcon />
+      </LeftIconButton>
+      <ExpandableListTile employee={employee} className={classes.listItem} expanded />
+    </Toolbar>
   );
 };
 

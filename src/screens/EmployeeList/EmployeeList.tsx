@@ -23,7 +23,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LaunchIcon from '@material-ui/icons/NavigateNext';
 import Divider from '@material-ui/core/Divider';
 
-
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
   // employees: IEmployee[];
@@ -97,27 +96,11 @@ const EmployeeList: FC<IProps> = props => {
       console.log(error);
     }
   };
-  const handleExportToCSV = () => exportToCsvEmployees(employees);
 
   return (
     <div>
-      <AppBar color="default">
-        <DrawerToolbar
-          onOpenDrawer={toggleDrawerState}
-          pageTitle="Υπάλληλοι"
-          secondaryActions={
-            !isLoading &&
-            employees.length !== 0 && (
-              <IconButton
-                color="inherit"
-                onClick={handleExportToCSV}
-                title="Αποθήκευση σε CSV"
-              >
-                <SaveIcon />
-              </IconButton>
-            )
-          }
-        />
+      <AppBar>
+        <DrawerToolbar onOpenDrawer={toggleDrawerState} pageTitle="Υπάλληλοι" />
       </AppBar>
       <AppDrawer
         toggleOpen={toggleDrawerState}
@@ -133,7 +116,6 @@ const EmployeeList: FC<IProps> = props => {
           color="default"
           aria-label="Add"
           component={LinkToEmployeeFormNew}
-          // className={classes.fab}
           className={`${classes.fab} ${!isLoading &&
             employees.length === 0 &&
             classes.fabGrow}`}

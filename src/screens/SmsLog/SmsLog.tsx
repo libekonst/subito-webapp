@@ -38,11 +38,9 @@ const SmsLog: FC<RouteComponentProps> = props => {
 
   const handleExportToCSV = () => exportToCsvSmsList(smsList);
 
-  const [drawerState, setDrawerState] = useState(false);
-  const toggleDrawerState = () => setDrawerState(!drawerState);
   return (
     <>
-      <AppBar color="default">
+      <AppBar>
         <DeadEndToolbar pageTitle="Λίστα Sms" onGoBack={history.goBack} />
       </AppBar>
       {isLoading && <CenteredSpinner />}
