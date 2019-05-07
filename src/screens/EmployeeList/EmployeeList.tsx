@@ -16,6 +16,12 @@ import { exportToCsvEmployees } from '../../utils/exportToCSV';
 import NotFound from '../../components/NotFound';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import { IEmployer } from '../../interfaces';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import LaunchIcon from '@material-ui/icons/NavigateNext';
+import Divider from '@material-ui/core/Divider';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -31,6 +37,17 @@ const EmployeeList: FC<IProps> = props => {
   const [employees, setEmployees] = useState<IEmployee[]>([]);
   const [employer, setEmployer] = useState<IEmployer | undefined>();
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [targettedEmployeeId, setTargettedEmployeeId] = useState<number | undefined>();
+  // TODO: add undo delete
+  const [deletedEmployee, setDeletedEmployee] = useState<IEmployee | undefined>();
+  const handleOpenMenu = (id?: number) => (event: any) => {
+    setTargettedEmployeeId(id);
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => setAnchorEl(null);
+  // const handleCloseMenu = (e: any) => console.log(e.currentTarget);
+
   // Empty array as 2nd arg to run the effect only after the first render.
   // Similar to componentdidmount.
   useEffect(() => {
@@ -45,7 +62,7 @@ const EmployeeList: FC<IProps> = props => {
       toggleLoading(false);
     }
     fetchEmployees();
-  }, []);
+  }, [deletedEmployee]);
   useEffect(() => {
     async function fetchEmployer() {
       let employer;
@@ -58,29 +75,32 @@ const EmployeeList: FC<IProps> = props => {
     }
     fetchEmployer();
   }, []);
-  const LinkToEmployeeForm = (props: any) => (
+  const LinkToEmployeeFormNew = (props: any) => (
     <Link to={routes.EMPLOYEE_FORM} {...props} />
   );
-  const handleExportToCSV = () => exportToCsvEmployees(employees);
+  const LinkToEmployeeFormEdit = (props: any) => (
+    <Link to={`${routes.EMPLOYEE_FORM}/${targettedEmployeeId}`} {...props} />
+  );
+  const LinkToEmployeeInfo = (props: any) => (
+    <Link to={`${routes.EMPLOYEE_INFO}/${targettedEmployeeId}`} {...props} />
+  );
+  // DELETE employee
+  const handleDelete = async () => {
+    if (!targettedEmployeeId) return;
+    try {
+      const toDelete = await db.employee.get(targettedEmployeeId);
+      await db.employee.delete(targettedEmployeeId);
+      handleCloseMenu();
+      setDeletedEmployee(toDelete);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
-      <AppBar color="default">
-        <DrawerToolbar
-          onOpenDrawer={toggleDrawerState}
-          pageTitle="Υπάλληλοι"
-          secondaryActions={
-            !isLoading &&
-            employees.length !== 0 && (
-              <IconButton
-                color="inherit"
-                onClick={handleExportToCSV}
-                title="Αποθήκευση σε CSV"
-              >
-                <SaveIcon />
-              </IconButton>
-            )
-          }
-        />
+      <AppBar>
+        <DrawerToolbar onOpenDrawer={toggleDrawerState} pageTitle="Υπάλληλοι" />
       </AppBar>
       <AppDrawer
         toggleOpen={toggleDrawerState}
@@ -95,8 +115,7 @@ const EmployeeList: FC<IProps> = props => {
         <Fab
           color="default"
           aria-label="Add"
-          component={LinkToEmployeeForm}
-          // className={classes.fab}
+          component={LinkToEmployeeFormNew}
           className={`${classes.fab} ${!isLoading &&
             employees.length === 0 &&
             classes.fabGrow}`}
@@ -105,20 +124,46 @@ const EmployeeList: FC<IProps> = props => {
         </Fab>
       </div>
       {isLoading && <CenteredSpinner />}
-      <Fade in={!isLoading}>
-        <div>
-          {employees.length === 0 && (
-            <NotFound icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
-          )}
-          {employees.length !== 0 && (
-            <List className={classes.list}>
-              {employees.map(e => (
-                <EmployeeListItem employee={e} key={e.id} />
-              ))}
-            </List>
-          )}
-        </div>
-      </Fade>
+      {!isLoading && (
+        <Fade in={!isLoading}>
+          <div>
+            {employees.length === 0 && (
+              <NotFound icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
+            )}
+            {employees.length !== 0 && (
+              <>
+                <List className={classes.list}>
+                  {employees.map(e => (
+                    <EmployeeListItem
+                      employee={e}
+                      key={e.id}
+                      onSecondaryAction={handleOpenMenu(e.id)}
+                    />
+                  ))}
+                </List>
+                <Menu
+                  id="options-menu"
+                  anchorEl={anchorEl}
+                  open={!!anchorEl}
+                  onClose={handleCloseMenu}
+                >
+                  <MenuItem onClick={handleCloseMenu} component={LinkToEmployeeFormEdit}>
+                    Επεξεργασία
+                  </MenuItem>
+                  <MenuItem onClick={handleDelete}>Διαγραφή</MenuItem>
+                  <Divider light variant="middle" />
+                  <MenuItem onClick={handleCloseMenu} component={LinkToEmployeeInfo}>
+                    <ListItemText primary="Μηνύματα" />
+                    <ListItemIcon>
+                      <LaunchIcon />
+                    </ListItemIcon>
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+          </div>
+        </Fade>
+      )}
     </div>
   );
 };

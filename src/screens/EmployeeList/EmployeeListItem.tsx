@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
-import MoreIcon from '@material-ui/icons/ChevronRight';
+import MoreIcon from '@material-ui/icons/MoreVert';
 import PersonIcon from '@material-ui/icons/Person';
 import { createStyles, withStyles } from '@material-ui/core';
 import { IEmployee } from '../../interfaces/IEmployee';
@@ -23,16 +23,17 @@ const styles = (theme: any) =>
 interface IProps {
   classes: any;
   employee: IEmployee;
+  onSecondaryAction?: (e: any) => void;
 }
 const EmployeeListItem: FC<IProps> = props => {
-  const { employee, classes } = props;
+  const { employee, onSecondaryAction, classes } = props;
   const initial = toUpperCaseInitial(employee.name);
-  const EmployeeInfoLink = (props: any) => (
-    <Link {...props} to={`${routes.EMPLOYEE_INFO}/${employee.id}`} />
-  );
+
+  
   const EmployeeE8Link = (props: any) => (
     <Link {...props} to={`${routes.E8FORM}/${employee.id}`} />
   );
+
   return (
     <ListItem button component={EmployeeE8Link}>
       <ListItemAvatar>
@@ -40,7 +41,11 @@ const EmployeeListItem: FC<IProps> = props => {
       </ListItemAvatar>
       <ListItemText primary={employee.name} secondary={employee.vat} />
       <ListItemSecondaryAction>
-        <IconButton component={EmployeeInfoLink}>
+        <IconButton
+          aria-owns={"Μενού επιλογών"}
+          aria-haspopup="true"
+          onClick={onSecondaryAction}
+        >
           <MoreIcon />
         </IconButton>
       </ListItemSecondaryAction>

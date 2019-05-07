@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ComponentProps } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
@@ -8,16 +8,17 @@ import LeftIconButton from './LeftIconButton';
 
 interface IProps {
   onGoBack?: (e: any) => void;
-  pageTitle: string;
+  pageTitle?: string;
 }
-const DeadEndToolbar: FC<IProps> = props => {
-  const { onGoBack, pageTitle } = props;
+const DeadEndToolbar: FC<IProps & ComponentProps<typeof Toolbar>> = props => {
+  const { onGoBack, pageTitle, children, ...rest } = props;
   return (
-    <Toolbar>
+    <Toolbar {...rest}>
       <LeftIconButton onClick={onGoBack} aria-label="Πίσω" title="Πίσω">
         <ArrowBackIcon />
       </LeftIconButton>
-      <PageTitle pageTitle={pageTitle} />
+      {!!pageTitle && <PageTitle pageTitle={pageTitle} />}
+      {children}
     </Toolbar>
   );
 };
