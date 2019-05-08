@@ -13,6 +13,7 @@ The app is written with React, TypeScript, Material Ui and React Router.
 ## Todo:
 - Add prompt to add to home screen
 - Add app icon, favicon, splash colors
+- Fix forms, tab through fields
 - Add informational screens about the E8 requests, etc
 - Prompt the user to add employer settings more elegantly
 - Remove hard coded strings, add to constants
