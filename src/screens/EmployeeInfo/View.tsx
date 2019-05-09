@@ -36,7 +36,7 @@ const View: FC<IProps> = props => {
                 />
               ) : (
                 <DeadEndToolbar
-                  pageTitle="Δεν βρέθηκε υπάλληλος"
+                  pageTitle="Δεν βρέθηκε ο υπάλληλος"
                   onGoBack={props.onGoBack}
                 />
               )}
@@ -65,7 +65,7 @@ const View: FC<IProps> = props => {
               {!!props.employee && props.smsList.length === 0 && (
                 <NotFound
                   icon="message"
-                  message="Δεν βρέθηκαν μηνύματα για τον υπάλληλο"
+                  message="Τα μηνύματα Ε8 του υπαλλήλου θα εμφανίζονται εδώ"
                 />
               )}
               {!props.isFetchingEmployee && !props.employee && (

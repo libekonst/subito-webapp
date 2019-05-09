@@ -48,7 +48,7 @@ const SmsLog: FC<RouteComponentProps> = props => {
         <Fade in={!isLoading}>
           <div>
             {smsList.length === 0 && (
-              <NotFound icon="message" message="Δεν βρέθηκαν μηνύματα" />
+              <NotFound icon="message" message="Τα μηνύματα Ε8 θα εμφανίζονται εδώ" />
             )}
             {smsList.length !== 0 && (
               <>
