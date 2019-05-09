@@ -8,6 +8,7 @@ import { IE8Sms, IEmployee } from '../../interfaces';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import Fab from '@material-ui/core/Fab';
+import { empty } from '../../constants';
 
 interface IProps extends WithStyles<typeof styles> {
   isFetchingEmployee: boolean;
@@ -63,16 +64,10 @@ const View: FC<IProps> = props => {
           ) : (
             <div>
               {!!props.employee && props.smsList.length === 0 && (
-                <NotFound
-                  icon="message"
-                  message="Τα μηνύματα Ε8 του υπαλλήλου θα εμφανίζονται εδώ"
-                />
+                <NotFound icon="message" message={empty.EMPLOYEE_NO_MESSAGES} />
               )}
               {!props.isFetchingEmployee && !props.employee && (
-                <NotFound
-                  message="Δεν βρέθηκε υπάλληλος με αυτά τα στοιχεία"
-                  icon="sadface"
-                />
+                <NotFound message={empty.EMPLOYEE_NOT_FOUND} icon="sadface" />
               )}
             </div>
           )}

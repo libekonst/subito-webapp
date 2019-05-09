@@ -17,6 +17,7 @@ import NotFound from '../../components/NotFound';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/SaveAlt';
 import { RouteComponentProps } from 'react-router';
+import { empty } from '../../constants';
 
 const SmsLog: FC<RouteComponentProps> = props => {
   const { history } = props;
@@ -48,7 +49,7 @@ const SmsLog: FC<RouteComponentProps> = props => {
         <Fade in={!isLoading}>
           <div>
             {smsList.length === 0 && (
-              <NotFound icon="message" message="Τα μηνύματα Ε8 θα εμφανίζονται εδώ" />
+              <NotFound icon="message" message={empty.NO_MESSAGES} />
             )}
             {smsList.length !== 0 && (
               <>

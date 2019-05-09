@@ -16,7 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PeopleIcon from '@material-ui/icons/People';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
-import { routes } from '../../routes';
+import { routes } from '../../constants/routes';
 import { withRouter, RouteComponentProps } from 'react-router';
 import DrawerItem from './DrawerItem';
 import Typography from '@material-ui/core/Typography';

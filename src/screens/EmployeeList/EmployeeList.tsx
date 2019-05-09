@@ -9,7 +9,7 @@ import { AppBar, DrawerToolbar, AppDrawer } from '../../components/AppShell';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/PersonAdd';
 import { Link } from 'react-router-dom';
-import { routes } from '../../routes';
+import { routes } from '../../constants/routes';
 import db from '../../db/db';
 import Fade from '@material-ui/core/Fade';
 import { exportToCsvEmployees } from '../../utils/exportToCSV';
@@ -22,6 +22,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LaunchIcon from '@material-ui/icons/NavigateNext';
 import Divider from '@material-ui/core/Divider';
+import { empty } from '../../constants';
 
 interface IProps extends WithStyles<typeof styles> {
   classes: any;
@@ -128,7 +129,7 @@ const EmployeeList: FC<IProps> = props => {
         <Fade in={!isLoading}>
           <div>
             {employees.length === 0 && (
-              <NotFound icon="people" message="Προσθέστε υπαλλήλους για να συνεχίσετε" />
+              <NotFound icon="people" message={empty.ADD_EMPLOYEES} />
             )}
             {employees.length !== 0 && (
               <>

@@ -8,7 +8,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import CancelSubmitionInfoCard from './CancelSubmitionInfoCard';
 import ExpandableListTile from '../../components/ExpandableListTile';
 import BottomMessageTile from './BottomMessageTile';
-import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
 import NewSubmition from './NewSubmition';
 import { DeadEndToolbar, AppBar } from '../../components/AppShell';
@@ -16,7 +15,7 @@ import { IEmployer } from '../../interfaces';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import { Typography } from '@material-ui/core';
 import NotFound from '../../components/NotFound';
-import { routes } from '../../routes';
+import { routes, empty } from '../../constants';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 
@@ -78,17 +77,9 @@ const E8FormView: FC<IProps> = props => {
       {(isFetchingEmployee || isFetchingEmployer) && <CenteredSpinner />}
       <Fade in={!isFetchingEmployee && !isFetchingEmployer}>
         <div>
-          {!employee && (
-            <NotFound
-              icon="sadface"
-              message="Δεν βρέθηκε ο υπάλληλος με αυτά τα στοιχεία"
-            />
-          )}
+          {!employee && <NotFound icon="sadface" message={empty.EMPLOYEE_NOT_FOUND} />}
           {!employer && (
-            <NotFound
-              icon="settings"
-              message="Προσθέστε τα στοιχεία εργοδότη για να συμπληρωθεί το έντυπο Ε8"
-            >
+            <NotFound icon="settings" message={empty.E8_ADD_EMPLOYER}>
               <Button
                 variant="contained"
                 color="primary"

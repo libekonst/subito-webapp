@@ -11,7 +11,7 @@ import { createStyles, withStyles } from '@material-ui/core';
 import { IEmployee } from '../../interfaces/IEmployee';
 import { toUpperCaseInitial } from '../../utils/getUpperCaseInitial';
 import { Link } from 'react-router-dom';
-import { routes } from '../../routes';
+import { routes } from '../../constants/routes';
 
 const styles = (theme: any) =>
   createStyles({

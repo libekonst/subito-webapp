@@ -18,6 +18,7 @@ import Slide from '@material-ui/core/Slide';
 import Fade from '@material-ui/core/Fade';
 import CenteredSpinner from '../../components/CenteredSpinner';
 import NotFound from '../../components/NotFound';
+import { empty } from '../../constants';
 
 interface IProps extends WithStyles<typeof styles> {
   employee?: IEmployee;
@@ -64,7 +65,7 @@ const EmployeeFormView: FC<IProps & RouteComponentProps<IMatchParams>> = props =
       <Fade in={!isLoading}>
         <div>
           {employeeID && !employee && (
-            <NotFound icon="sadface" message="Δεν βρέθηκε ο υπάλληλος" />
+            <NotFound icon="sadface" message={empty.EMPLOYEE_NOT_FOUND} />
           )}
           {(!employeeID || employee) && (
             <>

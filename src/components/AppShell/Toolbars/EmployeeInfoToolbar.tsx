@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import ExpandableListTile from '../../ExpandableListTile';
 import { IEmployee } from '../../../interfaces';
 import { Link } from 'react-router-dom';
-import { routes } from '../../../routes';
+import { routes } from '../../../constants/routes';
 
 interface IProps extends WithStyles<typeof styles> {
   employee: IEmployee;

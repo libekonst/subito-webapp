@@ -14,7 +14,7 @@ import EmployerForm from './screens/EmployerForm';
 import E8Form from './screens/E8Form';
 import { IEmployee, IE8Sms, IEmployer, IE8Form } from './interfaces';
 import db from './db/db';
-import { routes } from './routes';
+import { routes } from './constants/routes';
 
 const theme = createMuiTheme({
   typography: {
