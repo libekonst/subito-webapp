@@ -18,6 +18,7 @@ import { Typography } from '@material-ui/core';
 import NotFound from '../../components/NotFound';
 import { routes } from '../../routes';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 interface IProps extends WithStyles<typeof styles> {
   errors: { overtimeStart: string; overtimeFinish: string };
@@ -77,13 +78,26 @@ const E8FormView: FC<IProps> = props => {
       {(isFetchingEmployee || isFetchingEmployer) && <CenteredSpinner />}
       <Fade in={!isFetchingEmployee && !isFetchingEmployer}>
         <div>
-          {!employee && <NotFound icon="sadface" message="Δεν βρέθηκε ο υπάλληλος" />}
-          {!employer && (
+          {!employee && (
             <NotFound
               icon="sadface"
-              message="Δεν βρέθηκαν στοιχεία εργοδότη."
-              component={props => <Link to={routes.EMPLOYER_FORM} {...props}>Πατήστε εδώ για να προσθέσετε.</Link>}
+              message="Δεν βρέθηκε ο υπάλληλος με αυτά τα στοιχεία"
             />
+          )}
+          {!employer && (
+            <NotFound
+              icon="settings"
+              message="Προσθέστε τα στοιχεία εργοδότη για να συμπληρωθεί το έντυπο Ε8"
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.addSettingsButton}
+                component={props => <Link to={routes.EMPLOYER_FORM} {...props} />}
+              >
+                ΠΡΟΣΘΗΚΗ
+              </Button>
+            </NotFound>
           )}
           {employee && employer && (
             <div>
@@ -154,6 +168,10 @@ const styles = (theme: Theme) =>
     formControl: {
       margin: theme.spacing.unit * 2,
       display: 'block',
+    },
+    addSettingsButton: {
+      width: '100%',
+      maxWidth: 400,
     },
   });
 

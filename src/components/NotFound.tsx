@@ -4,15 +4,16 @@ import MailIcon from '@material-ui/icons/Email';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 import SadFaceIcon from '@material-ui/icons/SentimentDissatisfied';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { withStyles, Theme, createStyles, WithStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 interface IProps extends WithStyles<typeof styles> {
-  icon: 'message' | 'people' | 'person' | 'sadface';
+  icon: 'message' | 'people' | 'person' | 'sadface' | 'settings';
   message?: string;
 }
 const NotFound: FC<IProps & ComponentProps<typeof Typography>> = props => {
-  const { classes, icon, message, ...rest } = props;
+  const { classes, icon, message, children, ...rest } = props;
 
   function pickIcon() {
     switch (icon) {
@@ -22,6 +23,8 @@ const NotFound: FC<IProps & ComponentProps<typeof Typography>> = props => {
         return <PeopleIcon className={classes.icon} />;
       case 'sadface':
         return <SadFaceIcon className={classes.icon} />;
+      case 'settings':
+        return <SettingsIcon className={classes.icon} />;
       default:
       case 'person':
         return <PersonIcon className={classes.icon} />;
@@ -30,24 +33,13 @@ const NotFound: FC<IProps & ComponentProps<typeof Typography>> = props => {
   return (
     <div className={classes.root}>
       {pickIcon()}
-      <div className={classes.textWrapper}>
-        <Typography
-          variant="h5"
-          className={classes.text}
-          align="center"
-          {...rest}
-          component={undefined}
-        >
-          {message}
-        </Typography>
-        {!!props.component && (
-          <Typography
-            variant="h6"
-            className={classes.text + ' ' + classes.secondaryText}
-            align="center"
-            {...rest}
-          />
+      <div className={classes.content}>
+        {!!message && (
+          <Typography variant="h5" className={classes.text} align="left" {...rest}>
+            {message}
+          </Typography>
         )}
+        {!!children && <div className={classes.children}>{children}</div>}
       </div>
     </div>
   );
@@ -61,12 +53,12 @@ const styles = (theme: Theme) =>
     },
     text: {
       color: grey[300],
-      marginLeft: theme.spacing.unit * 2,
     },
-    secondaryText: { paddingTop: theme.spacing.unit },
-    textWrapper: {
+    children: { marginTop: theme.spacing.unit * 3 },
+    content: {
       display: 'flex',
       flexDirection: 'column',
+      marginLeft: theme.spacing.unit,
     },
     root: {
       width: '100%',
