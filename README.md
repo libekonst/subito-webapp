@@ -2,7 +2,7 @@ The Subito E8 webapp is a rework of the native Android app initially [made with 
 
 The app is written with React, TypeScript, Material Ui and React Router.
 
-[LAUNCH APP](https://kostaslib.github.io/subito-webapp/)
+[LAUNCH APP](https://libekonst.github.io/subito-webapp/)
 
 ## Features:
 - Utilizes indexedDB to locally store the user's data
